@@ -2,11 +2,10 @@
 module.exports = {
     up: (queryInterface, Sequelize) => {
         return queryInterface.createTable('Challenges', {
-            id: {
+            uuid: {
                 allowNull: false,
-                autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER
+                type: Sequelize.UUID
             },
             challengeTitle: {
                 type: Sequelize.STRING,
@@ -20,15 +19,6 @@ module.exports = {
             },
             challengeDescription: {
                 type: Sequelize.STRING
-            },
-            sponsorId: {
-                type: Sequelize.INTEGER,
-                onDelete: 'CASCADE',
-                references: {
-                    model: 'Users',
-                    key: 'id',
-                    as: 'sponsorId'
-                }
             },
             createdAt: {
                 allowNull: false,

@@ -2,29 +2,10 @@
 module.exports = {
     up: (queryInterface, Sequelize) => {
         return queryInterface.createTable('Prerequisites', {
-            id: {
+            uuid: {
                 allowNull: false,
-                autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER
-            },
-            prerequisiteTaskId: {
-                type: Sequelize.INTEGER,
-                onDelete: 'CASCADE',
-                references: {
-                    model: 'Tasks',
-                    key: 'id',
-                    as: 'prerequisiteTaskId',
-                },
-            },
-            dependentTaskId: {
-                type: Sequelize.INTEGER,
-                onDelete: 'CASCADE',
-                references: {
-                    model: 'Tasks',
-                    key: 'id',
-                    as: 'dependentTaskId',
-                },
+                type: Sequelize.UUID
             },
             createdAt: {
                 allowNull: false,

@@ -1,6 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
     const Challenge = sequelize.define('Challenge', {
+        uuid: {
+            type: DataTypes.UUID,
+            primaryKey: true,
+            allowNull: false,
+            defaultValue: DataTypes.UUIDV4
+        },
         challengeTitle: {
             type: DataTypes.STRING,
             allowNull: false
@@ -13,9 +19,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         challengeDescription: {
             type: DataTypes.STRING
-        },
-        sponsorId: {
-            type: DataTypes.INTEGER
         }
     }, {});
 

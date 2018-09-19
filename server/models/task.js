@@ -1,8 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
     const Task = sequelize.define('Task', {
-        challengeId: {
-            type: DataTypes.INTEGER
+        uuid: {
+            type: DataTypes.UUID,
+            primaryKey: true,
+            allowNull: false,
+            defaultValue: DataTypes.UUIDV4
         },
         taskName: {
             type: DataTypes.STRING,

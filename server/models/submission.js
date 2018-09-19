@@ -1,14 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
     const Submission = sequelize.define('Submission', {
-        taskId: {
-            type: DataTypes.INTEGER
-        },
-        submitterId: {
-            type: DataTypes.INTEGER
-        },
-        pollId: {
-            type: DataTypes.INTEGER
+        uuid: {
+            type: DataTypes.UUID,
+            primaryKey: true,
+            allowNull: false,
+            defaultValue: DataTypes.UUIDV4
         }
     }, {});
     Submission.associate = function(models) {

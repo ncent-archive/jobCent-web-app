@@ -1,6 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
     const Poll = sequelize.define('Poll', {
+        uuid: {
+            type: DataTypes.UUID,
+            primaryKey: true,
+            allowNull: false,
+            defaultValue: DataTypes.UUIDV4
+        },
         votingDurationMins: {
             type: DataTypes.INTEGER,
             allowNull: false
@@ -11,9 +17,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         description: {
             type: DataTypes.STRING
-        },
-        taskId: {
-            type: DataTypes.INTEGER
         }
     }, {});
     Poll.associate = function(models) {

@@ -1,11 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
     const Prerequisite = sequelize.define('Prerequisite', {
-        prerequisiteTaskId: {
-            type: DataTypes.INTEGER
-        },
-        dependentTaskId: {
-            type: DataTypes.INTEGER
+        uuid: {
+            type: DataTypes.UUID,
+            primaryKey: true,
+            allowNull: false,
+            defaultValue: DataTypes.UUIDV4
         }
     }, {});
     Prerequisite.associate = function(models) {

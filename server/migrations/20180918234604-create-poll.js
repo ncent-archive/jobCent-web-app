@@ -2,11 +2,10 @@
 module.exports = {
     up: (queryInterface, Sequelize) => {
         return queryInterface.createTable('Polls', {
-            id: {
+            uuid: {
                 allowNull: false,
-                autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER
+                type: Sequelize.UUID
             },
             votingDurationMins: {
                 type: Sequelize.INTEGER,
@@ -17,15 +16,6 @@ module.exports = {
             },
             description: {
                 type: Sequelize.STRING
-            },
-            taskId: {
-                type: Sequelize.INTEGER,
-                onDelete: 'CASCADE',
-                references: {
-                    model: 'Tasks',
-                    key: 'id',
-                    as: 'taskId'
-                }
             },
             createdAt: {
                 allowNull: false,

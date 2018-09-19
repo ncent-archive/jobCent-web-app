@@ -2,20 +2,10 @@
 module.exports = {
     up: (queryInterface, Sequelize) => {
         return queryInterface.createTable('Tasks', {
-            id: {
+            uuid: {
                 allowNull: false,
-                autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER
-            },
-            challengeId: {
-                type: Sequelize.INTEGER,
-                onDelete: 'CASCADE',
-                references: {
-                    model: 'Challenges',
-                    key: 'id',
-                    as: 'challengeId',
-                },
+                type: Sequelize.UUID
             },
             taskName: {
                 type: Sequelize.STRING,
