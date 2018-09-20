@@ -16,11 +16,7 @@ module.exports = {
     list(req, res) {
         return Task
             .findAll({
-                include: [{
-                    model: Poll,
-                    as: 'poll',
-                    attributes: ['uuid']
-                }],
+                attributes: ['uuid']
             })
             .then(task => res.status(200).send(task))
             .catch(error => res.status(400).send(error));
@@ -28,11 +24,7 @@ module.exports = {
     retrieve(req, res) {
         return Task
             .findById(req.params.uuid, {
-                include: [{
-                    model: Poll,
-                    as: 'poll',
-                    attributes: ['uuid']
-                }],
+                attributes: ['uuid']
             })
             .then(task => {
                 if (!task) {
@@ -47,11 +39,7 @@ module.exports = {
     update(req, res) {
         return Task
             .findById(req.params.uuid, {
-                include: [{
-                    model: Poll,
-                    as: 'poll',
-                    attributes: ['uuid']
-                }],
+                attributes: ['uuid']
             })
             .then(task => {
                 if (!task) {

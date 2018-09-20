@@ -16,11 +16,7 @@ module.exports = {
     list(req, res) {
         return Challenge
             .findAll({
-                include: [{
-                    model: Task,
-                    as: 'tasks',
-                    attributes: ['uuid']
-                }],
+                attributes: ['uuid']
             })
             .then(challenge => res.status(200).send(challenge))
             .catch(error => res.status(400).send(error));
@@ -28,11 +24,7 @@ module.exports = {
     retrieve(req, res) {
         return Challenge
             .findById(req.params.uuid, {
-                include: [{
-                    model: Task,
-                    as: 'tasks',
-                    attributes: ['uuid']
-                }],
+                attributes: ['uuid']
             })
             .then(challenge => {
                 if (!challenge) {
@@ -47,11 +39,7 @@ module.exports = {
     update(req, res) {
         return Challenge
             .findById(req.params.uuid, {
-                include: [{
-                    model: Task,
-                    as: 'tasks',
-                    attributes: ['uuid']
-                }],
+                attributes: ['uuid']
             })
             .then(challenge => {
                 if (!challenge) {

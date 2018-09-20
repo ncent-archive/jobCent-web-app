@@ -3,6 +3,7 @@ const Challenge = require('../models').Challenge;
 
 module.exports = {
     create(req, res) {
+        console.log(req);
         return User
             .create({
                 userName: req.body.userName,
@@ -15,11 +16,7 @@ module.exports = {
     list(req, res) {
         return User
             .findAll({
-                include: [{
-                    model: Challenge,
-                    as: 'challenges',
-                    attributes: ['uuid']
-                }],
+                attributes: ['uuid']
             })
             .then(user => res.status(200).send(user))
             .catch(error => res.status(400).send(error));
@@ -27,11 +24,7 @@ module.exports = {
     retrieve(req, res) {
         return User
             .findById(req.params.uuid, {
-                include: [{
-                    model: Challenge,
-                    as: 'challenges',
-                    attributes: ['uuid']
-                }],
+                attributes: ['uuid']
             })
             .then(user => {
                 if (!user) {
@@ -46,11 +39,7 @@ module.exports = {
     update(req, res) {
         return User
             .findById(req.params.uuid, {
-                include: [{
-                    model: Challenge,
-                    as: 'challenges',
-                    attributes: ['uuid']
-                }],
+                attributes: ['uuid']
             })
             .then(user => {
                 if (!user) {
