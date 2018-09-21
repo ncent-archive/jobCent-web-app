@@ -20,6 +20,17 @@ module.exports = {
             challengeDescription: {
                 type: Sequelize.STRING
             },
+            sponsorId: {
+                type: Sequelize.UUID,
+                foreignKey: true,
+                allowNull: false,
+                onDelete: 'CASCADE',
+                references: {
+                    model: 'Users',
+                    key: 'uuid',
+                    as: 'sponsorId'
+                }
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE

@@ -23,6 +23,17 @@ module.exports = {
             numFinalists: {
                 type: Sequelize.INTEGER
             },
+            challengeId: {
+                type: Sequelize.UUID,
+                foreignKey: true,
+                allowNull: false,
+                onDelete: 'CASCADE',
+                references: {
+                    model: 'Challenges',
+                    key: 'uuid',
+                    as: 'challengeId'
+                }
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE

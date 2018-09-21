@@ -22,5 +22,6 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: 'CASCADE'
         });
     };
+    sequelize.sync();
     return Submission;
 };

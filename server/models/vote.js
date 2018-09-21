@@ -18,5 +18,6 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: 'CASCADE'
         });
     };
+    sequelize.sync();
     return Vote;
 };

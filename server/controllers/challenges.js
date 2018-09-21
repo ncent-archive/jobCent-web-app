@@ -1,5 +1,6 @@
 const Challenge = require('../models').Challenge;
 const Task = require('../models').Task;
+const User = require('../models').User;
 
 module.exports = {
     create(req, res) {
@@ -8,7 +9,8 @@ module.exports = {
                 challengeTitle: req.body.challengeTitle,
                 totalRewardAmount: req.body.totalRewardAmount,
                 totalRewardUnits: req.body.totalRewardUnits,
-                challengeDescription: req.body.challengeDescription
+                challengeDescription: req.body.challengeDescription,
+                sponsorId: req.body.sponsorId
             })
             .then(challenge => res.status(200).send(challenge))
             .catch(error => res.status(400).send(error));
@@ -16,15 +18,22 @@ module.exports = {
     list(req, res) {
         return Challenge
             .findAll({
-                attributes: ['uuid']
+                include: [{
+                    model: User,
+                    as: 'sponsor'
+                }]
             })
             .then(challenge => res.status(200).send(challenge))
             .catch(error => res.status(400).send(error));
     },
     retrieve(req, res) {
+        console.log('hello');
+        console.log(req);
         return Challenge
             .findById(req.params.uuid, {
-                attributes: ['uuid']
+                include: [{
+                    model: User
+                }]
             })
             .then(challenge => {
                 if (!challenge) {

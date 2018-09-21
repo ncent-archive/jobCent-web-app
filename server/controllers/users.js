@@ -3,7 +3,6 @@ const Challenge = require('../models').Challenge;
 
 module.exports = {
     create(req, res) {
-        console.log(req);
         return User
             .create({
                 userName: req.body.userName,
@@ -16,7 +15,10 @@ module.exports = {
     list(req, res) {
         return User
             .findAll({
-                attributes: ['uuid']
+                include: [{
+                    model: Challenge,
+                    as: 'sponsoredChallenges'
+                }]
             })
             .then(user => res.status(200).send(user))
             .catch(error => res.status(400).send(error));

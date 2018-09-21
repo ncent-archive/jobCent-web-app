@@ -19,5 +19,6 @@ module.exports = (sequelize, DataTypes) => {
         });
 
     };
+    sequelize.sync();
     return Prerequisite;
 };

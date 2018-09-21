@@ -44,5 +44,6 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'voterId'
         });
     };
+    sequelize.sync();
     return User;
 };

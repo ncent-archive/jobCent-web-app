@@ -55,5 +55,6 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'prerequisiteTaskId'
         });
     };
+    sequelize.sync();
     return Task;
 };
