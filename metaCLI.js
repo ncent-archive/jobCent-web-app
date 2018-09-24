@@ -3,7 +3,7 @@
 const prompt = require('prompt');
 const axios = require('axios');
 
-const testNet = 'http://localhost:8000/api';
+const testNet = 'http://18.191.114.157:8000/api';
 
 let userUuid;
 let challengeUuid;
