@@ -1,0 +1,17 @@
+{
+  "challenge": {
+    "challengeTitle": "jobCent",
+    "totalRewardAmount": 10,
+    "totalRewardUnits": "ETH",
+    "challengeDescription": "Help nCent Labs find great recruits!"
+  },
+  "tasks": [
+    {
+      "taskName": "Get hired by nCent Labs",
+      "requirements": "You win the challenge if you are hired by nCent Labs or refer someone else who is!",
+      "submissionPeriodMins": 10,
+      "percentOfTotalRewards": 100,
+      "numFinalists": 1
+    }
+  ]
+}

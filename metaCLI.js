@@ -2,14 +2,27 @@
 
 const prompt = require('prompt');
 const axios = require('axios');
+const fs = require('fs');
 
-const testNet = 'http://18.191.114.157:8000/api';
+const testNet = 'http://localhost:8000/api';
 
 let userUuid;
 let challengeUuid;
 let challenge;
 const tasks = [];
 const winners = [];
+
+function readJson (path, callback) {
+    fs.readFile(require.resolve(path), (err, data) => {
+        console.log(data);
+        if (err) {
+            console.log(err.message);
+            return {};
+        } else {
+            callback(JSON.parse(data));
+        }
+    });
+}
 
 function createUser () {
     console.log('Welcome to the nCent Hybrid Meta-App! Please enter your information below:');
@@ -29,6 +42,17 @@ function createUser () {
 function createChallenge (userData) {
     userUuid = userData.data.uuid;
     console.log(`Welcome, ${userData.data.userName}!`);
+    console.log('Would you like to submit a JSON file to create your challenge? Type "yes" if you would like to do so, otherwise you will be instructed to input the challenge parameters manually');
+    prompt.get(['submitJSONFile'], function(err, result) {
+        if (result.submitJSONFile === 'yes') {
+            createChallengeFromJSON();
+        } else {
+            createChallengeFromInput();
+        }
+    })
+}
+
+function createChallengeFromInput () {
     console.log('Please input the parameters for the Challenge that you want to create with our app!');
     prompt.get(['challengeTitle', 'totalRewardAmount', 'totalRewardUnits', 'description'], function(err, result) {
         axios.post(testNet + '/challenges', {
@@ -38,31 +62,31 @@ function createChallenge (userData) {
             challengeDescription: result.description,
             sponsorId: userUuid
         })
-        .then(createTasks)
-        .catch(function(error) {
+        .then(createTasksFromInput)
+        .catch(function (error) {
             console.log(error.message);
         });
     });
 }
 
-function createTasks (challengeData) {
+function createTasksFromInput (challengeData) {
     challengeUuid = challengeData.data.uuid;
     challenge = challengeData.data;
     console.log("Your challenge has been successfully created!");
     console.log("How many tasks will your challenge require?");
-    prompt.get(['numberOfTasks'], function(err, result) {
-        createTask(1, result.numberOfTasks);
-    })
+    prompt.get(['numberOfTasks'], function (err, result) {
+        createTaskFromInput(1, result.numberOfTasks);
+    });
 }
 
-function createTask (currentTaskNumber, totalNumTasks) {
+function createTaskFromInput (currentTaskNumber, totalNumTasks) {
     if (currentTaskNumber > totalNumTasks) {
         console.log('Finished creating tasks');
         executeChallenge();
     } else {
         console.log(`Let's define task ${currentTaskNumber} of ${totalNumTasks}`);
         console.log('Please enter the task parameters below:');
-        prompt.get(['taskName', 'requirements', 'submissionPeriodMins', 'percentOfTotalRewards', 'numFinalists'], function(err, result) {
+        prompt.get(['taskName', 'requirements', 'submissionPeriodMins', 'percentOfTotalRewards', 'numFinalists'], function (err, result) {
             axios.post(testNet + '/tasks', {
                 taskName: result.taskName,
                 requirements: result.requirements,
@@ -71,29 +95,77 @@ function createTask (currentTaskNumber, totalNumTasks) {
                 numFinalists: result.numFinalists,
                 challengeUuid: challengeUuid
             })
-            .then(function(taskData) {
+            .then(function (taskData) {
                 tasks.push(taskData.data);
-                createTask(currentTaskNumber + 1, totalNumTasks);
+                createTaskFromInput(currentTaskNumber + 1, totalNumTasks);
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console.log(error.message);
             });
         })
     }
 }
 
-function executeChallenge() {
+function createChallengeFromJSON () {
+    console.log('Please input the full file path to your JSON file.');
+    prompt.get(['jsonFilePath'], function(err, result) {
+        readJson(result.jsonFilePath, function (challengeJson) {
+            axios.post(testNet + '/challenges', {
+                challengeTitle: challengeJson.challenge.challengeTitle,
+                totalRewardAmount: challengeJson.challenge.totalRewardAmount,
+                totalRewardUnits: challengeJson.challenge.totalRewardUnits,
+                challengeDescription: challengeJson.challenge.description,
+                sponsorId: userUuid
+            })
+            .then(function (challengeData) {
+                console.log("Your challenge has been successfully created!");
+                challengeUuid = challengeData.data.uuid;
+                challenge = challengeData.data;
+                createTaskFromJson(1, challengeJson.tasks.length, challengeJson.tasks);
+            })
+            .catch(function (error) {
+                console.log(error.message);
+            });
+        });
+    })
+}
+
+function createTaskFromJson (currentTaskNumber, totalNumTasks, tasksJson) {
+    if (currentTaskNumber > totalNumTasks) {
+        console.log('Finished creating tasks');
+        executeChallenge();
+    } else {
+        const currentTask = tasksJson[currentTaskNumber - 1];
+        axios.post(testNet + '/tasks', {
+            taskName: currentTask.taskName,
+            requirements: currentTask.requirements,
+            submissionPeriodMins: currentTask.submissionPeriodMins,
+            percentOfTotalRewards: currentTask.percentOfTotalRewards,
+            numFinalists: currentTask.numFinalists,
+            challengeUuid: challengeUuid
+        })
+        .then(function (taskData) {
+            tasks.push(taskData.data);
+            createTaskFromInput(currentTaskNumber + 1, totalNumTasks);
+        })
+        .catch(function (error) {
+            console.log(error.message);
+        });
+    }
+}
+
+function executeChallenge () {
     console.log('Now starting your challenge');
     executeTask(1);
 }
 
-function executeTask(currentTaskNumber) {
+function executeTask (currentTaskNumber) {
     if (currentTaskNumber > tasks.length) {
         finishChallenge();
     } else {
         console.log(`Please collect submissions for ${tasks[currentTaskNumber - 1].taskName}`);
         console.log(`Please enter the the information about the winner when you are ready:`);
-        prompt.get(['winnerUsername', 'filePath'], function(err, result) {
+        prompt.get(['winnerUsername', 'filePath'], function (err, result) {
             winners.push({
                 winnerUsername: result.winnerUsername,
                 filePath: result.filePath
@@ -103,7 +175,7 @@ function executeTask(currentTaskNumber) {
     }
 }
 
-function finishChallenge() {
+function finishChallenge () {
     console.log('Congratulations on finishing your challenge!');
     for (let i = 0; i < tasks.length; i++) {
         console.log(`${winners[i].winnerUsername} won the ${tasks[i].taskName} and earned ${challenge.totalRewardAmount*tasks[i].percentOfTotalRewards/100} ${challenge.totalRewardUnits}`);
