@@ -24,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'challengeId',
             onDelete: 'CASCADE'
         });
+        Task.belongsTo(models.User, {
+            foreignKey: 'winnerId',
+            onDelete: 'CASCADE'
+        });
     };
     sequelize.sync();
     return Task;

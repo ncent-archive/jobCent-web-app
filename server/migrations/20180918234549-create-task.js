@@ -18,6 +18,16 @@ module.exports = {
                 type: Sequelize.INTEGER,
                 allowNull: false
             },
+            winnerId: {
+                type: Sequelize.UUID,
+                foreignKey: true,
+                onDelete: 'CASCADE',
+                references: {
+                    model: 'Users',
+                    key: 'uuid',
+                    as: 'winnerId'
+                }
+            },
             challengeId: {
                 type: Sequelize.UUID,
                 foreignKey: true,

@@ -11,6 +11,7 @@ let challengeUuid;
 let challenge;
 const tasks = [];
 const winners = [];
+let tokenAmount;
 
 function readJson (path, callback) {
     fs.readFile(require.resolve(path), (err, data) => {
@@ -55,6 +56,7 @@ function createChallenge (userData) {
 function createChallengeFromInput () {
     console.log('Please input the parameters for the Challenge that you want to create with our app!');
     prompt.get(['challengeTitle', 'tokenAmount', 'description'], function(err, result) {
+        tokenAmount = result.tokenAmount;
         axios.post(testNet + '/challenges', {
             challengeTitle: result.challengeTitle,
             challengeDescription: result.description,
@@ -71,7 +73,8 @@ function createChallengeFromInput () {
 function createTasksFromInput (challengeData) {
     challengeUuid = challengeData.data.uuid;
     challenge = challengeData.data;
-    console.log("Your challenge has been successfully created!");
+    console.log(`Your challenge has been successfully created with ${tokenAmount} ${challenge.challengeTitle} tokens!`);
+    console.log(`For your reference, the UUID for your new stamped token is ${challenge.tokenTypeUuid}`);
     console.log("How many tasks will your challenge require?");
     prompt.get(['numberOfTasks'], function (err, result) {
         createTaskFromInput(1, result.numberOfTasks);
