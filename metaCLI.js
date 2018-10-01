@@ -172,8 +172,8 @@ function executeTask (currentTaskNumber) {
 function finishChallenge () {
     console.log('Congratulations on finishing your challenge!');
     for (let i = 0; i < tasks.length; i++) {
-        console.log(`${winners[i].winnerUsername} won the ${tasks[i].taskName} and earned ${challenge.totalRewardAmount*tasks[i].percentOfTotalRewards/100} ${challenge.totalRewardUnits}`);
-        console.log(`The winning submission can be found at the following filepath: ${winners[i].filePath}`);
+        console.log(`${winners[i].winnerUsername} won the ${tasks[i].taskName} and earned $${tasks[i].redemptionAmount}!`);
+        console.log(`The winning resume can be found at the following filepath: ${winners[i].filePath}`);
     }
 }
 

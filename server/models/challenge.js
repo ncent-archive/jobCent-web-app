@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         tokenTypeUuid: {
-            type: DataTypes.UUIDV4,
+            type: DataTypes.UUID,
             allowNull: false
         }
     }, {});

@@ -6,9 +6,7 @@ module.exports = {
             .create({
                 taskName: req.body.taskName,
                 requirements: req.body.requirements,
-                submissionPeriodMins: req.body.submissionPeriodMins,
-                percentOfTotalRewards: req.body.percentOfTotalRewards,
-                numFinalists: req.body.numFinalists
+                redemptionAmount: req.body.redemptionAmount
             })
             .then(task => res.status(200).send(task))
             .catch(error => res.status(400).send(error));
@@ -49,9 +47,7 @@ module.exports = {
                     .update({
                         taskName: req.body.taskName || task.taskName,
                         requirements: req.body.requirements || task.requirements,
-                        submissionPeriodMins: req.body.submissionPeriodMins || task.submissionPeriodMins,
-                        percentOfTotalRewards: req.body.percentOfTotalRewards || task.percentOfTotalRewards,
-                        numFinalists: req.body.numFinalists || task.numFinalists
+                        redemptionAmount: req.body.redemptionAmount || task.redemptionAmount
                     })
                     .then(task => {
                         res.sendFile(__dirname + '/public/index.html');
