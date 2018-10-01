@@ -7,11 +7,15 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             defaultValue: DataTypes.UUIDV4
         },
-        userName: {
+        emailAddress: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        emailAddress: {
+        walletAddressPublicKey: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        walletAddressPrivateKey: {
             type: DataTypes.STRING,
             allowNull: false
         },

@@ -1,12 +1,17 @@
 const User = require('../models').User;
 const Challenge = require('../models').Challenge;
+const ncentSDK = require('ncent-sandbox-sdk');
+const sdkInstance = new ncentSDK();
 
 module.exports = {
     create(req, res) {
+        let wallet = sdkInstance.createWalletAddress();
         return User
             .create({
                 userName: req.body.userName,
                 emailAddress: req.body.emailAddress,
+                walletAddressPublicKey: wallet.publicKey(),
+                walletAddressPrivateKey: wallet._secretKey,
                 company: req.body.company
             })
             .then(user => res.status(200).send(user))

@@ -1,19 +1,25 @@
 const Challenge = require('../models').Challenge;
-const Task = require('../models').Task;
 const User = require('../models').User;
+const ncentSDK = require('ncent-sandbox-sdk');
+const sdkInstance = new ncentSDK('http://localhost:8010/api');
 
 module.exports = {
     create(req, res) {
-        return Challenge
-            .create({
-                challengeTitle: req.body.challengeTitle,
-                totalRewardAmount: req.body.totalRewardAmount,
-                totalRewardUnits: req.body.totalRewardUnits,
-                challengeDescription: req.body.challengeDescription,
-                sponsorId: req.body.sponsorId
+        User.findById(req.body.sponsorId)
+        .then(function(user) {
+            sdkInstance.stampToken(user.walletAddressPublicKey, req.body.challengeTitle, req.body.tokenAmount, '2020')
+            .then(function(stampResponse) {
+                return Challenge
+                    .create({
+                        challengeTitle: req.body.challengeTitle,
+                        challengeDescription: req.body.challengeDescription,
+                        tokenTypeUuid: stampResponse.data.tokenType.uuid,
+                        sponsorId: req.body.sponsorId
+                    })
+                    .then(challenge => res.status(200).send(challenge))
+                    .catch(error => res.status(400).send(error));
             })
-            .then(challenge => res.status(200).send(challenge))
-            .catch(error => res.status(400).send(error));
+        })
     },
     list(req, res) {
         return Challenge
@@ -27,8 +33,6 @@ module.exports = {
             .catch(error => res.status(400).send(error));
     },
     retrieve(req, res) {
-        console.log('hello');
-        console.log(req);
         return Challenge
             .findById(req.params.uuid, {
                 include: [{
@@ -57,8 +61,6 @@ module.exports = {
                 return challenge
                     .update({
                         challengeTitle: req.body.challengeTitle || challenge.challengeTitle,
-                        totalRewardAmount: req.body.totalRewardAmount || challenge.totalRewardAmount,
-                        totalRewardUnits: req.body.totalRewardUnits || challenge.totalRewardUnits,
                         challengeDescription: req.body.challengeDescription || challenge.challengeDescription
                     })
                     .then(challenge => {

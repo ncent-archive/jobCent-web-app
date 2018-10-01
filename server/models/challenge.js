@@ -11,14 +11,12 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        totalRewardAmount: {
-            type: DataTypes.INTEGER
-        },
-        totalRewardUnits: {
-            type: DataTypes.STRING
-        },
         challengeDescription: {
             type: DataTypes.STRING
+        },
+        tokenTypeUuid: {
+            type: DataTypes.UUIDV4,
+            allowNull: false
         }
     }, {});
 

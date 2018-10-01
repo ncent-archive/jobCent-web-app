@@ -11,14 +11,12 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false
             },
-            totalRewardAmount: {
-                type: Sequelize.INTEGER
-            },
-            totalRewardUnits: {
-                type: Sequelize.STRING
-            },
             challengeDescription: {
                 type: Sequelize.STRING
+            },
+            tokenTypeUuid: {
+                type: Sequelize.UUID,
+                allowNull: false
             },
             sponsorId: {
                 type: Sequelize.UUID,
