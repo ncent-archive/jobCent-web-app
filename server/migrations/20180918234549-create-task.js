@@ -14,14 +14,9 @@ module.exports = {
             requirements: {
                 type: Sequelize.STRING
             },
-            submissionPeriodMins: {
-                type: Sequelize.INTEGER
-            },
-            percentOfTotalRewards: {
-                type: Sequelize.INTEGER
-            },
-            numFinalists: {
-                type: Sequelize.INTEGER
+            redemptionAmount: {
+                type: Sequelize.INTEGER,
+                allowNull: false
             },
             challengeId: {
                 type: Sequelize.UUID,

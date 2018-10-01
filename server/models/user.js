@@ -29,24 +29,6 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'sponsorId',
             as: 'sponsoredChallenges'
         });
-        User.hasMany(models.Submission, {
-            foreignKey: 'submitterId',
-            as: 'submissions'
-        });
-        User.belongsToMany(models.Task, {
-            as: 'Submitter',
-            through: 'Submissions',
-            foreignKey: 'submitterId'
-        });
-        User.hasMany(models.Vote, {
-            foreignKey: 'voterId',
-            as: 'votes'
-        });
-        User.belongsToMany(models.Poll, {
-            as: 'PollsVotedOn',
-            through: 'Votes',
-            foreignKey: 'voterId'
-        });
     };
     sequelize.sync();
     return User;
