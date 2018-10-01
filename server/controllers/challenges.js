@@ -7,7 +7,7 @@ module.exports = {
     create(req, res) {
         User.findById(req.body.sponsorId)
         .then(function(user) {
-            sdkInstance.stampToken(user.walletAddressPublicKey, req.body.challengeTitle, req.body.tokenAmount, '2020')
+            sdkInstance.stampToken(user.walletAddressPublicKey, req.body.challengeTitle, req.body.tokenAmount || 1000, '2020')
             .then(function(stampResponse) {
                 return Challenge
                     .create({

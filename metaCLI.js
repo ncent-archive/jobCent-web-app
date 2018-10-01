@@ -25,10 +25,9 @@ function readJson (path, callback) {
 }
 
 function createUser () {
-    console.log('Welcome to the nCent Hybrid Meta-App! Please enter your information below:');
-    prompt.get(['username', 'email', 'company'], function(err, result) {
+    console.log('Welcome to the jobCent! Please enter your information below:');
+    prompt.get(['email', 'company'], function(err, result) {
         axios.post(testNet + '/users', {
-            userName: result.username,
             emailAddress: result.email,
             company: result.company
         })
@@ -41,8 +40,9 @@ function createUser () {
 
 function createChallenge (userData) {
     userUuid = userData.data.uuid;
-    console.log(`Welcome, ${userData.data.userName}!`);
-    console.log('Would you like to submit a JSON file to create your challenge? Type "yes" if you would like to do so, otherwise you will be instructed to input the challenge parameters manually');
+    console.log(`Welcome, ${userData.data.emailAddress}!`);
+    console.log(`The public key for your token wallet address is ${userData.data.walletAddressPublicKey}`);
+    console.log('Would you like to submit a JSON file to create your jobCent program? Type "yes" if you would like to do so, otherwise you will be instructed to input the challenge parameters manually');
     prompt.get(['submitJSONFile'], function(err, result) {
         if (result.submitJSONFile === 'yes') {
             createChallengeFromJSON();
@@ -54,12 +54,11 @@ function createChallenge (userData) {
 
 function createChallengeFromInput () {
     console.log('Please input the parameters for the Challenge that you want to create with our app!');
-    prompt.get(['challengeTitle', 'totalRewardAmount', 'totalRewardUnits', 'description'], function(err, result) {
+    prompt.get(['challengeTitle', 'tokenAmount', 'description'], function(err, result) {
         axios.post(testNet + '/challenges', {
             challengeTitle: result.challengeTitle,
-            totalRewardAmount: result.totalRewardAmount,
-            totalRewardUnits: result.totalRewardUnits,
             challengeDescription: result.description,
+            tokenAmount: result.tokenAmount,
             sponsorId: userUuid
         })
         .then(createTasksFromInput)
@@ -86,13 +85,11 @@ function createTaskFromInput (currentTaskNumber, totalNumTasks) {
     } else {
         console.log(`Let's define task ${currentTaskNumber} of ${totalNumTasks}`);
         console.log('Please enter the task parameters below:');
-        prompt.get(['taskName', 'requirements', 'submissionPeriodMins', 'percentOfTotalRewards', 'numFinalists'], function (err, result) {
+        prompt.get(['taskName', 'requirements', 'redemptionAmount'], function (err, result) {
             axios.post(testNet + '/tasks', {
                 taskName: result.taskName,
                 requirements: result.requirements,
-                submissionPeriodMins: result.submissionPeriodMins,
-                percentOfTotalRewards: result.percentOfTotalRewards,
-                numFinalists: result.numFinalists,
+                redemptionAmount: result.redemptionAmount,
                 challengeUuid: challengeUuid
             })
             .then(function (taskData) {
@@ -112,9 +109,8 @@ function createChallengeFromJSON () {
         readJson(result.jsonFilePath, function (challengeJson) {
             axios.post(testNet + '/challenges', {
                 challengeTitle: challengeJson.challenge.challengeTitle,
-                totalRewardAmount: challengeJson.challenge.totalRewardAmount,
-                totalRewardUnits: challengeJson.challenge.totalRewardUnits,
                 challengeDescription: challengeJson.challenge.description,
+                tokenAmount: challengeJson.challenge.tokenAmount,
                 sponsorId: userUuid
             })
             .then(function (challengeData) {
@@ -139,9 +135,7 @@ function createTaskFromJson (currentTaskNumber, totalNumTasks, tasksJson) {
         axios.post(testNet + '/tasks', {
             taskName: currentTask.taskName,
             requirements: currentTask.requirements,
-            submissionPeriodMins: currentTask.submissionPeriodMins,
-            percentOfTotalRewards: currentTask.percentOfTotalRewards,
-            numFinalists: currentTask.numFinalists,
+            redemptionAmount: currentTask.redemptionAmount,
             challengeUuid: challengeUuid
         })
         .then(function (taskData) {

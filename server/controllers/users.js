@@ -8,7 +8,6 @@ module.exports = {
         let wallet = sdkInstance.createWalletAddress();
         return User
             .create({
-                userName: req.body.userName,
                 emailAddress: req.body.emailAddress,
                 walletAddressPublicKey: wallet.publicKey(),
                 walletAddressPrivateKey: wallet._secretKey,
@@ -54,7 +53,6 @@ module.exports = {
                 }
                 return user
                     .update({
-                        userName: req.body.userName || user.userName,
                         emailAddress: req.body.emailAddress || user.emailAddress,
                         company: req.body.company || user.company
                     })
