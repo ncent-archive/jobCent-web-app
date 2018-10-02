@@ -1,6 +1,7 @@
 const challengesController = require('../controllers').challenges;
 const tasksController = require('../controllers').tasks;
 const usersController = require('../controllers').users;
+const sessionController = require("../controllers/").session;
 
 module.exports = (app) => {
     app.get('/api', (req, res) => res.status(200).send({
@@ -17,8 +18,13 @@ module.exports = (app) => {
     app.post('/api/tasks', tasksController.create);
     app.patch('/api/tasks/:uuid', tasksController.update);
 
-    app.get('/api/users', usersController.list);
-    app.get('/api/users/:uuid', usersController.retrieve);
-    app.post('/api/users', usersController.create);
-    app.patch('/api/users/:uuid', usersController.update);
+    app.post("/api/users", usersController.create);
+    // verify confirmation code and login user
+    app.post("/api/session", sessionController.create);
+    // get token balance and user data
+    app.get("/api/users/:uuid", usersController.getOne);
+    app.put("/api/users/:uuid", usersController.update);
+    // logout user
+    app.delete("/api/session", sessionController.destroy);
+
 };

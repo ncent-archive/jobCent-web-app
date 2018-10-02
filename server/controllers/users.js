@@ -1,6 +1,5 @@
 const User = require("../models").User;
 const otplib = require("otplib");
-const awsEmail = require("./awsEmail.js");
 const bcrypt = require("bcrypt");
 const keys = require("./secret.js");
 const nCentSDK = require("ncent-sandbox-sdk");

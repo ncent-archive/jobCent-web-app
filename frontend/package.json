@@ -1,7 +1,7 @@
 {
   "name": "meta-app-frontend",
   "version": "0.1.0",
-  "proxy": "http://18.191.114.157:8000",
+  "proxy": "http://localhost:8000",
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
