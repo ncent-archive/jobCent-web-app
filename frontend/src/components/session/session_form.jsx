@@ -6,7 +6,7 @@ class SessionForm extends React.Component {
     super(props);
 
     this.state = {
-      emailAddress: "",
+      email: "",
       code: "",
       otpReq: true,
       formType: "signup"
@@ -33,7 +33,6 @@ class SessionForm extends React.Component {
   }
 
   handleSubmit = e => {
-    console.log(this.state);
     const processForm =
       this.state.formType === "signup" ? this.props.signup : this.props.login;
     e.preventDefault();
@@ -75,7 +74,7 @@ class SessionForm extends React.Component {
                       autoCapitalize="none"
                       className="text-field"
                       placeholder="Email address"
-                      onChange={this.update("emailAddress")}
+                      onChange={this.update("email")}
                     />
                   </div>
                   <div className="alias-submit">

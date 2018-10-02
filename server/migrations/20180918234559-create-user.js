@@ -7,7 +7,7 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.UUID
             },
-            username: {
+            name: {
                 type: Sequelize.STRING
             },
             email: {
@@ -15,18 +15,16 @@ module.exports = {
                 allowNull: false
             },
             publicKey: {
-                type: Sequelize.STRING,
-                allowNull: false
+                type: Sequelize.STRING
             },
             privateKey: {
-                type: Sequelize.STRING,
-                allowNull: false
+                type: Sequelize.STRING
             },
             otpKey: {
                 type: Sequelize.STRING
             },
             otpExp: {
-                type: Sequelize.INTEGER
+                type: Sequelize.BIGINT
             },
             active: {
                 type: Sequelize.BOOLEAN,

@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             defaultValue: DataTypes.UUIDV4
         },
-        username: {
+        name: {
             type: DataTypes.STRING
         },
         email: {
@@ -15,23 +15,21 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         publicKey: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.STRING
         },
         privateKey: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.STRING
         },
         otpKey: {
             type: DataTypes.STRING
         },
         otpExp: {
-            type: DataTypes.INTEGER
+            type: DataTypes.BIGINT
         },
         active: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
-            defaultValue: false,
+            defaultValue: false
         },
         company: {
             type: DataTypes.STRING

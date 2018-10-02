@@ -23,6 +23,7 @@ module.exports = {
                             .then(user => {
                                 const { id, email, publicKey, name } = user.dataValues;
                                 const userInfo = { id, email, publicKey, name };
+                                req.session = {};
                                 req.session.user = userInfo;
                                 res.send({ user: userInfo });
                             });

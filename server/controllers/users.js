@@ -2,6 +2,7 @@ const User = require("../models").User;
 const otplib = require("otplib");
 const bcrypt = require("bcrypt");
 const keys = require("./secret.js");
+const awsEmail = require("./awsEmail.js");
 const nCentSDK = require("ncent-sandbox-sdk");
 const nCentSDKInstance = new nCentSDK();
 
@@ -27,6 +28,7 @@ module.exports = {
                         otpExp: otpExp
                     })
                     .then(user => {
+                        console.log('user otp updated');
                         const validCode = bcrypt.compareSync(token, tokenHash);
                         console.log(token);
 
@@ -40,13 +42,11 @@ module.exports = {
                 if (otpReq) {
                     return User.create({
                         email: emailAddr,
-                        jobCents: "0",
                         otpKey: tokenHash,
                         otpExp: otpExp
                     })
                         .then(user => {
                             data.user = user;
-                            console.log(user);
 
                             const wallet = nCentSDKInstance.createWalletAddress();
                             data.privateKey = wallet.secret();
@@ -69,14 +69,13 @@ module.exports = {
                             res.status(201).send(user);
                         })
                         .catch(error => {
-                            console.log(error);
+                            console.log(error.message);
 
                             res.status(400).send(error);
                         });
                 } else {
                     return User.create({
-                        email: emailAddr,
-                        jobCents: "0"
+                        email: emailAddr
                     })
                         .then(user => {
                             data.user = user;
