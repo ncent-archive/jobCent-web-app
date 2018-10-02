@@ -2,15 +2,10 @@
   "name": "ncent-meta-hybrid",
   "version": "1.0.1",
   "description": "",
-  "proxy": "http://localhost:8000",
   "main": "index.js",
   "scripts": {
     "start:dev": "nodemon ./bin/www",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "reactTest": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -27,22 +22,12 @@
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
-    "lodash": "^4.17.11",
     "morgan": "^1.9.1",
     "ncent-sandbox-sdk": "^1.2.4",
     "npm": "^6.4.1",
     "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
     "prompt": "^1.0.0",
-    "react": "^16.5.2",
-    "react-anchor-link-smooth-scroll": "^1.0.11",
-    "react-dom": "^16.5.2",
-    "react-redux": "^5.0.7",
-    "react-router-dom": "^4.3.1",
-    "react-router-hash-link": "^1.2.0",
-    "react-scripts": "^1.1.5",
-    "redux": "^4.0.0",
-    "redux-thunk": "^2.3.0",
     "sequelize": "^4.38.1"
   },
   "devDependencies": {
