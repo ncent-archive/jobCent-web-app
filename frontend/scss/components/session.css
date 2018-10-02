@@ -1,0 +1,139 @@
+.signup-form {
+  background-color: #204fc7;
+}
+
+.signup-component {
+  height: 100vh;
+  min-height: 100vh;
+  min-width: 320px;
+  position: relative;
+  z-index: 1;
+}
+
+.flex-container {
+  -ms-flex-direction: column;
+  -webkit-flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+  height: 100vh;
+  padding-left: 24px;
+  padding-right: 24px;
+  text-align: center;
+}
+
+.login-container {
+  -ms-flex: 1 0 auto;
+  -ms-flex-align: center;
+  -ms-flex-direction: column;
+  -ms-flex-pack: center;
+  -webkit-align-items: center;
+  -webkit-flex: 1 0 auto;
+  -webkit-flex-direction: column;
+  -webkit-justify-content: center;
+  align-items: center;
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+}
+
+.step-title {
+  -ms-flex-direction: column;
+  -ms-flex-pack: end;
+  -webkit-flex-direction: column;
+  -webkit-justify-content: flex-end;
+  color: white;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-size: 24px;
+  font-weight: 400;
+  justify-content: flex-end;
+  letter-spacing: 0.5px;
+  margin: 0.67em 0;
+  margin-bottom: 32px;
+  margin-top: 0;
+  min-height: 2.4em;
+  text-align: center;
+  width: 100%;
+}
+
+.login-form {
+  color: #fff;
+  font-size: 18px;
+  margin: 0;
+  margin-top: 8px;
+  text-align: center;
+  width: 100%;
+}
+
+.field {
+  color: #fff;
+  font-size: 18px;
+  position: relative;
+  text-align: center;
+  z-index: 1;
+}
+
+.text-field {
+  -webkit-appearance: none;
+  border: 0;
+  border-radius: 4px;
+  font-size: 18px;
+  height: 55px;
+  line-height: 1;
+  margin-bottom: 16px;
+  outline: 0;
+  padding: 0 18px;
+  text-align: center;
+  width: 100%;
+}
+
+.text-field::placeholder {
+  font-weight: 100px;
+  opacity: 0.5;
+}
+
+.theme-button {
+  -webkit-tap-highlight-color: transparent;
+  background-color: #14d642;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  display: block;
+  font-size: 18px;
+  font-weight: 300;
+  height: 55px;
+  opacity: 0.9;
+  outline: 0;
+  padding: 0 20px;
+  width: 100%;
+}
+
+.theme-button:hover {
+  background-color: #16df45;
+}
+
+.errors-flex {
+  color: red;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 767px) {
+  .login-container {
+    max-width: 324px;
+  }
+}
+
+@media (min-width: 768px) {
+  .login-container {
+    max-width: 396px;
+  }
+}
