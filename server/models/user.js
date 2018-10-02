@@ -7,17 +7,31 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             defaultValue: DataTypes.UUIDV4
         },
-        emailAddress: {
+        username: {
+            type: DataTypes.STRING
+        },
+        email: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        walletAddressPublicKey: {
+        publicKey: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        walletAddressPrivateKey: {
+        privateKey: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        otpKey: {
+            type: DataTypes.STRING
+        },
+        otpExp: {
+            type: DataTypes.INTEGER
+        },
+        active: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
         },
         company: {
             type: DataTypes.STRING

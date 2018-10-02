@@ -7,16 +7,29 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.UUID
             },
-            emailAddress: {
+            username: {
+                type: Sequelize.STRING
+            },
+            email: {
                 type: Sequelize.STRING,
                 allowNull: false
             },
-            walletAddressPublicKey: {
+            publicKey: {
                 type: Sequelize.STRING,
                 allowNull: false
             },
-            walletAddressPrivateKey: {
+            privateKey: {
                 type: Sequelize.STRING,
+                allowNull: false
+            },
+            otpKey: {
+                type: Sequelize.STRING
+            },
+            otpExp: {
+                type: Sequelize.INTEGER
+            },
+            active: {
+                type: Sequelize.BOOLEAN,
                 allowNull: false
             },
             company: {

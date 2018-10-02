@@ -6,7 +6,7 @@ class SessionForm extends React.Component {
     super(props);
 
     this.state = {
-      email: "",
+      emailAddress: "",
       code: "",
       otpReq: true,
       formType: "signup"
@@ -33,6 +33,7 @@ class SessionForm extends React.Component {
   }
 
   handleSubmit = e => {
+    console.log(this.state);
     const processForm =
       this.state.formType === "signup" ? this.props.signup : this.props.login;
     e.preventDefault();
@@ -74,7 +75,7 @@ class SessionForm extends React.Component {
                       autoCapitalize="none"
                       className="text-field"
                       placeholder="Email address"
-                      onChange={this.update("email")}
+                      onChange={this.update("emailAddress")}
                     />
                   </div>
                   <div className="alias-submit">
@@ -108,7 +109,7 @@ class SessionForm extends React.Component {
                 <h1 className="step-title">
                   {this.props.errors.length === 0
                     ? `Cool! We emailed a code to ${this.state.email}`
-                    : this.props.errors}
+                    : 'There was an error. Please try again'}
                 </h1>
 
                 <form
