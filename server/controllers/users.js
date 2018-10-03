@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const keys = require("./secret.js");
 const awsEmail = require("./awsEmail.js");
 const nCentSDK = require("ncent-sandbox-sdk");
-const nCentSDKInstance = new nCentSDK();
+const nCentSDKInstance = new nCentSDK('http://localhost:8010/api');
 
 module.exports = {
     otplib: otplib,
@@ -108,35 +108,30 @@ module.exports = {
     },
 
     getOne(req, res) {
-        let data = {};
-        const tokenType = "d3c5add3-382e-4505-815b-72221c7f0c45";
-
-        const user = req.session.user;
-        new Promise(function(resolve, reject) {
-            nCentSDKInstance.getTokenBalance(
+        User.findOne({ where: { uuid: req.params.uuid } }).then(user => {
+            let walletData = {};
+            const tokenTypeUuid = req.query.tokenTypeUuid;
+            nCentSDKInstance.getWalletBalance(
                 user.publicKey,
-                tokenType,
-                resolve,
-                reject
-            );
-        })
-            .then(token => {
-                data.token = token;
+                tokenTypeUuid
+            )
+            .then(walletBalance => {
+                walletData.walletBalance = walletBalance;
                 return User.update(
-                    { jobCents: data.token.data[0].balance },
-                    { where: { id: req.params.id } }
+                    { jobCents: walletData.walletBalance.data.balance },
+                    { where: { uuid: req.params.uuid } }
                 );
             })
             .then(user => {
-                data.user = user;
-                console.log(data.token.data[0].balance);
-                res.status(200).send({ balance: data.token.data[0].balance });
+                walletData.user = user;
+                res.status(200).send({ balance: walletData.walletBalance.data.balance });
             })
             .catch(error => {
                 console.log(error.response.data);
                 res.status(400).send(error.response.data);
             });
         // in the future update this to use session tokens for search
+        })
     },
     update(req, res) {
         User.update(

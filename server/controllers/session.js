@@ -21,9 +21,13 @@ module.exports = {
                                 active: true
                             })
                             .then(user => {
-                                const { id, email, publicKey, name } = user.dataValues;
-                                const userInfo = { id, email, publicKey, name };
                                 req.session = {};
+                                const userInfo = {
+                                    uuid: user.dataValues.uuid,
+                                    email: user.dataValues.email,
+                                    publicKey: user.dataValues.publicKey,
+                                    name: user.dataValues.name
+                                };
                                 req.session.user = userInfo;
                                 res.send({ user: userInfo });
                             });

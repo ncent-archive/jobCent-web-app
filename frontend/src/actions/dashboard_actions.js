@@ -29,8 +29,8 @@ export const receiveChallenge = challenge => ({
     challenge
 });
 
-export const fetchBalance = user => dispatch =>
-  ApiUtil.fetchBalance(user).then(
+export const fetchBalance = (user, tokenTypeUuid) => dispatch =>
+  ApiUtil.fetchBalance(user, tokenTypeUuid).then(
     balance => dispatch(receiveBalance(balance)),
     err => {
       console.log(err);

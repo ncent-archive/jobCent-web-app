@@ -21,7 +21,7 @@ export default (state = {}, action) => {
         newState = merge({}, state, action.data);
         return newState;
     case RECEIVE_CHALLENGE:
-        newState = merge({}, state, action.challenge);
+        newState = merge({}, state, action.challenge.data);
         return newState;
     default:
       return state;

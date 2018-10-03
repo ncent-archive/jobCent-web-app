@@ -1,6 +1,6 @@
 import React from "react";
 import "../../scss/components/dashboard.css";
-import { MyJobCents } from "./myJobCents";
+import MyJobCents from "./myJobCents";
 import Transfer from "./transfer";
 import SponsorChallenge from "./sponsorChallenge.jsx";
 
@@ -9,7 +9,7 @@ class Dashboard extends React.Component {
     super(props);
 
     this.state = {
-      formType: "Activity",
+      formType: "Sponsor",
       jobCents: "0",
       name: "Alpha Tester",
       amount: "0",
@@ -28,32 +28,6 @@ class Dashboard extends React.Component {
     this.createChallengeForUser = this.createChallengeForUser.bind(this);
   }
 
-  componentDidMount() {
-    this.updateBalance();
-  }
-
-  updateBalance() {
-    if (this.props.currentUser) {
-      this.props
-        .fetchBalance(this.props.currentUser)
-        .then(res => {
-          console.log("balance fetched#####");
-
-          console.log(res);
-
-          let balance = res.balance.data.balance;
-          if (balance) {
-            this.setState({
-              jobCents: balance,
-              from: this.props.currentUser.email,
-              name: this.props.currentUser.name
-            });
-            console.log(this.state);
-          }
-        })
-        .catch(err => console.log(err));
-    }
-  }
   handleInput(key) {
     return e => {
       this.setState({
@@ -158,8 +132,8 @@ class Dashboard extends React.Component {
     }
   }
   jobCentsTab() {
-    if (this.state.formType === "jobCents") {
-      return <MyJobCents jobCents={this.state.jobCents} />;
+    if (this.state.formType === "jobCents" && this.props.currentUser) {
+      return <MyJobCents currentUser={this.props.currentUser} tokenTypeUuid={this.props.tokenTypeUuid} fetchBalance={this.props.fetchBalance}/>;
     }
   }
   profileTab() {

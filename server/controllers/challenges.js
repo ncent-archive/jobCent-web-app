@@ -13,6 +13,7 @@ module.exports = {
         .then(function(users) {
             sdkInstance.stampToken(users[0].publicKey, req.body.challengeTitle, req.body.tokenAmount || 1000, '2020')
             .then(function(stampResponse) {
+                console.log(stampResponse);
                 return Challenge
                     .create({
                         challengeTitle: req.body.challengeTitle,
