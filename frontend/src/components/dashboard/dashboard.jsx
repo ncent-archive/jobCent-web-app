@@ -60,14 +60,14 @@ class Dashboard extends React.Component {
 
   handleTransfer(e) {
     e.preventDefault();
-    console.log("waiting");
 
-    const transaction = Object.assign({}, this.state);
+    const transaction = Object.assign({}, {
+        from: this.props.currentUser.email,
+        to: this.state.to,
+        amount: this.state.amount,
+        tokenTypeUuid: this.props.tokenTypeUuid
+    });
     if (this.props.sendJobCents) {
-      console.log("transfering..");
-
-      console.log(transaction);
-
       this.props
         .sendJobCents(transaction)
         .then(res => {
@@ -133,7 +133,13 @@ class Dashboard extends React.Component {
   }
   jobCentsTab() {
     if (this.state.formType === "jobCents" && this.props.currentUser) {
-      return <MyJobCents currentUser={this.props.currentUser} tokenTypeUuid={this.props.tokenTypeUuid} fetchBalance={this.props.fetchBalance}/>;
+      return <MyJobCents
+          currentUser={this.props.currentUser}
+          tokenTypeUuid={this.props.tokenTypeUuid}
+          challengeTitle={this.props.challengeTitle}
+          fetchBalance={this.props.fetchBalance}
+          challengeDescription={this.props.challengeDescription}
+          handleInput={this.handleInput}/>;
     }
   }
   profileTab() {

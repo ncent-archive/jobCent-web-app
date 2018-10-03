@@ -11,9 +11,6 @@ export default class MyJobCents extends React.Component {
     componentDidMount() {
         this.props.fetchBalance(this.props.currentUser, this.props.tokenTypeUuid)
             .then(res => {
-                console.log("balance fetched#####");
-                console.log(res);
-
                 let balance = res.balance.data.balance;
                 if (balance) {
                     this.setState({
@@ -27,7 +24,15 @@ export default class MyJobCents extends React.Component {
             <section className="myJobCents">
                 <div className="balance">
                     <h1 className="balance-amount">₿{this.state.jobCents}</h1>
-                    <h2 className="balance-subtitle">jobCents</h2>
+                    <h2 className="balance-subtitle">{this.props.challengeTitle}</h2>
+                    <p className="tokenDescription">{this.props.challengeDescription}</p>
+                    <a
+                        title="New"
+                        className="initiate-payment"
+                        onClick={this.props.handleInput("formType")}
+                    >
+                        Send a {this.props.challengeTitle}
+                    </a>
                 </div>
             </section>
         );

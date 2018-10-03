@@ -18,6 +18,10 @@ module.exports = {
                 type: Sequelize.UUID,
                 allowNull: false
             },
+            transactionUuid: {
+                type: Sequelize.UUID,
+                allowNull: false
+            },
             sponsorId: {
                 type: Sequelize.UUID,
                 foreignKey: true,

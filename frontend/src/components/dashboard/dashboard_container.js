@@ -8,14 +8,16 @@ const mapStateToProps = (state, ownProps) => ({
   loggedIn: Boolean(state.session.currentUser),
   errors: state.errors.session,
   currentUser: state.session.currentUser,
-  tokenTypeUuid: state.dashboard.tokenTypeUuid
+  tokenTypeUuid: state.dashboard.tokenTypeUuid,
+  challengeTitle: state.dashboard.challengeTitle,
+  challengeDescription: state.dashboard.challengeDescription
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchBalance: (user, tokenTypeUuid) => dispatch(fetchBalance(user, tokenTypeUuid)),
   fetchHistory: user => dispatch(fetchHistory(user)),
   saveName: user => dispatch(saveName(user)),
-  sendJobCents: user => dispatch(sendJobCents(user)),
+  sendJobCents: transaction => dispatch(sendJobCents(transaction)),
   logout: () => dispatch(logout()),
   createChallenge: challenge => dispatch(createChallenge(challenge))
 });

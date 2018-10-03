@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
         tokenTypeUuid: {
             type: DataTypes.UUID,
             allowNull: false
+        },
+        transactionUuid: {
+            type: DataTypes.UUID,
+            allowNull: false
         }
     }, {});
 

@@ -12,7 +12,7 @@ export default (state = {}, action) => {
   Object.freeze(state);
   switch (action.type) {
     case RECEIVE_BALANCE:
-        newState = merge({}, state, action.balance);
+        newState = merge({}, state, action.balance.data);
         return newState;
     case RECEIVE_HISTORY:
         newState = merge({}, state, action.history.data);

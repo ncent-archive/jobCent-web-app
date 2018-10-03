@@ -2,6 +2,7 @@ const Challenge = require('../models').Challenge;
 const User = require('../models').User;
 const ncentSDK = require('ncent-sandbox-sdk');
 const sdkInstance = new ncentSDK('http://localhost:8010/api');
+const stellarSDK = require("stellar-sdk");
 
 module.exports = {
     create(req, res) {
@@ -11,18 +12,24 @@ module.exports = {
             }
         })
         .then(function(users) {
+            let tokenTypeUuid;
             sdkInstance.stampToken(users[0].publicKey, req.body.challengeTitle, req.body.tokenAmount || 1000, '2020')
             .then(function(stampResponse) {
-                console.log(stampResponse);
-                return Challenge
-                    .create({
+                tokenTypeUuid = stampResponse.data.tokenType.uuid;
+                let keyPair = stellarSDK.Keypair.fromSecret(users[0].privateKey);
+                sdkInstance.createChallenge(keyPair, tokenTypeUuid, req.body.tokenAmount)
+                .then(function(createChallengeResponse) {
+                    console.log(createChallengeResponse);
+                    return Challenge.create({
                         challengeTitle: req.body.challengeTitle,
                         challengeDescription: req.body.challengeDescription,
-                        tokenTypeUuid: stampResponse.data.tokenType.uuid,
+                        tokenTypeUuid: tokenTypeUuid,
+                        transactionUuid: createChallengeResponse.data.uuid,
                         sponsorId: users[0].uuid
                     })
                     .then(challenge => res.status(200).send(challenge))
                     .catch(error => res.status(400).send(error));
+                });
             })
             .catch(function(err) {
                 console.log(err.message);
