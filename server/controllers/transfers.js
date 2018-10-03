@@ -28,8 +28,7 @@ module.exports = {
                 toUser = user;
                 if (!toUser) {
                     User.create({
-                        email: to,
-                        jobCents: "0"
+                        email: to
                     })
                         .then(user => {
                             data.user = user;

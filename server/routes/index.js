@@ -2,6 +2,7 @@ const challengesController = require('../controllers').challenges;
 const tasksController = require('../controllers').tasks;
 const usersController = require('../controllers').users;
 const sessionController = require("../controllers/").session;
+const transfersController = require("../controllers").transfers;
 
 module.exports = (app) => {
     app.get('/api', (req, res) => res.status(200).send({
@@ -26,5 +27,9 @@ module.exports = (app) => {
     app.put("/api/users/:uuid", usersController.update);
     // logout user
     app.delete("/api/session", sessionController.destroy);
+
+    app.post("/api/transfers", transfersController.create);
+    // fetch transaction history for a given user
+    app.get("/api/transfers/:id", transfersController.findAll);
 
 };

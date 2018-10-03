@@ -3,6 +3,7 @@ export const RECEIVE_BALANCE = "RECEIVE_BALANCE";
 export const RECEIVE_TRANSFER = "RECEIVE_TRANSFER";
 export const RECEIVE_DASH_ERRORS = "RECEIVE_DASH_ERRORS";
 export const RECEIVE_HISTORY = "RECEIVE_HISTORY";
+export const RECEIVE_CHALLENGE = "RECEIVE_CHALLENGE";
 
 export const receiveBalance = balance => ({
   type: RECEIVE_BALANCE,
@@ -22,6 +23,10 @@ export const receiveTransfer = data => ({
 export const receiveHistory = history => ({
   type: RECEIVE_HISTORY,
   history
+});
+export const receiveChallenge = challenge => ({
+    type: RECEIVE_CHALLENGE,
+    challenge
 });
 
 export const fetchBalance = user => dispatch =>
@@ -59,3 +64,12 @@ export const fetchHistory = user => dispatch =>
       dispatch(receiveErrors(err));
     }
   );
+
+export const createChallenge = challenge => dispatch =>
+    ApiUtil.createChallenge(challenge).then(
+        data => dispatch(receiveChallenge(data)),
+        err => {
+            console.log(err);
+            dispatch(receiveErrors(err));
+        }
+    );

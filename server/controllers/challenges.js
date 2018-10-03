@@ -5,19 +5,26 @@ const sdkInstance = new ncentSDK('http://localhost:8010/api');
 
 module.exports = {
     create(req, res) {
-        User.findById(req.body.sponsorId)
-        .then(function(user) {
-            sdkInstance.stampToken(user.walletAddressPublicKey, req.body.challengeTitle, req.body.tokenAmount || 1000, '2020')
+        User.findAll({
+            where: {
+                email: req.body.sponsorEmail
+            }
+        })
+        .then(function(users) {
+            sdkInstance.stampToken(users[0].publicKey, req.body.challengeTitle, req.body.tokenAmount || 1000, '2020')
             .then(function(stampResponse) {
                 return Challenge
                     .create({
                         challengeTitle: req.body.challengeTitle,
                         challengeDescription: req.body.challengeDescription,
                         tokenTypeUuid: stampResponse.data.tokenType.uuid,
-                        sponsorId: req.body.sponsorId
+                        sponsorId: users[0].uuid
                     })
                     .then(challenge => res.status(200).send(challenge))
                     .catch(error => res.status(400).send(error));
+            })
+            .catch(function(err) {
+                console.log(err.message);
             })
         })
     },

@@ -2,6 +2,7 @@ import React from "react";
 import "../../scss/components/dashboard.css";
 import { MyJobCents } from "./myJobCents";
 import Transfer from "./transfer";
+import SponsorChallenge from "./sponsorChallenge.jsx";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -13,7 +14,10 @@ class Dashboard extends React.Component {
       name: "Alpha Tester",
       amount: "0",
       from: "",
-      to: ""
+      to: "",
+      challengeTitle: "",
+      challengeDescription: "",
+      tokenAmount: 0
     };
     this.handleInput = this.handleInput.bind(this);
     this.update = this.update.bind(this);
@@ -21,6 +25,7 @@ class Dashboard extends React.Component {
     this.jobCentsTab = this.jobCentsTab.bind(this);
     this.handleTransfer = this.handleTransfer.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
+    this.createChallengeForUser = this.createChallengeForUser.bind(this);
   }
 
   componentDidMount() {
@@ -103,6 +108,17 @@ class Dashboard extends React.Component {
           console.log(err);
         });
     }
+  }
+
+  createChallengeForUser(e) {
+    e.preventDefault();
+    const challenge = Object.assign({}, {
+      challengeTitle: this.state.challengeTitle,
+      challengeDescription: this.state.challengeDescription,
+      tokenAmount: this.state.tokenAmount,
+      sponsorEmail: this.props.currentUser.email
+    });
+    this.props.createChallenge(challenge);
   }
 
   activityTab() {
@@ -201,6 +217,18 @@ class Dashboard extends React.Component {
           handleTransfer={this.handleTransfer}
         />
       );
+    }
+  }
+
+  sponsorChallengeTab() {
+    if (this.state.formType === "Sponsor") {
+      return (
+          <SponsorChallenge
+            handleInput={this.handleInput}
+            update={this.update}
+            createChallenge={this.createChallengeForUser}
+          />
+      )
     }
   }
 
@@ -371,11 +399,11 @@ class Dashboard extends React.Component {
                     <span className="nav-item-label">Sign Out</span>
                   </a>
                   <a
-                    title="New"
+                    title="Sponsor"
                     className="nav-item create-payment active"
                     onClick={this.handleInput("formType")}
                   >
-                    <span className="button-text">New</span>
+                    <span className="button-text">Sponsor</span>
                   </a>
                 </nav>
               </div>
@@ -385,6 +413,7 @@ class Dashboard extends React.Component {
                 {this.profileTab()}
                 {this.signOutTab(this.props.logout)}
                 {this.transferTab()}
+                {this.sponsorChallengeTab()}
               </section>
             </div>
           </div>
