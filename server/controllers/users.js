@@ -5,6 +5,20 @@ const keys = require("./secret.js");
 const awsEmail = require("./awsEmail.js");
 const nCentSDK = require("ncent-sandbox-sdk");
 const nCentSDKInstance = new nCentSDK('http://localhost:8010/api');
+const _ = require('lodash');
+
+function retrieveWalletBalance(tokenTypes, currentTokenTypeIndex, totalTokenTypes, publicKey, balances, callback) {
+    const currentTokenType = tokenTypes[currentTokenTypeIndex];
+    if (currentTokenTypeIndex <= totalTokenTypes) {
+        nCentSDKInstance.getWalletBalance(publicKey, currentTokenType.uuid)
+        .then(function(walletBalanceResponse) {
+            balances.push({ tokenTypeUuid: currentTokenType.uuid, balance: walletBalanceResponse.data.balance });
+            retrieveWalletBalance(tokenTypes, currentTokenTypeIndex + 1, totalTokenTypes, publicKey, balances, callback);
+        })
+    } else {
+        callback(balances);
+    }
+}
 
 module.exports = {
     otplib: otplib,
@@ -109,22 +123,16 @@ module.exports = {
 
     getOne(req, res) {
         User.findOne({ where: { uuid: req.params.uuid } }).then(user => {
-            let walletData = {};
-            const tokenTypeUuid = req.query.tokenTypeUuid;
-            nCentSDKInstance.getWalletBalance(
-                user.publicKey,
-                tokenTypeUuid
-            )
-            .then(walletBalance => {
-                walletData.walletBalance = walletBalance;
-                return User.update(
-                    { jobCents: walletData.walletBalance.data.balance },
-                    { where: { uuid: req.params.uuid } }
-                );
-            })
-            .then(user => {
-                walletData.user = user;
-                res.status(200).send({ balance: walletData.walletBalance.data.balance });
+            let walletBalances = [];
+            let tokenTypes;
+            let tokenTypeAmount;
+            nCentSDKInstance.getTokenTypes()
+            .then(function(tokenTypesResponse) {
+                tokenTypes = tokenTypesResponse.data;
+                tokenTypeAmount = tokenTypes.length;
+                retrieveWalletBalance(tokenTypes, 0, tokenTypeAmount - 1, user.publicKey, walletBalances, function(balances) {
+                    res.status(200).send({balance: balances});
+                });
             })
             .catch(error => {
                 console.log(error.response.data);
