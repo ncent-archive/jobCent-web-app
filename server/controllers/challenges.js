@@ -19,7 +19,6 @@ module.exports = {
                 let keyPair = stellarSDK.Keypair.fromSecret(users[0].privateKey);
                 sdkInstance.createChallenge(keyPair, tokenTypeUuid, req.body.tokenAmount)
                 .then(function(createChallengeResponse) {
-                    console.log(createChallengeResponse);
                     return Challenge.create({
                         challengeTitle: req.body.challengeTitle,
                         challengeDescription: req.body.challengeDescription,

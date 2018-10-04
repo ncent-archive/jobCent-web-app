@@ -7,5 +7,5 @@ export const signup = user => axios.post("api/users", { user });
 export const fetchBalance = (user, tokenTypeUuid) => axios.get("api/users/" + user.uuid + `?tokenTypeUuid=${tokenTypeUuid}`);
 export const saveName = user => axios.put("api/users/" + user.uuid, { user });
 export const sendJobCents = transaction => axios.post("api/transfers/", transaction);
-export const fetchHistory = user => axios.get("api/transfers/" + user.uuid);
+export const fetchTransferHistory = user => axios.get("api/transfers/" + user.uuid);
 export const createChallenge = challenge => axios.post("api/challenges/", challenge);

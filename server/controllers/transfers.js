@@ -1,6 +1,6 @@
 const stellarSDK = require("stellar-sdk");
 const nCentSDK = require("ncent-sandbox-sdk");
-const nCentSDKInstance = new nCentSDK();
+const nCentSDKInstance = new nCentSDK('http://localhost:8010/api');
 const Transfer = require("../models").Transfer;
 const User = require("../models").User;
 const awsEmail = require("./awsEmail.js");
@@ -10,6 +10,7 @@ module.exports = {
         const to = req.body.to;
         const amount = parseInt(req.body.amount);
         const tokenType = req.body.tokenTypeUuid;
+        const transactionUuid = req.body.transactionUuid;
 
         let fromUser;
         let toUser;
@@ -24,93 +25,61 @@ module.exports = {
                 tokenType
             )
             .then(walletBalance => {
-                console.log(walletBalance.data);
-                console.log('got wallet info');
                 fromBalance = walletBalance.data.balance;
-                console.log(fromBalance);
-                console.log(fromBalance > amount);
                 return User.findOne({ where: { email: to } });
             })
-        })
-        .then(user => {
-            toUser = user;
-            if (!toUser) {
-                User.create({
-                    email: to
-                })
-                .then(user => {
-                    data.user = user;
-                    const wallet = nCentSDKInstance.createWalletAddress();
-                    data.privateKey = wallet.secret();
-                    data.publicKey = wallet.publicKey();
-                    return data;
-                })
-                .then(data => {
-                    return data.user.update({
-                        publicKey: data.publicKey,
-                        privateKey: data.privateKey
-                    });
-                })
-                .then(user => {
-                    toUser = user;
-
-                    if (fromBalance >= amount) {
-                        let keyPair = stellarSDK.Keypair.fromSecret(fromUser.privateKey);
-                        new Promise(function(resolve, reject) {
-                            nCentSDKInstance.transferTokens(
-                                keyPair,
-                                toUser.publicKey,
-                                tokenType,
-                                amount,
-                                resolve,
-                                reject
-                            );
-                        })
-                        .then(transfer => {
-                            console.log(transfer.data);
-
-                            data = transfer.data;
-                            Transfer.create({
-                                from,
-                                to,
-                                amount
-                            }).then(transfer => {
-                                console.log("data sender balance");
-
-                                console.log(data.sender.balance);
-
-                                fromUser
-                                    .update({
-                                        jobCents: data.sender.balance
-                                    })
-                                    .then(fromuser => {
-                                        data.fromUser = fromuser;
-                                        console.log("data receiver balance");
-                                        console.log(data.receiver.balance);
-                                        toUser
-                                            .update({
-                                                jobCents: data.receiver.balance
-                                            })
-                                            .then(touser => {
-                                                data.toUser = touser;
-
-                                                awsEmail.sendMail(
-                                                    data.fromUser.email,
-                                                    data.toUser.email
-                                                );
-                                                data.toUser = touser;
-                                                res.status(200).send(data);
-                                            })
-                                            .catch(err => {
-                                                console.log(err);
-                                            });
-                                    });
-                            });
-                        })
-                        .catch(err => {
-                            console.log(err);
-                            res.status(400).send("error");
+            .then(user => {
+                toUser = user;
+                if (!toUser) {
+                    User.create({
+                        email: to
+                    })
+                    .then(user => {
+                        data.user = user;
+                        const wallet = nCentSDKInstance.createWalletAddress();
+                        data.privateKey = wallet.secret();
+                        data.publicKey = wallet.publicKey();
+                        return data;
+                    })
+                    .then(data => {
+                        return data.user.update({
+                            publicKey: data.publicKey,
+                            privateKey: data.privateKey
                         });
+                    })
+                    .then(user => {
+                        toUser = user;
+                        if (fromBalance >= amount) {
+                            let keyPair = stellarSDK.Keypair.fromSecret(fromUser.privateKey);
+                            nCentSDKInstance.shareChallenge(
+                                keyPair,
+                                transactionUuid,
+                                toUser.publicKey
+                            )
+                            .then(transfer => {
+                                console.log(transfer.data);
+
+                                data = transfer.data;
+                                Transfer.create({
+                                    from,
+                                    to,
+                                    amount
+                                })
+                                .then(transfer => {
+                                    awsEmail.sendMail(
+                                        from,
+                                        to
+                                    );
+                                    res.status(200).send(data);
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                            });
+                            })
+                            .catch(err => {
+                                console.log(err);
+                                res.status(400).send("error");
+                            });
                         } else {
                             return res.status(400).send("not enough jobCents");
                         }
@@ -119,65 +88,43 @@ module.exports = {
                         console.log(error);
                         res.status(400).send(error);
                     });
-            } else if (fromBalance >= amount) {
-                keyPair = stellarSDK.Keypair.fromSecret(fromUser.privateKey);
-                new Promise(function(resolve, reject) {
-                    nCentSDKInstance.transferTokens(
+                } else if (fromBalance >= amount) {
+                    let keyPair = stellarSDK.Keypair.fromSecret(fromUser.privateKey);
+                    nCentSDKInstance.shareChallenge(
                         keyPair,
-                        toUser.publicKey,
-                        tokenType,
-                        amount,
-                        resolve,
-                        reject
-                    );
-                })
-                .then(transfer => {
-                    console.log(transfer.data);
-                    data = transfer.data;
-                    Transfer.create({
-                        from,
-                        to,
-                        amount
-                    }).then(transfer => {
-                        console.log("data sender balance");
-                        console.log(data.sender.balance);
-                        fromUser.update({
-                            jobCents: data.sender.balance
+                        transactionUuid,
+                        toUser.publicKey
+                    )
+                    .then(transfer => {
+                        console.log(transfer.data);
+                        data = transfer.data;
+                        Transfer.create({
+                            from,
+                            to,
+                            amount
+                        }).then(transfer => {
+                            awsEmail.sendMail(
+                                from,
+                                to
+                            );
+                            res.status(200).send(data);
                         })
-                        .then(fromuser => {
-                            data.fromUser = fromuser;
-                            console.log("data receiver balance");
-                            console.log(data.receiver.balance);
-                            toUser.update({
-                                jobCents: data.receiver.balance
-                            })
-                            .then(touser => {
-                                data.toUser = touser;
-
-                                awsEmail.sendMail(
-                                    data.fromUser.email,
-                                    data.toUser.email
-                                );
-                                data.toUser = touser;
-                                res.status(200).send(data);
-                            })
-                            .catch(err => {
-                                console.log(err);
-                            });
+                        .catch(err => {
+                            console.log(err);
                         });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(400).send("error");
                     });
-                })
-                .catch(err => {
-                    console.log(err);
-                    res.status(400).send("error");
-                });
-            } else {
-                return res.status(400).send("not enough jobCents");
-            }
+                } else {
+                    return res.status(400).send("not enough jobCents");
+                }
+            })
+            .catch(err => {
+                res.status(400).send(err);
+            });
         })
-        .catch(err => {
-            res.status(400).send(err);
-        });
     },
     findAll(req, res) {
         console.log(req.session);

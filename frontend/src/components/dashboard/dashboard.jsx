@@ -65,16 +65,16 @@ class Dashboard extends React.Component {
         from: this.props.currentUser.email,
         to: this.state.to,
         amount: this.state.amount,
-        tokenTypeUuid: this.props.tokenTypeUuid
+        tokenTypeUuid: this.props.tokenTypeUuid,
+        transactionUuid: this.props.createChallengeTransactionUuid
     });
     if (this.props.sendJobCents) {
       this.props
         .sendJobCents(transaction)
         .then(res => {
-          console.log(res.data.data.sender.balance);
 
           this.setState({
-            jobCents: res.data.data.sender.balance,
+            jobCents: res.data.data.fromWallet.balance,
             formType: "jobCents"
           });
         })
@@ -97,11 +97,11 @@ class Dashboard extends React.Component {
 
   activityTab() {
     if (this.state.formType === "Activity") {
-      if (this.props.fetchHistory && this.props.currentUser) {
+      if (this.props.fetchTransferHistory && this.props.currentUser) {
         console.log("fetching history..");
         console.log(this.props.currentUser);
 
-        this.props.fetchHistory(this.props.currentUser).then(res => {});
+        this.props.fetchTransferHistory(this.props.currentUser).then(res => {});
       }
       return (
         <section className="flex-container activity-history">
