@@ -12,7 +12,8 @@ const mapStateToProps = (state, ownProps) => ({
   createChallengeTransactionUuid: state.dashboard.challenge && state.dashboard.challenge.transactionUuid,
   latestTransactionUuid: state.dashboard.transaction && state.dashboard.transaction.transactionUuid,
   challengeTitle: state.dashboard.challenge && state.dashboard.challenge.challengeTitle,
-  challengeDescription: state.dashboard.challenge && state.dashboard.challenge.challengeDescription
+  challengeDescription: state.dashboard.challenge && state.dashboard.challenge.challengeDescription,
+  balance: state.dashboard.balance
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

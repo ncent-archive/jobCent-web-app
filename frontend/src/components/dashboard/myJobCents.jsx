@@ -5,36 +5,44 @@ export default class MyJobCents extends React.Component {
         super(props);
 
         this.state = {
-            jobCents: "0"
-        }
+            balance: []
+        };
+
+        this.balanceList = this.balanceList.bind(this);
     }
-    componentDidMount() {
-        this.props.fetchBalance(this.props.currentUser, this.props.tokenTypeUuid)
+    componentWillMount() {
+        this.props.fetchBalance(this.props.currentUser)
             .then(res => {
                 let balance = res.balance.data.balance;
                 if (balance) {
                     this.setState({
-                        jobCents: balance
+                        balance: balance
                     });
                 }
             })
     }
+    balanceList(balancesArr) {
+        const balanceItems = balancesArr.map((balance) =>
+            <div className="balance">
+                <h1 className="balance-amount">₿{balance.balance}</h1>
+                <h2 className="balance-subtitle">{balance.tokenTypeUuid}</h2>
+                <p className="tokenDescription">{this.props.challengeDescription}</p>
+                <a
+                    title="New"
+                    className="initiate-payment"
+                    onClick={this.props.handleInput("formType")}
+                >
+                    Send a {balance.tokenTypeUuid}
+                </a>
+            </div>
+        );
+        return (
+            <section className="myJobCents">{balanceItems}</section>
+        );
+    }
     render() {
         return (
-            <section className="myJobCents">
-                <div className="balance">
-                    <h1 className="balance-amount">₿{this.state.jobCents}</h1>
-                    <h2 className="balance-subtitle">{this.props.challengeTitle}</h2>
-                    <p className="tokenDescription">{this.props.challengeDescription}</p>
-                    <a
-                        title="New"
-                        className="initiate-payment"
-                        onClick={this.props.handleInput("formType")}
-                    >
-                        Send a {this.props.challengeTitle}
-                    </a>
-                </div>
-            </section>
+            this.balanceList(this.state.balance)
         );
     }
 }

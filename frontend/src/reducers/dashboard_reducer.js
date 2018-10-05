@@ -7,10 +7,10 @@ import {
 import { merge } from "lodash";
 
 export default (state = {
-                    balance: null,
-                    history: null,
-                    transfer: null,
-                    challenge: null
+                    balance: [],
+                    history: [],
+                    transfer: {},
+                    challenge: {}
                 }, action) => {
   let newState;
   Object.freeze(state);

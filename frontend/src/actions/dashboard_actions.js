@@ -1,6 +1,5 @@
 import * as ApiUtil from "../util/session_api_util";
 export const RECEIVE_BALANCE = "RECEIVE_BALANCE";
-export const RECEIVE_BALANCES = "RECEIVE_BALANCES";
 export const RECEIVE_TRANSFER = "RECEIVE_TRANSFER";
 export const RECEIVE_TRANSFER_HISTORY = "RECEIVE_TRANSFER_HISTORY";
 export const RECEIVE_CHALLENGE = "RECEIVE_CHALLENGE";
@@ -10,11 +9,6 @@ export const RECEIVE_DASH_ERRORS = "RECEIVE_DASH_ERRORS";
 export const receiveBalance = balance => ({
   type: RECEIVE_BALANCE,
   balance
-});
-
-export const receiveBalances = balances => ({
-    type: RECEIVE_BALANCES,
-    balances
 });
 
 export const receiveErrors = errors => ({
@@ -42,8 +36,8 @@ export const receiveChallenges = challenges => ({
     challenges
 });
 
-export const fetchBalance = (user, tokenTypeUuid) => dispatch =>
-  ApiUtil.fetchBalance(user, tokenTypeUuid).then(
+export const fetchBalance = user => dispatch =>
+  ApiUtil.fetchBalance(user).then(
     balance => dispatch(receiveBalance(balance)),
     err => {
       console.log(err);
