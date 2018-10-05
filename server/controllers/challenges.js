@@ -24,6 +24,7 @@ module.exports = {
                         challengeDescription: req.body.challengeDescription,
                         tokenTypeUuid: tokenTypeUuid,
                         transactionUuid: createChallengeResponse.data.uuid,
+                        rewardAmount: req.body.tokenAmount,
                         sponsorId: users[0].uuid
                     })
                     .then(challenge => res.status(200).send(challenge))

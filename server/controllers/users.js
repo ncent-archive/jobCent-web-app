@@ -1,4 +1,5 @@
 const User = require("../models").User;
+const Challenge = require("../models").Challenge;
 const otplib = require("otplib");
 const bcrypt = require("bcrypt");
 const keys = require("./secret.js");
@@ -13,7 +14,7 @@ function retrieveWalletBalance(tokenTypes, currentTokenTypeIndex, totalTokenType
         nCentSDKInstance.getWalletBalance(publicKey, currentTokenType.uuid)
         .then(function(walletBalanceResponse) {
             if (walletBalanceResponse.data.balance !== 0) {
-                balances.push({ tokenTypeUuid: currentTokenType.uuid, balance: walletBalanceResponse.data.balance });
+                balances.push({ tokenTypeUuid: currentTokenType.uuid, tokenName: currentTokenType.name, balance: walletBalanceResponse.data.balance });
             }
             retrieveWalletBalance(tokenTypes, currentTokenTypeIndex + 1, totalTokenTypes, publicKey, balances, callback);
         })
@@ -124,7 +125,7 @@ module.exports = {
     },
 
     getOne(req, res) {
-        User.findOne({ where: { uuid: req.params.uuid } }).then(user => {
+        User.findOne({ where: { uuid: req.params.uuid }, include: [{ model: Challenge, as: 'sponsoredChallenges' }] }).then(user => {
             let walletBalances = [];
             let tokenTypes;
             let tokenTypeAmount;
@@ -133,7 +134,7 @@ module.exports = {
                 tokenTypes = tokenTypesResponse.data;
                 tokenTypeAmount = tokenTypes.length;
                 retrieveWalletBalance(tokenTypes, 0, tokenTypeAmount - 1, user.publicKey, walletBalances, function(balances) {
-                    res.status(200).send({balance: balances});
+                    res.status(200).send({balance: balances, sponsoredChallenges: user.sponsoredChallenges});
                 });
             })
             .catch(error => {

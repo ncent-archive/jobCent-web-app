@@ -9,7 +9,7 @@ class Dashboard extends React.Component {
     super(props);
 
     this.state = {
-      formType: "Sponsor",
+      formType: "jobCents",
       jobCents: "0",
       name: "Alpha Tester",
       amount: "0",

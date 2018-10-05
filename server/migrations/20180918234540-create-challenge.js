@@ -22,6 +22,10 @@ module.exports = {
                 type: Sequelize.UUID,
                 allowNull: false
             },
+            rewardAmount: {
+                type: Sequelize.INTEGER,
+                allowNull: false
+            },
             sponsorId: {
                 type: Sequelize.UUID,
                 foreignKey: true,

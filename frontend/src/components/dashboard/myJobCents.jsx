@@ -22,22 +22,24 @@ export default class MyJobCents extends React.Component {
             })
     }
     balanceList(balancesArr) {
-        const balanceItems = balancesArr.map((balance) =>
-            <div className="balance">
+        const balanceItems = balancesArr.map((balance, index) =>
+            <div key={index} className="balance">
                 <h1 className="balance-amount">₿{balance.balance}</h1>
-                <h2 className="balance-subtitle">{balance.tokenTypeUuid}</h2>
-                <p className="tokenDescription">{this.props.challengeDescription}</p>
+                <h2 className="balance-subtitle">{balance.tokenName}</h2>
                 <a
                     title="New"
                     className="initiate-payment"
                     onClick={this.props.handleInput("formType")}
                 >
-                    Send a {balance.tokenTypeUuid}
+                    Send a {balance.tokenName}
                 </a>
             </div>
         );
         return (
-            <section className="myJobCents">{balanceItems}</section>
+            <div class="challengesPage">
+                <h1 className="challengesHeader">Your Challenges</h1>
+                <section className="myJobCents">{balanceItems}</section>
+            </div>
         );
     }
     render() {

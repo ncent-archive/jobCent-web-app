@@ -15,7 +15,7 @@
   max-height: 70px;
   order: 2;
   padding: 0 12px;
-  position: sticky;
+  position: fixed;
   width: 100%;
   z-index: 1;
 }
@@ -113,7 +113,6 @@
   font-size: 14px;
   font-weight: 400;
   letter-spacing: 1.4px;
-  margin-bottom: 60px;
   margin-top: 0;
   text-transform: uppercase;
 }
@@ -298,6 +297,7 @@
   color: #00c730;
   font-size: 16px;
   font-weight: 400;
+  margin-bottom: 10vh;
 }
 
 .inline-svg {
@@ -579,6 +579,18 @@
   height: calc(100%-70px);
   order: 1;
   position: relative;
+}
+
+.challengesPage {
+  width: 100%;
+}
+
+.challengesHeader {
+  color: #00c730;
+  background-color: #ffffff;
+  text-align: center;
+  margin: 0;
+  padding: 5vh;
 }
 
 a {
