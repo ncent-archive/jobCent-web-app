@@ -583,6 +583,7 @@
 
 .challengesPage {
   width: 100%;
+  background-color: #ffffff;
 }
 
 .challengesHeader {
@@ -591,6 +592,26 @@
   text-align: center;
   margin: 0;
   padding: 5vh;
+}
+
+.logoImg {
+  max-width: 100px;
+  margin-bottom: 1vh;
+}
+
+.balanceTile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2vh;
+}
+
+.challengeTiles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-left: 10vw;
+  padding-right: 10vw;
 }
 
 a {

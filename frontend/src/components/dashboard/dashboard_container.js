@@ -13,7 +13,8 @@ const mapStateToProps = (state, ownProps) => ({
   latestTransactionUuid: state.dashboard.transaction && state.dashboard.transaction.transactionUuid,
   challengeTitle: state.dashboard.challenge && state.dashboard.challenge.challengeTitle,
   challengeDescription: state.dashboard.challenge && state.dashboard.challenge.challengeDescription,
-  balance: state.dashboard.balance
+  balance: state.dashboard.balance.balance,
+  sponsoredChallenges: state.dashboard.balance.sponsoredChallenges
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

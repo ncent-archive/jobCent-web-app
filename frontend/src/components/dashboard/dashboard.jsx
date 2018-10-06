@@ -17,7 +17,10 @@ class Dashboard extends React.Component {
       to: "",
       challengeTitle: "",
       challengeDescription: "",
-      tokenAmount: 0
+      tokenAmount: 0,
+      tokenTypeUuid: "",
+      tokenName: "",
+      challengeTransactionUuid: ""
     };
     this.handleInput = this.handleInput.bind(this);
     this.update = this.update.bind(this);
@@ -28,11 +31,25 @@ class Dashboard extends React.Component {
     this.createChallengeForUser = this.createChallengeForUser.bind(this);
   }
 
-  handleInput(key) {
+  handleInput(key, options) {
     return e => {
       this.setState({
         [key]: e.currentTarget.title
       });
+
+      if (options && options.tokenTypeUuid) {
+        let challengeTransactionUuid = "";
+        this.props.sponsoredChallenges.forEach(function(challenge) {
+          if (challenge.tokenTypeUuid === options.tokenTypeUuid) {
+            challengeTransactionUuid = challenge.transactionUuid;
+          }
+        });
+        this.setState({
+            tokenTypeUuid: options.tokenTypeUuid,
+            tokenName: options.tokenName,
+            challengeTransactionUuid: challengeTransactionUuid
+        });
+      }
     };
   }
   update(key) {
@@ -65,18 +82,22 @@ class Dashboard extends React.Component {
         from: this.props.currentUser.email,
         to: this.state.to,
         amount: this.state.amount,
-        tokenTypeUuid: this.props.tokenTypeUuid,
-        transactionUuid: this.props.createChallengeTransactionUuid
+        tokenTypeUuid: this.state.tokenTypeUuid,
+        transactionUuid: this.state.challengeTransactionUuid
     });
     if (this.props.sendJobCents) {
       this.props
         .sendJobCents(transaction)
         .then(res => {
-
-          this.setState({
-            jobCents: res.data.data.fromWallet.balance,
-            formType: "jobCents"
-          });
+            this.props.fetchBalance(this.props.currentUser)
+                .then(res => {
+                    let balance = res.balance.data.balance;
+                    if (balance) {
+                        this.setState({
+                            balance: balance
+                        });
+                    }
+                })
         })
         .catch(err => {
           console.log(err);
@@ -195,6 +216,9 @@ class Dashboard extends React.Component {
           handleInput={this.handleInput}
           update={this.update}
           handleTransfer={this.handleTransfer}
+          tokenName={this.state.tokenName}
+          tokenTypeUuid={this.state.tokenTypeUuid}
+          challengeTransactionUuid={this.state.challengeTransactionUuid}
         />
       );
     }

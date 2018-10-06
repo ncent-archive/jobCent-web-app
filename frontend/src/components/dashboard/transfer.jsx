@@ -1,6 +1,8 @@
 import React from "react";
 import "../../scss/components/transfer.css";
 import x from "../../img/x.png";
+import ncentLogo from "../../img/logo.png";
+
 
 export default class Transfer extends React.Component {
   constructor(props) {
@@ -17,11 +19,7 @@ export default class Transfer extends React.Component {
             <div className="initiate-transfer">
               <div className="display-amount-fixed">
                 <div className="bottom-margin">
-                  <div className="display-amount-input">
-                    <div className="currency-symbol">₿</div>
-                    <input placeholder="0" autoComplete="off" maxLength="5" type="tel" className="whole-amount-value" onChange={this.props.update("amount")} />
-                    {/* <input type="tel" name="fractional-amount-value" autocomplete="off" tabindex="-1" placeholder="00" maxlength="2" id="ember1284" class=""/> */}
-                  </div>
+                    <img className="logoImg" src={ncentLogo} alt="ncent logo" />
                 </div>
               </div>
               <div className="enter-email">
@@ -35,7 +33,7 @@ export default class Transfer extends React.Component {
                 <div className="error-box" />
               </div>
               <button className="theme-button transfer-button">
-                Send jobCent
+                Send {this.props.tokenName}
               </button>
             </div>
           </form>

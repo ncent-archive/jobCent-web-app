@@ -1,4 +1,5 @@
 import React from "react";
+import ncentLogo from "../../img/logo.png";
 
 export default class MyJobCents extends React.Component {
     constructor(props) {
@@ -14,6 +15,7 @@ export default class MyJobCents extends React.Component {
         this.props.fetchBalance(this.props.currentUser)
             .then(res => {
                 let balance = res.balance.data.balance;
+                console.log(res);
                 if (balance) {
                     this.setState({
                         balance: balance
@@ -23,22 +25,22 @@ export default class MyJobCents extends React.Component {
     }
     balanceList(balancesArr) {
         const balanceItems = balancesArr.map((balance, index) =>
-            <div key={index} className="balance">
-                <h1 className="balance-amount">₿{balance.balance}</h1>
+            <div key={index} className="balanceTile">
+                <img className="logoImg" src={ncentLogo} alt="ncent logo" />
                 <h2 className="balance-subtitle">{balance.tokenName}</h2>
                 <a
                     title="New"
                     className="initiate-payment"
-                    onClick={this.props.handleInput("formType")}
+                    onClick={this.props.handleInput("formType", {tokenTypeUuid: balance.tokenTypeUuid, tokenName: balance.tokenName})}
                 >
-                    Send a {balance.tokenName}
+                    Send
                 </a>
             </div>
         );
         return (
-            <div class="challengesPage">
+            <div className="challengesPage">
                 <h1 className="challengesHeader">Your Challenges</h1>
-                <section className="myJobCents">{balanceItems}</section>
+                <section className="challengeTiles">{balanceItems}</section>
             </div>
         );
     }

@@ -13,9 +13,7 @@ function retrieveWalletBalance(tokenTypes, currentTokenTypeIndex, totalTokenType
     if (currentTokenTypeIndex <= totalTokenTypes) {
         nCentSDKInstance.getWalletBalance(publicKey, currentTokenType.uuid)
         .then(function(walletBalanceResponse) {
-            if (walletBalanceResponse.data.balance !== 0) {
-                balances.push({ tokenTypeUuid: currentTokenType.uuid, tokenName: currentTokenType.name, balance: walletBalanceResponse.data.balance });
-            }
+            balances.push({ tokenTypeUuid: currentTokenType.uuid, tokenName: currentTokenType.name, balance: walletBalanceResponse.data.balance });
             retrieveWalletBalance(tokenTypes, currentTokenTypeIndex + 1, totalTokenTypes, publicKey, balances, callback);
         })
     } else {
