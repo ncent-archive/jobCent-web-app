@@ -114,6 +114,7 @@ class Dashboard extends React.Component {
       sponsorEmail: this.props.currentUser.email
     });
     this.props.createChallenge(challenge);
+    this.setState({ ...this.state, formType: 'jobCents' });
   }
 
   activityTab() {
