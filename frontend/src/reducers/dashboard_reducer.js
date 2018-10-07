@@ -7,7 +7,7 @@ import {
 import { merge } from "lodash";
 
 export default (state = {
-                    balance: [],
+                    balance: {}, // changed balance into an object from array
                     history: [],
                     transfer: {},
                     challenge: {}
