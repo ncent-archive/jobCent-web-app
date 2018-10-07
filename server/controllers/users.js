@@ -1,12 +1,12 @@
-const User = require('../models').User;
-const Challenge = require('../models').Challenge;
-const otplib = require('otplib');
-const bcrypt = require('bcrypt');
-const keys = require('./secret.js');
-const awsEmail = require('./awsEmail.js');
-const nCentSDK = require('ncent-sandbox-sdk');
-const nCentSDKInstance = new nCentSDK('http://localhost:8010/api');
-const _ = require('lodash');
+const User = require("../models").User;
+const Challenge = require("../models").Challenge;
+const otplib = require("otplib");
+const bcrypt = require("bcrypt");
+const keys = require("./secret.js");
+const awsEmail = require("./awsEmail.js");
+const nCentSDK = require("ncent-sandbox-sdk");
+const nCentSDKInstance = new nCentSDK("http://localhost:8010/api");
+const _ = require("lodash");
 
 function retrieveWalletBalance(
   tokenTypes,
@@ -47,7 +47,7 @@ module.exports = {
     const token = otplib.authenticator.generate(otpKey);
     // in the future write a parser to validate email address format.
     const validEmail = true;
-    const html = 'your jobCent confirmation code is: <b>' + token + '</b>';
+    const html = "your jobCent confirmation code is: <b>" + token + "</b>";
     const otpExp = Date.now() + 300000;
     const salt = bcrypt.genSaltSync();
     const tokenHash = bcrypt.hashSync(token, salt);
@@ -62,11 +62,11 @@ module.exports = {
             otpExp: otpExp
           })
           .then(user => {
-            console.log('user otp updated');
+            console.log("user otp updated");
             const validCode = bcrypt.compareSync(token, tokenHash);
             console.log(token);
 
-            console.log('initially valid? ' + validCode);
+            console.log("initially valid? " + validCode);
             awsEmail.sendMail(keys.from, emailAddr, token);
             res.status(200).send(user.email);
           })
@@ -88,7 +88,7 @@ module.exports = {
               return data;
             })
             .then(data => {
-              console.log('storing keys..');
+              console.log("storing keys..");
               return data.user.update({
                 publicKey: data.publicKey,
                 privateKey: data.privateKey
@@ -97,7 +97,7 @@ module.exports = {
             .then(user => {
               const validCode = otplib.authenticator.check(token, otpKey);
               console.log(token);
-              console.log('initially valid? ' + validCode);
+              console.log("initially valid? " + validCode);
 
               awsEmail.sendMail(keys.from, emailAddr, html);
               res.status(201).send(user);
@@ -121,7 +121,7 @@ module.exports = {
               return data;
             })
             .then(data => {
-              console.log('storing keys..');
+              console.log("storing keys..");
               return data.user.update({
                 publicKey: data.publicKey,
                 privateKey: data.privateKey
@@ -136,7 +136,7 @@ module.exports = {
             });
         }
       } else {
-        res.status(400).send({ errors: ['Invalid email address'] });
+        res.status(400).send({ errors: ["Invalid email address"] });
       }
     });
   },
@@ -144,20 +144,20 @@ module.exports = {
   getOne(req, res) {
     User.findOne({
       where: { uuid: req.params.uuid },
-      include: [{ model: Challenge, as: 'sponsoredChallenges' }]
+      include: [{ model: Challenge, as: "sponsoredChallenges" }]
     }).then(user => {
       let walletBalances = [];
       let tokenTypes;
       let tokenTypeAmount;
       let challenges;
-      let challengesHeld;
+      let challengeProvinencePromises;
       nCentSDKInstance
         .getTokenTypes()
         .then(function(tokenTypesResponse) {
           tokenTypes = tokenTypesResponse.data;
           tokenTypeAmount = tokenTypes.length;
-          
-          // Returns all transactions associated with the user  
+
+          // Returns all transactions associated with the user
           challenges = tokenTypes
             // .map(tokenType => tokenType.transactions)
             .filter(tokenType => {
@@ -175,49 +175,100 @@ module.exports = {
               }
               return false;
             });
-            console.log(JSON.stringify(challenges));
+          console.log(JSON.stringify(challenges));
 
-            challengesHeld = challenges.filter(challenge => {
-              const { transactions } = challenge;
+          challengeProvinencePromises = challenges.map(challenge => {
+            const { transactions } = challenge;
+            const pChainsPromiseChallenges = [];
+            for (let i = 0; i < transactions.length; i++) {
+              const transaction = transactions[i];
 
-              for (let i = 0; i < transactions.length; i++) {
-                const transaction = transactions[i];
-
-                if (transaction.toAddress !== user.publicKey) {
-                  continue;
-                }
-
-                const pChain = nCentSDKInstance.retrieveProvenanceChain(transaction.uuid)
-                console.log(pChain);
-
-                if (pChain.length === 0) {
-                  return true;
-                }
+              if (transaction.toAddress !== user.publicKey) {
+                continue;
               }
-              return false;
-            })
 
-            
-
-          retrieveWalletBalance(
+              pChainsPromiseChallenges.push({
+                challenge,
+                pChainPromise: nCentSDKInstance.retrieveProvenanceChain(
+                  transaction.uuid
+                )
+              });
+            }
+            return pChainsPromiseChallenges;
+          });
+          return {
             tokenTypes,
-            0,
-            tokenTypeAmount - 1,
-            user.publicKey,
+            tokenTypeAmount,
+            user,
             walletBalances,
+            balances,
+            challenges,
+            pChainsPromiseChallenges
+          };
+        })
+        .then(info => {
+          const promisePChainChallenges = pChainsPromiseChallenges.reduce(
+            (accPromise, challengeObj) =>
+              accPromise.then(
+                result =>
+                  challengeObj.pChainPromise.then(pChain => {
+                    result.push({
+                      challenge: challengeObj.challenge,
+                      pChain
+                    });
+                    return result;
+                  }),
+                Promise.resolve([])
+              )
+          );
+          return {
+            tokenTypes: info.tokenTypes,
+            tokenTypeAmount: info.tokenTypeAmount,
+            user: info.user,
+            walletBalances: info.walletBalances,
+            balances: info.balances,
+            challenges: info.challenges,
+            promisePChainChallenges
+          };
+        })
+        .then(info => {
+          return info.promisePChainChallenges.then(pChainChallenges => {
+            const challengesHeld = pChainChallenges
+              .filter(pChainChallenge => {
+                return pChainChallenge.pChain.length === 0;
+              })
+              .map(pChainChallenge => pChainChallenge.challenge);
+            return {
+              tokenTypes: info.tokenTypes,
+              tokenTypeAmount: info.tokenTypeAmount,
+              user: info.user,
+              walletBalances: info.walletBalances,
+              balances: info.balances,
+              challenges: info.challenges,
+              challengesHeld
+            };
+          });
+        })
+        .then(info => {
+          retrieveWalletBalance(
+            info.tokenTypes,
+            0,
+            info.tokenTypeAmount - 1,
+            info.user.publicKey,
+            info.walletBalances,
             function(balances) {
               res.status(200).send({
-                balance: balances,
+                balance: info.balances,
                 sponsoredChallenges: user.sponsoredChallenges,
-                challenges,
+                challenges: info.challenges,
                 challengesHeld
               });
             }
           );
         })
         .catch(error => {
-          console.log(error.response.data);
-          res.status(400).send(error.response.data);
+          console.log("Error: " + error);
+          res.status(400).send(error.response);
         });
       // in the future update this to use session tokens for search
     });
