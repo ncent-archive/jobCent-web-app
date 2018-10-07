@@ -17,7 +17,7 @@ function retrieveWalletBalance(
   callback
 ) {
   const currentTokenType = tokenTypes[currentTokenTypeIndex];
-  if (currentTokenTypeIndex <= totalTokenTypes) {
+  if (currentTokenTypeIndex <= totalTokenTypes - 1) {
     nCentSDKInstance
       .getWalletBalance(publicKey, currentTokenType.uuid)
       .then(function(walletBalanceResponse) {
@@ -38,6 +38,28 @@ function retrieveWalletBalance(
   } else {
     callback(balances);
   }
+}
+
+function retrieveProvenanceChain (
+    transactions,
+    currentTransactionIndex,
+    totalTransactions,
+    pChains,
+    callback
+) {
+    const currentTransaction = transactions[currentTransactionIndex];
+    if (currentTransactionIndex <= totalTransactions - 1) {
+        nCentSDKInstance.retrieveProvenanceChain(currentTransaction.uuid)
+        .then(function(retrievePChainResponse) {
+          pChains.push(retrievePChainResponse.data);
+          retrieveProvenanceChain(transactions, currentTransactionIndex + 1, totalTransactions, pChains, callback);
+        })
+        .catch(err => {
+            retrieveProvenanceChain(transactions, currentTransactionIndex + 1, totalTransactions, pChains, callback);
+        })
+    } else {
+      callback(pChains);
+    }
 }
 
 module.exports = {
@@ -150,22 +172,19 @@ module.exports = {
       let tokenTypes;
       let tokenTypeAmount;
       let challenges;
-      let challengeProvinencePromises;
+      let challengesHeld = [];
       nCentSDKInstance
         .getTokenTypes()
         .then(function(tokenTypesResponse) {
           tokenTypes = tokenTypesResponse.data;
           tokenTypeAmount = tokenTypes.length;
-
-          // Returns all transactions associated with the user
-          challenges = tokenTypes
-            // .map(tokenType => tokenType.transactions)
-            .filter(tokenType => {
+          
+          // Returns all transactions associated with the user  
+          challenges = tokenTypes.filter(tokenType => {
               const tokenTransactions = tokenType.transactions;
 
               for (let i = 0; i < tokenTransactions.length; i++) {
                 const tokenTransaction = tokenTransactions[i];
-                console.log(JSON.stringify(tokenTransaction));
                 if (
                   tokenTransaction.fromAddress === user.publicKey ||
                   tokenTransaction.toAddress === user.publicKey
@@ -175,96 +194,37 @@ module.exports = {
               }
               return false;
             });
-          console.log(JSON.stringify(challenges));
 
-          challengeProvinencePromises = challenges.map(challenge => {
-            const { transactions } = challenge;
-            const pChainsPromiseChallenges = [];
-            for (let i = 0; i < transactions.length; i++) {
-              const transaction = transactions[i];
-
-              if (transaction.toAddress !== user.publicKey) {
-                continue;
-              }
-
-              pChainsPromiseChallenges.push({
-                challenge,
-                pChainPromise: nCentSDKInstance.retrieveProvenanceChain(
-                  transaction.uuid
-                )
-              });
-            }
-            return pChainsPromiseChallenges;
-          });
-          return {
-            tokenTypes,
-            tokenTypeAmount,
-            user,
-            walletBalances,
-            balances,
-            challenges,
-            pChainsPromiseChallenges
-          };
-        })
-        .then(info => {
-          const promisePChainChallenges = pChainsPromiseChallenges.reduce(
-            (accPromise, challengeObj) =>
-              accPromise.then(
-                result =>
-                  challengeObj.pChainPromise.then(pChain => {
-                    result.push({
-                      challenge: challengeObj.challenge,
-                      pChain
-                    });
-                    return result;
-                  }),
-                Promise.resolve([])
-              )
-          );
-          return {
-            tokenTypes: info.tokenTypes,
-            tokenTypeAmount: info.tokenTypeAmount,
-            user: info.user,
-            walletBalances: info.walletBalances,
-            balances: info.balances,
-            challenges: info.challenges,
-            promisePChainChallenges
-          };
-        })
-        .then(info => {
-          return info.promisePChainChallenges.then(pChainChallenges => {
-            const challengesHeld = pChainChallenges
-              .filter(pChainChallenge => {
-                return pChainChallenge.pChain.length === 0;
+            challenges.forEach(challenge => {
+              const { transactions } = challenge;
+              retrieveProvenanceChain(transactions, 0, transactions.length, [], function(pChains) {
+                  for (let i = 0; i < transactions.length; i++) {
+                      const transaction = transactions[i];
+                      const pChain = pChains[i];
+                      if (transaction.toAddress !== user.publicKey || !pChain) {
+                          continue;
+                      }
+                      if (pChain[pChain.length -1].toAddress === user.publicKey && pChain[pChain.length - 1].fromAddress !== user.publicKey) {
+                          challengesHeld.push(challenge);
+                      }
+                  }
+                  retrieveWalletBalance(
+                      tokenTypes,
+                      0,
+                      tokenTypeAmount,
+                      user.publicKey,
+                      walletBalances,
+                      function(balances) {
+                          res.status(200).send({
+                              balance: balances,
+                              sponsoredChallenges: user.sponsoredChallenges,
+                              challenges,
+                              challengesHeld
+                          });
+                      }
+                  );
               })
-              .map(pChainChallenge => pChainChallenge.challenge);
-            return {
-              tokenTypes: info.tokenTypes,
-              tokenTypeAmount: info.tokenTypeAmount,
-              user: info.user,
-              walletBalances: info.walletBalances,
-              balances: info.balances,
-              challenges: info.challenges,
-              challengesHeld
-            };
-          });
-        })
-        .then(info => {
-          retrieveWalletBalance(
-            info.tokenTypes,
-            0,
-            info.tokenTypeAmount - 1,
-            info.user.publicKey,
-            info.walletBalances,
-            function(balances) {
-              res.status(200).send({
-                balance: info.balances,
-                sponsoredChallenges: user.sponsoredChallenges,
-                challenges: info.challenges,
-                challengesHeld
-              });
-            }
-          );
+            });
         })
         .catch(error => {
           console.log("Error: " + error);
