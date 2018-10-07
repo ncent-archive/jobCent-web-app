@@ -20,7 +20,11 @@ class Dashboard extends React.Component {
       tokenAmount: 0,
       tokenTypeUuid: "",
       tokenName: "",
-      challengeTransactionUuid: ""
+      challengeTransactionUuid: "",
+      balance: [],
+      challenges: [],
+      sponsoredChallenges: [],
+      challengesHeld: []
     };
     this.handleInput = this.handleInput.bind(this);
     this.update = this.update.bind(this);
@@ -94,7 +98,11 @@ class Dashboard extends React.Component {
                     let balance = res.balance.data.balance;
                     if (balance) {
                         this.setState({
-                            balance: balance
+                            balance: balance.balance,
+                            challenges: balance.challenges,
+                            sponsoredChallenges: balance.sponsoredChallenges,
+                            challengesHeld: balance.challengesHeld,
+                            formType: 'jobCents'
                         });
                     }
                 })
@@ -114,45 +122,47 @@ class Dashboard extends React.Component {
       sponsorEmail: this.props.currentUser.email
     });
     this.props.createChallenge(challenge);
-    this.setState({ ...this.state, formType: 'jobCents' });
+    this.props.fetchBalance(this.props.currentUser).then(balance => {
+        this.setState({ ...this.state, formType: 'jobCents' });
+    });
   }
 
-  activityTab() {
-    if (this.state.formType === "Activity") {
-      if (this.props.fetchTransferHistory && this.props.currentUser) {
-        console.log("fetching history..");
-        console.log(this.props.currentUser);
-
-        this.props.fetchTransferHistory(this.props.currentUser).then(res => {});
-      }
-      return (
-        <section className="flex-container activity-history">
-          <div className=" activity-list-container  ">
-            {" "}
-            <div id="ember2453" className="activity-list-sections ">
-              {" "}
-              <div className="activity-no-results">
-                <div className="inline-svg-two ">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84 84">
-                    <path d="M80 42c0 20.949-17.051 38-38 38S4 62.949 4 42 21.051 4 42 4s38 17.051 38 38zm4 0C84 18.842 65.158 0 42 0S0 18.842 0 42s18.842 42 42 42 42-18.842 42-42z" />
-                    <path d="M40 22V46.865l1.075.56 16 8.348 1.85-3.546-16-8.348L44 45.652V22h-4z" />
-                  </svg>
-                </div>
-                <h3 className="title-activity">No Activity Yet</h3>
-                <a
-                  title="New"
-                  className="initiate-payment"
-                  onClick={this.handleInput("formType")}
-                >
-                  Send a jobCent
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-      );
-    }
-  }
+  // activityTab() {
+  //   if (this.state.formType === "Activity") {
+  //     if (this.props.fetchTransferHistory && this.props.currentUser) {
+  //       console.log("fetching history..");
+  //       console.log(this.props.currentUser);
+  //
+  //       this.props.fetchTransferHistory(this.props.currentUser).then(res => {});
+  //     }
+  //     return (
+  //       <section className="flex-container activity-history">
+  //         <div className=" activity-list-container  ">
+  //           {" "}
+  //           <div id="ember2453" className="activity-list-sections ">
+  //             {" "}
+  //             <div className="activity-no-results">
+  //               <div className="inline-svg-two ">
+  //                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84 84">
+  //                   <path d="M80 42c0 20.949-17.051 38-38 38S4 62.949 4 42 21.051 4 42 4s38 17.051 38 38zm4 0C84 18.842 65.158 0 42 0S0 18.842 0 42s18.842 42 42 42 42-18.842 42-42z" />
+  //                   <path d="M40 22V46.865l1.075.56 16 8.348 1.85-3.546-16-8.348L44 45.652V22h-4z" />
+  //                 </svg>
+  //               </div>
+  //               <h3 className="title-activity">No Activity Yet</h3>
+  //               <a
+  //                 title="New"
+  //                 className="initiate-payment"
+  //                 onClick={this.handleInput("formType")}
+  //               >
+  //                 Send a jobCent
+  //               </a>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </section>
+  //     );
+  //   }
+  // }
   jobCentsTab() {
     if (this.state.formType === "jobCents" && this.props.currentUser) {
       return <MyJobCents
@@ -164,52 +174,52 @@ class Dashboard extends React.Component {
           handleInput={this.handleInput}/>;
     }
   }
-  profileTab() {
-    if (this.state.formType === "Settings") {
-      return (
-        <div className="edit-settings-top">
-          <div className="edit-header-top">
-            <div className="customer-profile-simple-top">
-              <i className="customer-avatar-top">
-                <div className="initial-placeholder-top">
-                  {this.state.name ? this.state.name[0] : "A"}
-                </div>
-                <div />
-              </i>
-              <h3 className="display-name-top">
-                <span className="name-top">{this.state.name}</span>
-              </h3>
-            </div>
-          </div>
-          <div className="edit-panel">
-            <div className="config-column">
-              <h3 className="name-header">Display Name</h3>
-              <div className="name-container">
-                <div className="name-field">
-                  <div className="name-field-container">
-                    <input
-                      type="text"
-                      defaultValue={this.state.name}
-                      aria-label="Display Name"
-                      name="displayName"
-                      autoComplete="off"
-                      spellCheck="false"
-                      autoCapitalize="off"
-                      id="display_name"
-                      className="name-text-field"
-                      placeholder="Display Name"
-                      onChange={this.update("name")}
-                      onBlur={this.handleBlur}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    }
-  }
+  // profileTab() {
+  //   if (this.state.formType === "Settings") {
+  //     return (
+  //       <div className="edit-settings-top">
+  //         <div className="edit-header-top">
+  //           <div className="customer-profile-simple-top">
+  //             <i className="customer-avatar-top">
+  //               <div className="initial-placeholder-top">
+  //                 {this.state.name ? this.state.name[0] : "A"}
+  //               </div>
+  //               <div />
+  //             </i>
+  //             <h3 className="display-name-top">
+  //               <span className="name-top">{this.state.name}</span>
+  //             </h3>
+  //           </div>
+  //         </div>
+  //         <div className="edit-panel">
+  //           <div className="config-column">
+  //             <h3 className="name-header">Display Name</h3>
+  //             <div className="name-container">
+  //               <div className="name-field">
+  //                 <div className="name-field-container">
+  //                   <input
+  //                     type="text"
+  //                     defaultValue={this.state.name}
+  //                     aria-label="Display Name"
+  //                     name="displayName"
+  //                     autoComplete="off"
+  //                     spellCheck="false"
+  //                     autoCapitalize="off"
+  //                     id="display_name"
+  //                     className="name-text-field"
+  //                     placeholder="Display Name"
+  //                     onChange={this.update("name")}
+  //                     onBlur={this.handleBlur}
+  //                   />
+  //                 </div>
+  //               </div>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     );
+  //   }
+  // }
   transferTab() {
     if (this.state.formType === "New") {
       return (
@@ -299,33 +309,33 @@ class Dashboard extends React.Component {
                   </div>
                 </div>
                 <nav className="nav-items">
-                  <a
-                    title="Activity"
-                    value="Activity"
-                    id="ember1156"
-                    className={
-                      this.state.formType === "Activity"
-                        ? "nav-item active"
-                        : "nav-item"
-                    }
-                    onClick={this.handleInput("formType")}
-                  >
-                    {" "}
-                    <div id="ember1163" className="inline-svg ">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="22"
-                        height="22"
-                        viewBox="0 0 22 22"
-                      >
-                        <g fill="#FFF" fillRule="evenodd">
-                          <path d="M11 0C4.9 0 0 4.9 0 11s4.9 11 11 11 11-4.9 11-11S17.1 0 11 0zm0 20c-5 0-9-4-9-9s4-9 9-9 9 4 9 9-4 9-9 9z" />
-                          <path d="M12 6h-2v6.5l4.5 2.4 1-1.8-3.5-1.8V6z" />
-                        </g>
-                      </svg>
-                    </div>
-                    <span className="nav-item-label">Activity</span>
-                  </a>
+                  {/*<a*/}
+                    {/*title="Activity"*/}
+                    {/*value="Activity"*/}
+                    {/*id="ember1156"*/}
+                    {/*className={*/}
+                      {/*this.state.formType === "Activity"*/}
+                        {/*? "nav-item active"*/}
+                        {/*: "nav-item"*/}
+                    {/*}*/}
+                    {/*onClick={this.handleInput("formType")}*/}
+                  {/*>*/}
+                    {/*{" "}*/}
+                    {/*<div id="ember1163" className="inline-svg ">*/}
+                      {/*<svg*/}
+                        {/*xmlns="http://www.w3.org/2000/svg"*/}
+                        {/*width="22"*/}
+                        {/*height="22"*/}
+                        {/*viewBox="0 0 22 22"*/}
+                      {/*>*/}
+                        {/*<g fill="#FFF" fillRule="evenodd">*/}
+                          {/*<path d="M11 0C4.9 0 0 4.9 0 11s4.9 11 11 11 11-4.9 11-11S17.1 0 11 0zm0 20c-5 0-9-4-9-9s4-9 9-9 9 4 9 9-4 9-9 9z" />*/}
+                          {/*<path d="M12 6h-2v6.5l4.5 2.4 1-1.8-3.5-1.8V6z" />*/}
+                        {/*</g>*/}
+                      {/*</svg>*/}
+                    {/*</div>*/}
+                    {/*<span className="nav-item-label">Activity</span>*/}
+                  {/*</a>*/}
                   <a
                     title="jobCents"
                     value="jobCents"
@@ -353,32 +363,32 @@ class Dashboard extends React.Component {
                     </div>
                     <span className="nav-item-label">jobCents</span>
                   </a>
-                  <a
-                    title="Settings"
-                    id="ember1188"
-                    className={
-                      this.state.formType === "Settings"
-                        ? "nav-item settings active"
-                        : "nav-item"
-                    }
-                    onClick={this.handleInput("formType")}
-                  >
-                    {" "}
-                    <div id="ember1197" className="inline-svg ">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="23"
-                        height="22"
-                        viewBox="0 0 23 22"
-                      >
-                        <g fill="#FFF" fillRule="evenodd">
-                          <path d="M22.5 11c0-6.1-4.9-11-11-11S.5 4.9.5 11c0 4.7 2.9 8.7 7.1 10.3 1.1.5 2.4.7 3.9.7s2.9-.3 3.9-.7c4.2-1.6 7.1-5.6 7.1-10.3zm-5.4 7c-.8-1.2-3-2-5.6-2-2.6 0-4.8.8-5.6 2-2-1.7-3.4-4.2-3.4-7 0-5 4-9 9-9s9 4 9 9c0 2.8-1.3 5.3-3.4 7z" />
-                          <circle cx="11.5" cy="9" r="3" />
-                        </g>
-                      </svg>
-                    </div>
-                    <span className="nav-item-label">Settings</span>
-                  </a>{" "}
+                  {/*<a*/}
+                    {/*title="Settings"*/}
+                    {/*id="ember1188"*/}
+                    {/*className={*/}
+                      {/*this.state.formType === "Settings"*/}
+                        {/*? "nav-item settings active"*/}
+                        {/*: "nav-item"*/}
+                    {/*}*/}
+                    {/*onClick={this.handleInput("formType")}*/}
+                  {/*>*/}
+                    {/*{" "}*/}
+                    {/*<div id="ember1197" className="inline-svg ">*/}
+                      {/*<svg*/}
+                        {/*xmlns="http://www.w3.org/2000/svg"*/}
+                        {/*width="23"*/}
+                        {/*height="22"*/}
+                        {/*viewBox="0 0 23 22"*/}
+                      {/*>*/}
+                        {/*<g fill="#FFF" fillRule="evenodd">*/}
+                          {/*<path d="M22.5 11c0-6.1-4.9-11-11-11S.5 4.9.5 11c0 4.7 2.9 8.7 7.1 10.3 1.1.5 2.4.7 3.9.7s2.9-.3 3.9-.7c4.2-1.6 7.1-5.6 7.1-10.3zm-5.4 7c-.8-1.2-3-2-5.6-2-2.6 0-4.8.8-5.6 2-2-1.7-3.4-4.2-3.4-7 0-5 4-9 9-9s9 4 9 9c0 2.8-1.3 5.3-3.4 7z" />*/}
+                          {/*<circle cx="11.5" cy="9" r="3" />*/}
+                        {/*</g>*/}
+                      {/*</svg>*/}
+                    {/*</div>*/}
+                    {/*<span className="nav-item-label">Settings</span>*/}
+                  {/*</a>{" "}*/}
                   <a
                     title="Sign Out"
                     className={
@@ -413,9 +423,9 @@ class Dashboard extends React.Component {
                 </nav>
               </div>
               <section className="yield-content">
-                {this.activityTab()}
+                {/*{this.activityTab()}*/}
                 {this.jobCentsTab()}
-                {this.profileTab()}
+                {/*{this.profileTab()}*/}
                 {this.signOutTab(this.props.logout)}
                 {this.transferTab()}
                 {this.sponsorChallengeTab()}

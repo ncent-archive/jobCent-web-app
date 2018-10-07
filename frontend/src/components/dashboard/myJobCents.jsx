@@ -30,7 +30,6 @@ export default class MyJobCents extends React.Component {
     }
     balanceList(challenges, sponsoredChallengeIds, challengesHeldIds) {
         const balanceItems = challenges.map(function(challenge, index) {
-            console.log(this.props);
             if (challenge.sponsorUuid === this.props.currentUser.publicKey) {
                 return ( <div key={index} className="balanceTile">
                     <img className="logoImg" src={ncentLogo} alt="ncent logo" />

@@ -195,7 +195,8 @@ module.exports = {
               return false;
             });
 
-            challenges.forEach(challenge => {
+            let balancesArr = [];
+            challenges.forEach((challenge, index) => {
               const { transactions } = challenge;
               retrieveProvenanceChain(transactions, 0, transactions.length, [], function(pChains) {
                   for (let i = 0; i < transactions.length; i++) {
@@ -215,12 +216,15 @@ module.exports = {
                       user.publicKey,
                       walletBalances,
                       function(balances) {
-                          res.status(200).send({
-                              balance: balances,
-                              sponsoredChallenges: user.sponsoredChallenges,
-                              challenges,
-                              challengesHeld
-                          });
+                          balancesArr += balances;
+                          if (index === challenges.length - 1) {
+                              res.status(200).send({
+                                  balance: balancesArr,
+                                  sponsoredChallenges: user.sponsoredChallenges,
+                                  challenges,
+                                  challengesHeld
+                              });
+                          }
                       }
                   );
               })
