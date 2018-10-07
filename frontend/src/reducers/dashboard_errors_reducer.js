@@ -9,7 +9,7 @@ export default (state = {}, action) => {
     Object.freeze(state);
     switch (action.type) {
         case RECEIVE_DASH_ERRORS:
-            newState = merge({}, state, action.errors.response.data);
+            newState = merge({}, state, action.errors);
             return newState;
         default:
             return state;
