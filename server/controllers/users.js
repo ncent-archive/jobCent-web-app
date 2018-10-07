@@ -149,7 +149,8 @@ module.exports = {
       let walletBalances = [];
       let tokenTypes;
       let tokenTypeAmount;
-      let transactions;
+      let challenges;
+      let challengesHeld;
       nCentSDKInstance
         .getTokenTypes()
         .then(function(tokenTypesResponse) {
@@ -157,9 +158,11 @@ module.exports = {
           tokenTypeAmount = tokenTypes.length;
           
           // Returns all transactions associated with the user  
-          transactions = tokenTypes
-            .map(tokenType => tokenType.transactions)
-            .filter(tokenTransactions => {
+          challenges = tokenTypes
+            // .map(tokenType => tokenType.transactions)
+            .filter(tokenType => {
+              const tokenTransactions = tokenType.transactions;
+
               for (let i = 0; i < tokenTransactions.length; i++) {
                 const tokenTransaction = tokenTransactions[i];
                 console.log(JSON.stringify(tokenTransaction));
@@ -172,6 +175,29 @@ module.exports = {
               }
               return false;
             });
+            console.log(JSON.stringify(challenges));
+
+            challengesHeld = challenges.filter(challenge => {
+              const { transactions } = challenge;
+
+              for (let i = 0; i < transactions.length; i++) {
+                const transaction = transactions[i];
+
+                if (transaction.toAddress !== user.publicKey) {
+                  continue;
+                }
+
+                const pChain = nCentSDKInstance.retrieveProvenanceChain(transaction.uuid)
+                console.log(pChain);
+
+                if (pChain.length === 0) {
+                  return true;
+                }
+              }
+              return false;
+            })
+
+            
 
           retrieveWalletBalance(
             tokenTypes,
@@ -183,7 +209,8 @@ module.exports = {
               res.status(200).send({
                 balance: balances,
                 sponsoredChallenges: user.sponsoredChallenges,
-                transactions
+                challenges,
+                challengesHeld
               });
             }
           );
