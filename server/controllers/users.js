@@ -49,14 +49,19 @@ function retrieveProvenanceChain (
 ) {
     const currentTransaction = transactions[currentTransactionIndex];
     if (currentTransactionIndex <= totalTransactions - 1) {
-        nCentSDKInstance.retrieveProvenanceChain(currentTransaction.uuid)
-        .then(function(retrievePChainResponse) {
-          pChains.push(retrievePChainResponse.data);
-          retrieveProvenanceChain(transactions, currentTransactionIndex + 1, totalTransactions, pChains, callback);
-        })
-        .catch(err => {
+        if (currentTransaction.fromAddress === currentTransaction.toAddress) {
+            pChains.push([currentTransaction]);
             retrieveProvenanceChain(transactions, currentTransactionIndex + 1, totalTransactions, pChains, callback);
-        })
+        } else {
+            nCentSDKInstance.retrieveProvenanceChain(currentTransaction.uuid)
+            .then(function(retrievePChainResponse) {
+                pChains.push(retrievePChainResponse.data);
+                retrieveProvenanceChain(transactions, currentTransactionIndex + 1, totalTransactions, pChains, callback);
+            })
+            .catch(err => {
+                retrieveProvenanceChain(transactions, currentTransactionIndex + 1, totalTransactions, pChains, callback);
+            })
+        }
     } else {
       callback(pChains);
     }
@@ -172,7 +177,7 @@ module.exports = {
       let tokenTypes;
       let tokenTypeAmount;
       let challenges;
-      let challengesHeld = [];
+      // let challengesHeld = [];
       nCentSDKInstance
         .getTokenTypes()
         .then(function(tokenTypesResponse) {
@@ -195,39 +200,52 @@ module.exports = {
               return false;
             });
 
-            let balancesArr = [];
-            challenges.forEach((challenge, index) => {
-              const { transactions } = challenge;
-              retrieveProvenanceChain(transactions, 0, transactions.length, [], function(pChains) {
-                  for (let i = 0; i < transactions.length; i++) {
-                      const transaction = transactions[i];
-                      const pChain = pChains[i];
-                      if (transaction.toAddress !== user.publicKey || !pChain) {
-                          continue;
-                      }
-                      if (pChain[pChain.length -1].toAddress === user.publicKey && pChain[pChain.length - 1].fromAddress !== user.publicKey) {
-                          challengesHeld.push(challenge);
-                      }
-                  }
-                  retrieveWalletBalance(
-                      tokenTypes,
-                      0,
-                      tokenTypeAmount,
-                      user.publicKey,
-                      walletBalances,
-                      function(balances) {
-                          balancesArr += balances;
-                          if (index === challenges.length - 1) {
-                              res.status(200).send({
-                                  balance: balancesArr,
-                                  sponsoredChallenges: user.sponsoredChallenges,
-                                  challenges,
-                                  challengesHeld
-                              });
-                          }
-                      }
-                  );
-              })
+            retrieveWalletBalance(
+                tokenTypes,
+                0,
+                tokenTypeAmount,
+                user.publicKey,
+                walletBalances,
+                function(balances) {
+                    res.status(200).send({
+                        balance: balances,
+                        sponsoredChallenges: user.sponsoredChallenges,
+                        challenges
+                    });
+                }
+            );
+            // challenges.forEach((challenge, index) => {
+            //   const { transactions } = challenge;
+            //   retrieveProvenanceChain(transactions, 0, transactions.length, [], function(pChains) {
+            //       for (let i = 0; i < transactions.length; i++) {
+            //           const transaction = transactions[i];
+            //           const pChain = pChains[i];
+            //           if (transaction.toAddress !== user.publicKey || !pChain) {
+            //               continue;
+            //           }
+            //           if (pChain[pChain.length -1].toAddress === user.publicKey && pChain[pChain.length - 1].fromAddress !== user.publicKey) {
+            //               challengesHeld.push(challenge);
+            //           }
+            //       }
+            //       retrieveWalletBalance(
+            //           tokenTypes,
+            //           0,
+            //           tokenTypeAmount,
+            //           user.publicKey,
+            //           walletBalances,
+            //           function(balances) {
+            //               balancesArr += balances;
+            //               if (index === challenges.length - 1) {
+            //                   res.status(200).send({
+            //                       balance: balancesArr,
+            //                       sponsoredChallenges: user.sponsoredChallenges,
+            //                       challenges,
+            //                       challengesHeld
+            //                   });
+            //               }
+            //           }
+            //       );
+            //   })
             });
         })
         .catch(error => {
@@ -235,7 +253,6 @@ module.exports = {
           res.status(400).send(error.response);
         });
       // in the future update this to use session tokens for search
-    });
   },
   update(req, res) {
     User.update(

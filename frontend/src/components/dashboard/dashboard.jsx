@@ -12,7 +12,6 @@ class Dashboard extends React.Component {
       formType: "jobCents",
       jobCents: "0",
       name: "Alpha Tester",
-      amount: "0",
       from: "",
       to: "",
       challengeTitle: "",
@@ -85,7 +84,6 @@ class Dashboard extends React.Component {
     const transaction = Object.assign({}, {
         from: this.props.currentUser.email,
         to: this.state.to,
-        amount: this.state.amount,
         tokenTypeUuid: this.state.tokenTypeUuid,
         transactionUuid: this.state.challengeTransactionUuid
     });
@@ -101,7 +99,6 @@ class Dashboard extends React.Component {
                             balance: balance.balance,
                             challenges: balance.challenges,
                             sponsoredChallenges: balance.sponsoredChallenges,
-                            challengesHeld: balance.challengesHeld,
                             formType: 'jobCents'
                         });
                     }
@@ -121,9 +118,10 @@ class Dashboard extends React.Component {
       tokenAmount: this.state.tokenAmount,
       sponsorEmail: this.props.currentUser.email
     });
-    this.props.createChallenge(challenge);
-    this.props.fetchBalance(this.props.currentUser).then(balance => {
-        this.setState({ ...this.state, formType: 'jobCents' });
+    this.props.createChallenge(challenge).then(res => {
+        this.props.fetchBalance(this.props.currentUser).then(balance => {
+            this.setState({ ...this.state, formType: 'jobCents' });
+        });
     });
   }
 

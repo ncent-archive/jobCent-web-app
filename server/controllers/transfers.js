@@ -8,9 +8,10 @@ module.exports = {
     create(req, res) {
         const from = req.body.from;
         const to = req.body.to;
-        const amount = parseInt(req.body.amount);
         const tokenType = req.body.tokenTypeUuid;
         const transactionUuid = req.body.transactionUuid;
+
+        console.log(from, to, tokenType, transactionUuid);
 
         let fromUser;
         let toUser;
@@ -49,46 +50,29 @@ module.exports = {
                     })
                     .then(user => {
                         toUser = user;
-                        if (fromBalance >= amount) {
-                            let keyPair = stellarSDK.Keypair.fromSecret(fromUser.privateKey);
-                            nCentSDKInstance.shareChallenge(
-                                keyPair,
-                                transactionUuid,
-                                toUser.publicKey
-                            )
-                            .then(transfer => {
-                                console.log(transfer.data);
-
-                                data = transfer.data;
-                                Transfer.create({
-                                    from,
-                                    to,
-                                    amount
-                                })
-                                .then(transfer => {
-                                    awsEmail.sendMail(
-                                        from,
-                                        to
-                                    );
-                                    res.status(200).send(data);
-                                })
-                                .catch(err => {
-                                    console.log(err);
-                            });
-                            })
-                            .catch(err => {
-                                console.log(err);
-                                res.status(400).send("error");
-                            });
-                        } else {
-                            return res.status(400).send("not enough jobCents");
-                        }
+                        let keyPair = stellarSDK.Keypair.fromSecret(fromUser.privateKey);
+                        nCentSDKInstance.shareChallenge(
+                            keyPair,
+                            transactionUuid,
+                            toUser.publicKey
+                        )
+                        .then(transfer => {
+                            awsEmail.sendMail(
+                                from,
+                                to
+                            );
+                            res.status(200).send(transfer.data);
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            res.status(400).send("error");
+                        });
                     })
                     .catch(error => {
                         console.log(error);
                         res.status(400).send(error);
                     });
-                } else if (fromBalance >= amount) {
+                } else {
                     let keyPair = stellarSDK.Keypair.fromSecret(fromUser.privateKey);
                     nCentSDKInstance.shareChallenge(
                         keyPair,
@@ -96,29 +80,16 @@ module.exports = {
                         toUser.publicKey
                     )
                     .then(transfer => {
-                        console.log(transfer.data);
-                        data = transfer.data;
-                        Transfer.create({
+                        awsEmail.sendMail(
                             from,
-                            to,
-                            amount
-                        }).then(transfer => {
-                            awsEmail.sendMail(
-                                from,
-                                to
-                            );
-                            res.status(200).send(data);
-                        })
-                        .catch(err => {
-                            console.log(err);
-                        });
+                            to
+                        );
+                        res.status(200).send(transfer.data);
                     })
                     .catch(err => {
                         console.log(err);
                         res.status(400).send("error");
                     });
-                } else {
-                    return res.status(400).send("not enough jobCents");
                 }
             })
             .catch(err => {

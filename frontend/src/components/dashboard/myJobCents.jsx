@@ -8,8 +8,7 @@ export default class MyJobCents extends React.Component {
         this.state = {
             balance: [],
             challenges: [],
-            sponsoredChallenges: [],
-            challengesHeld: []
+            sponsoredChallenges: []
         };
 
         this.balanceList = this.balanceList.bind(this);
@@ -22,13 +21,12 @@ export default class MyJobCents extends React.Component {
                     this.setState({
                         balance: balance.balance,
                         challenges: balance.challenges,
-                        sponsoredChallenges: balance.sponsoredChallenges,
-                        challengesHeld: balance.challengesHeld
+                        sponsoredChallenges: balance.sponsoredChallenges
                     });
                 }
             })
     }
-    balanceList(challenges, sponsoredChallengeIds, challengesHeldIds) {
+    balanceList(challenges) {
         const balanceItems = challenges.map(function(challenge, index) {
             if (challenge.sponsorUuid === this.props.currentUser.publicKey) {
                 return ( <div key={index} className="balanceTile">
@@ -43,24 +41,11 @@ export default class MyJobCents extends React.Component {
                         Send
                     </a>
                 </div> );
-            } else if (challengesHeldIds.includes(challenge.uuid)) {
-                return ( <div key={index} className="balanceTile">
-                    <img className="logoImg" src={ncentLogo} alt="ncent logo" />
-                    <h2 className="balance-subtitle">{challenge.name}</h2>
-                    <h3 className="balance-subtitle">Current</h3>
-                    <a
-                        title="New"
-                        className="initiate-payment"
-                        onClick={this.props.handleInput("formType", {tokenTypeUuid: challenge.tokenTypeUuid, tokenName: challenge.name})}
-                    >
-                        Send
-                    </a>
-                </div> );
             }
             return ( <div key={index} className="balanceTile">
                 <img className="logoImg" src={ncentLogo} alt="ncent logo" />
                 <h2 className="balance-subtitle">{challenge.name}</h2>
-                <h3 className="balance-subtitle">Referred</h3>
+                <h3 className="balance-subtitle">Referral</h3>
                 <a
                     title="New"
                     className="initiate-payment"
@@ -73,14 +58,14 @@ export default class MyJobCents extends React.Component {
 
         return (
             <div className="challengesPage">
-                <h1 className="challengesHeader">Your Challenges</h1>
+                <h1 className="challengesHeader">Your jobCents</h1>
                 <section className="challengeTiles">{balanceItems}</section>
             </div>
         );
     }
     render() {
         return (
-            this.balanceList(this.state.challenges, this.state.sponsoredChallenges.map(challenge => challenge.uuid), this.state.challengesHeld.map(challenge => challenge.uuid))
+            this.balanceList(this.state.challenges)
         );
     }
 }
