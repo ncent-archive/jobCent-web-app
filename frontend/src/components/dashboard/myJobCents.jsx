@@ -8,7 +8,8 @@ export default class MyJobCents extends React.Component {
         this.state = {
             balance: [],
             challenges: [],
-            sponsoredChallenges: []
+            sponsoredChallenges: [],
+            transactions: []
         };
 
         this.balanceList = this.balanceList.bind(this);
@@ -21,22 +22,23 @@ export default class MyJobCents extends React.Component {
                     this.setState({
                         balance: balance.balance,
                         challenges: balance.challenges,
-                        sponsoredChallenges: balance.sponsoredChallenges
+                        sponsoredChallenges: balance.sponsoredChallenges,
+                        transactions: balance.transactions
                     });
                 }
             })
     }
-    balanceList(challenges) {
-        const balanceItems = challenges.map(function(challenge, index) {
-            if (challenge.sponsorUuid === this.props.currentUser.publicKey) {
+    balanceList(transactions) {
+        const balanceItems = transactions.map(function(transaction, index) {
+            if (transaction.sponsorUuid === this.props.currentUser.publicKey) {
                 return ( <div key={index} className="balanceTile">
                     <img className="logoImg" src={ncentLogo} alt="ncent logo" />
-                    <h2 className="balance-subtitle">{challenge.name}</h2>
+                    <h2 className="balance-subtitle">{transaction.challengeName}</h2>
                     <h3 className="balance-subtitle">Sponsored</h3>
                     <a
                         title="New"
                         className="initiate-payment"
-                        onClick={this.props.handleInput("formType", {tokenTypeUuid: challenge.tokenTypeUuid, tokenName: challenge.name})}
+                        onClick={this.props.handleInput("formType", {tokenTypeUuid: transaction.tokenTypeUuid, tokenName: transaction.challengeName, challengeUuid: transaction.uuid})}
                     >
                         Send
                     </a>
@@ -44,12 +46,12 @@ export default class MyJobCents extends React.Component {
             }
             return ( <div key={index} className="balanceTile">
                 <img className="logoImg" src={ncentLogo} alt="ncent logo" />
-                <h2 className="balance-subtitle">{challenge.name}</h2>
+                <h2 className="balance-subtitle">{transaction.challengeName}</h2>
                 <h3 className="balance-subtitle">Referral</h3>
                 <a
                     title="New"
                     className="initiate-payment"
-                    onClick={this.props.handleInput("formType", {tokenTypeUuid: challenge.tokenTypeUuid, tokenName: challenge.name})}
+                    onClick={this.props.handleInput("formType", {tokenTypeUuid: transaction.tokenTypeUuid, tokenName: transaction.challengeName, challengeUuid: transaction.uuid})}
                 >
                     Send
                 </a>
@@ -65,7 +67,7 @@ export default class MyJobCents extends React.Component {
     }
     render() {
         return (
-            this.balanceList(this.state.challenges)
+            this.balanceList(this.state.transactions)
         );
     }
 }

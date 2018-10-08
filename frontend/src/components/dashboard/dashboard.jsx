@@ -36,22 +36,17 @@ class Dashboard extends React.Component {
 
   handleInput(key, options) {
     return e => {
-      this.setState({
-        [key]: e.currentTarget.title
-      });
-
       if (options && options.tokenTypeUuid) {
-        let challengeTransactionUuid = "";
-        this.props.sponsoredChallenges.forEach(function(challenge) {
-          if (challenge.tokenTypeUuid === options.tokenTypeUuid) {
-            challengeTransactionUuid = challenge.transactionUuid;
-          }
-        });
         this.setState({
             tokenTypeUuid: options.tokenTypeUuid,
             tokenName: options.tokenName,
-            challengeTransactionUuid: challengeTransactionUuid
+            challengeTransactionUuid: options.challengeUuid,
+            [key]: e.currentTarget.title
         });
+      } else {
+          this.setState({
+              [key]: e.currentTarget.title
+          });
       }
     };
   }
@@ -87,6 +82,7 @@ class Dashboard extends React.Component {
         tokenTypeUuid: this.state.tokenTypeUuid,
         transactionUuid: this.state.challengeTransactionUuid
     });
+    console.log(transaction);
     if (this.props.sendJobCents) {
       this.props
         .sendJobCents(transaction)

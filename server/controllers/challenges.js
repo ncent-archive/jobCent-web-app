@@ -1,7 +1,7 @@
 const Challenge = require('../models').Challenge;
 const User = require('../models').User;
 const ncentSDK = require('ncent-sandbox-sdk');
-const sdkInstance = new ncentSDK('http://18.222.182.62:8010/api');
+const sdkInstance = new ncentSDK('http://localhost:8010/api');
 const stellarSDK = require("stellar-sdk");
 
 module.exports = {

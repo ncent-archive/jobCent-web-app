@@ -177,6 +177,7 @@ module.exports = {
       let tokenTypes;
       let tokenTypeAmount;
       let challenges;
+      let transactions = [];
       // let challengesHeld = [];
       nCentSDKInstance
         .getTokenTypes()
@@ -194,12 +195,14 @@ module.exports = {
                   tokenTransaction.fromAddress === user.publicKey ||
                   tokenTransaction.toAddress === user.publicKey
                 ) {
+                    tokenTransaction.challengeName = tokenType.name;
+                    tokenTransaction.sponsorUuid = tokenType.sponsorUuid;
+                    transactions.push(tokenTransaction);
                   return true;
                 }
               }
               return false;
             });
-
             retrieveWalletBalance(
                 tokenTypes,
                 0,
@@ -207,9 +210,16 @@ module.exports = {
                 user.publicKey,
                 walletBalances,
                 function(balances) {
+                    console.log({
+                        balance: balances,
+                        sponsoredChallenges: user.sponsoredChallenges,
+                        transactions: transactions,
+                        challenges
+                    });
                     res.status(200).send({
                         balance: balances,
                         sponsoredChallenges: user.sponsoredChallenges,
+                        transactions,
                         challenges
                     });
                 }
@@ -246,7 +256,10 @@ module.exports = {
             //           }
             //       );
             //   })
-            });
+            })
+          .catch(err => {
+              res.status(400).send(err);
+          })
         })
         .catch(error => {
           console.log("Error: " + error);
