@@ -104,7 +104,8 @@ class Dashboard extends React.Component {
       return <MyJobCents
           currentUser={this.props.currentUser}
           fetchUser={this.props.fetchUser}
-          handleInput={this.handleInput}/>;
+          handleInput={this.handleInput}
+          redeemChallenge={this.props.redeemChallenge}/>;
     }
   }
 
@@ -310,9 +311,7 @@ class Dashboard extends React.Component {
                 </nav>
               </div>
               <section className="yield-content">
-                {/*{this.activityTab()}*/}
                 {this.jobCentsTab()}
-                {/*{this.profileTab()}*/}
                 {this.signOutTab(this.props.logout)}
                 {this.transferTab()}
                 {this.sponsorChallengeTab()}

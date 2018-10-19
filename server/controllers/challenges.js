@@ -39,5 +39,16 @@ module.exports = {
 
         const shareChallengeRes = await sdkInstance.shareChallenge(senderKeypair, challengeUuid, receiverPublicKey);
         res.status(200).send({sharedChallenge: shareChallengeRes.data});
+    },
+
+    async redeem({params}, res) {
+        const sponsorAddress = params.sponsorAddress;
+        const challengeUuid = params.challengeUuid;
+
+        const sponsor = await User.findOne({where: {email: sponsorAddress}});
+        const sponsorKeypair = stellarSDK.Keypair.fromSecret(sponsor.privateKey);
+
+        const redeemChallengeResponse = await sdkInstance.redeemChallenge(sponsorKeypair, challengeUuid);
+        res.status(200).send({redeemedChallenge: redeemChallengeResponse.data});
     }
 };

@@ -37,6 +37,13 @@ export default class MyJobCents extends React.Component {
                 >
                     Send
                 </a>
+                <a
+                    title="Redeem"
+                    className="initiate-payment"
+                    onClick={this.props.redeemChallenge.bind(null, sponsoredChallenge.uuid, this.props.currentUser.email)}
+                >
+                    Redeem
+                </a>
             </div> );
         }.bind(this));
         const heldChallengeTiles = heldChallenges.map(function(heldChallenge, index) {

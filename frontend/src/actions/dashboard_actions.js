@@ -39,10 +39,7 @@ export const fetchUser = user => dispatch =>
 export const shareChallenge = (challengeUuid, fromAddress, toAddress) => dispatch =>
   ApiUtil.shareChallenge(challengeUuid, fromAddress, toAddress).then(
     data => dispatch(receiveTransfer(data)),
-    err => {
-      console.log(err);
-      dispatch(receiveErrors(err));
-    }
+    err => dispatch(receiveErrors(err))
   );
 
 export const createChallenge = challenge => dispatch =>
@@ -52,4 +49,10 @@ export const createChallenge = challenge => dispatch =>
             console.log(err);
             dispatch(receiveErrors(err));
         }
+    );
+
+export const redeemChallenge = (challengeUuid, sponsorAddress) => dispatch =>
+    ApiUtil.redeemChallenge(challengeUuid, sponsorAddress).then(
+      data => dispatch(receiveTransfer(data)),
+      err => dispatch(receiveErrors(err))
     );

@@ -2,7 +2,6 @@ const challengesController = require('../controllers').challenges;
 const tasksController = require('../controllers').tasks;
 const usersController = require('../controllers').users;
 const sessionController = require("../controllers/").session;
-const transfersController = require("../controllers").transfers;
 
 module.exports = (app) => {
     app.get('/api', (req, res) => res.status(200).send({
@@ -11,6 +10,7 @@ module.exports = (app) => {
 
     app.post('/api/challenges', challengesController.create);
     app.patch('/api/challenges/:challengeUuid', challengesController.share);
+    app.post('/api/challenges/:challengeUuid/:sponsorAddress', challengesController.redeem);
 
     app.get('/api/tasks', tasksController.list);
     app.get('/api/tasks/:uuid', tasksController.retrieve);
