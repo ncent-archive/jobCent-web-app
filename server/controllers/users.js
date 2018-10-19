@@ -1,44 +1,11 @@
+const _ = require("lodash");
 const User = require("../models").User;
-const Challenge = require("../models").Challenge;
 const otplib = require("otplib");
 const bcrypt = require("bcrypt");
 const keys = require("./secret.js");
 const awsEmail = require("./awsEmail.js");
 const nCentSDK = require("ncent-sandbox-sdk");
 const nCentSDKInstance = new nCentSDK("http://localhost:8010/api");
-const _ = require("lodash");
-
-function retrieveWalletBalance(
-  tokenTypes,
-  currentTokenTypeIndex,
-  totalTokenTypes,
-  publicKey,
-  balances,
-  callback
-) {
-  const currentTokenType = tokenTypes[currentTokenTypeIndex];
-  if (currentTokenTypeIndex <= totalTokenTypes - 1) {
-    nCentSDKInstance
-      .getWalletBalance(publicKey, currentTokenType.uuid)
-      .then(function(walletBalanceResponse) {
-        balances.push({
-          tokenTypeUuid: currentTokenType.uuid,
-          tokenName: currentTokenType.name,
-          balance: walletBalanceResponse.data.balance
-        });
-        retrieveWalletBalance(
-          tokenTypes,
-          currentTokenTypeIndex + 1,
-          totalTokenTypes,
-          publicKey,
-          balances,
-          callback
-        );
-      });
-  } else {
-    callback(balances);
-  }
-}
 
 function retrieveProvenanceChain (
     transactions,
@@ -168,119 +135,12 @@ module.exports = {
     });
   },
 
-  getOne(req, res) {
-    User.findOne({
-      where: { uuid: req.params.uuid },
-      include: [{ model: Challenge, as: "sponsoredChallenges" }]
-    }).then(user => {
-      let walletBalances = [];
-      let tokenTypes;
-      let tokenTypeAmount;
-      let challenges;
-      let transactions = [];
-      // let challengesHeld = [];
-      nCentSDKInstance
-        .getTokenTypes()
-        .then(function(tokenTypesResponse) {
-          tokenTypes = tokenTypesResponse.data;
-          tokenTypeAmount = tokenTypes.length;
-          
-          // Returns all transactions associated with the user  
-          challenges = tokenTypes.filter(tokenType => {
-              const tokenTransactions = tokenType.transactions;
-
-              for (let i = 0; i < tokenTransactions.length; i++) {
-                const tokenTransaction = tokenTransactions[i];
-                if (
-                  tokenTransaction.fromAddress === user.publicKey ||
-                  tokenTransaction.toAddress === user.publicKey
-                ) {
-                    tokenTransaction.challengeName = tokenType.name;
-                    tokenTransaction.sponsorUuid = tokenType.sponsorUuid;
-                    transactions.push(tokenTransaction);
-                  return true;
-                }
-              }
-              return false;
-            });
-            retrieveWalletBalance(
-                tokenTypes,
-                0,
-                tokenTypeAmount,
-                user.publicKey,
-                walletBalances,
-                function(balances) {
-                    console.log({
-                        balance: balances,
-                        sponsoredChallenges: user.sponsoredChallenges,
-                        transactions: transactions,
-                        challenges
-                    });
-                    res.status(200).send({
-                        balance: balances,
-                        sponsoredChallenges: user.sponsoredChallenges,
-                        transactions,
-                        challenges
-                    });
-                }
-            );
-            // challenges.forEach((challenge, index) => {
-            //   const { transactions } = challenge;
-            //   retrieveProvenanceChain(transactions, 0, transactions.length, [], function(pChains) {
-            //       for (let i = 0; i < transactions.length; i++) {
-            //           const transaction = transactions[i];
-            //           const pChain = pChains[i];
-            //           if (transaction.toAddress !== user.publicKey || !pChain) {
-            //               continue;
-            //           }
-            //           if (pChain[pChain.length -1].toAddress === user.publicKey && pChain[pChain.length - 1].fromAddress !== user.publicKey) {
-            //               challengesHeld.push(challenge);
-            //           }
-            //       }
-            //       retrieveWalletBalance(
-            //           tokenTypes,
-            //           0,
-            //           tokenTypeAmount,
-            //           user.publicKey,
-            //           walletBalances,
-            //           function(balances) {
-            //               balancesArr += balances;
-            //               if (index === challenges.length - 1) {
-            //                   res.status(200).send({
-            //                       balance: balancesArr,
-            //                       sponsoredChallenges: user.sponsoredChallenges,
-            //                       challenges,
-            //                       challengesHeld
-            //                   });
-            //               }
-            //           }
-            //       );
-            //   })
-            })
-          .catch(err => {
-              res.status(400).send(err);
-          })
-        })
-        .catch(error => {
-          console.log("Error: " + error);
-          res.status(400).send(error.response);
-        });
-      // in the future update this to use session tokens for search
-  },
-  update(req, res) {
-    User.update(
-      {
-        name: req.body.user.name
-      },
-      { where: { email: req.body.user.from } }
-    )
-      .then(user => {
-        console.log(user);
-        res.status(200).send(user);
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(400).send(err);
-      });
+  async getOne(req, res) {
+    const user = await User.findOne({
+      where: { uuid: req.params.uuid }
+    });
+    const sponsoredChallenges = await nCentSDKInstance.retrieveSponsoredChallenges(user.publicKey);
+    const heldChallenges = await nCentSDKInstance.retrieveHeldChallenges(user.publicKey);
+    res.status(200).send(_.merge({}, sponsoredChallenges.data, heldChallenges.data));
   }
 };

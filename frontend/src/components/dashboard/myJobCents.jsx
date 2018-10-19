@@ -6,68 +6,62 @@ export default class MyJobCents extends React.Component {
         super(props);
 
         this.state = {
-            balance: [],
-            challenges: [],
             sponsoredChallenges: [],
-            transactions: []
+            heldChallenges: []
         };
 
-        this.balanceList = this.balanceList.bind(this);
+        this.challengeList = this.challengeList.bind(this);
     }
     componentWillMount() {
-        this.props.fetchBalance(this.props.currentUser)
+        this.props.fetchUser(this.props.currentUser)
             .then(res => {
-                let balance = res.balance.data;
-                if (balance) {
+                let userData = res.userData.data;
+                if (userData) {
                     this.setState({
-                        balance: balance.balance,
-                        challenges: balance.challenges,
-                        sponsoredChallenges: balance.sponsoredChallenges,
-                        transactions: balance.transactions
+                        sponsoredChallenges: userData.sponsoredChallenges,
+                        heldChallenges: userData.heldChallenges
                     });
                 }
             })
     }
-    balanceList(transactions) {
-        const balanceItems = transactions.map(function(transaction, index) {
-            if (transaction.sponsorUuid === this.props.currentUser.publicKey) {
-                return ( <div key={index} className="balanceTile">
-                    <img className="logoImg" src={ncentLogo} alt="ncent logo" />
-                    <h2 className="balance-subtitle">{transaction.challengeName}</h2>
-                    <h3 className="balance-subtitle">Sponsored</h3>
-                    <a
-                        title="New"
-                        className="initiate-payment"
-                        onClick={this.props.handleInput("formType", {tokenTypeUuid: transaction.tokenTypeUuid, tokenName: transaction.challengeName, challengeUuid: transaction.uuid})}
-                    >
-                        Send
-                    </a>
-                </div> );
-            }
+    challengeList(sponsoredChallenges, heldChallenges) {
+        const sponsoredChallengeTiles = sponsoredChallenges.map(function(sponsoredChallenge, index) {
             return ( <div key={index} className="balanceTile">
                 <img className="logoImg" src={ncentLogo} alt="ncent logo" />
-                <h2 className="balance-subtitle">{transaction.challengeName}</h2>
-                <h3 className="balance-subtitle">Referral</h3>
+                <h2 className="balance-subtitle">{sponsoredChallenge.name}</h2>
+                <h3 className="balance-subtitle">Sponsored</h3>
                 <a
                     title="New"
                     className="initiate-payment"
-                    onClick={this.props.handleInput("formType", {tokenTypeUuid: transaction.tokenTypeUuid, tokenName: transaction.challengeName, challengeUuid: transaction.uuid})}
                 >
                     Send
                 </a>
             </div> );
         }.bind(this));
-
+        const heldChallengeTiles = heldChallenges.map(function(heldChallenge, index) {
+                return ( <div key={index} className="balanceTile">
+                    <img className="logoImg" src={ncentLogo} alt="ncent logo" />
+                    <h2 className="balance-subtitle">{heldChallenge.name}</h2>
+                    <h3 className="balance-subtitle">Holding</h3>
+                    <a
+                        title="New"
+                        className="initiate-payment"
+                    >
+                        Send
+                    </a>
+                </div> );
+        }.bind(this));
         return (
             <div className="challengesPage">
                 <h1 className="challengesHeader">Your jobCents</h1>
-                <section className="challengeTiles">{balanceItems}</section>
+                <section className="challengeTiles">{sponsoredChallengeTiles}</section>
+                <section className="challengeTiles">{heldChallengeTiles}</section>
             </div>
         );
     }
     render() {
         return (
-            this.balanceList(this.state.transactions)
+            this.challengeList(this.state.sponsoredChallenges, this.state.heldChallenges)
         );
     }
 }

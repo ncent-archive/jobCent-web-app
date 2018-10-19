@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import Dashboard from "./dashboard";
 import { logout } from "../../actions/session_actions";
-import { fetchBalance, fetchTransferHistory, sendJobCents, saveName, createChallenge} from "../../actions/dashboard_actions";
+import { fetchUser, sendChallenge, createChallenge} from "../../actions/dashboard_actions";
 
 const mapStateToProps = (state, ownProps) => ({
   path: ownProps.test,
@@ -18,10 +18,8 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchBalance: (user, tokenTypeUuid) => dispatch(fetchBalance(user, tokenTypeUuid)),
-  fetchTransferHistory: user => dispatch(fetchTransferHistory(user)),
-  saveName: user => dispatch(saveName(user)),
-  sendJobCents: transaction => dispatch(sendJobCents(transaction)),
+  fetchUser: (user, tokenTypeUuid) => dispatch(fetchUser(user, tokenTypeUuid)),
+  sendChallenge: transaction => dispatch(sendChallenge(transaction)),
   logout: () => dispatch(logout()),
   createChallenge: challenge => dispatch(createChallenge(challenge))
 });

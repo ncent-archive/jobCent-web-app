@@ -1,6 +1,5 @@
 import {
-  RECEIVE_BALANCE,
-  RECEIVE_TRANSFER_HISTORY,
+  RECEIVE_USER,
   RECEIVE_TRANSFER,
   RECEIVE_CHALLENGE
 } from "../actions/dashboard_actions";
@@ -8,20 +7,15 @@ import { merge } from "lodash";
 
 export default (state = {
                     balance: {}, // changed balance into an object from array
-                    history: [],
                     transfer: {},
                     challenge: {}
                 }, action) => {
   let newState;
   Object.freeze(state);
   switch (action.type) {
-    case RECEIVE_BALANCE:
-        const balance = action.balance.data;
-        newState = merge({}, state, { balance });
-        return newState;
-    case RECEIVE_TRANSFER_HISTORY:
-        const history = action.history.data;
-        newState = merge({}, state, { history });
+    case RECEIVE_USER:
+        const userData = action.userData.data;
+        newState = merge({}, state, { userData });
         return newState;
     case RECEIVE_TRANSFER:
         const transfer = action.transfer.data;

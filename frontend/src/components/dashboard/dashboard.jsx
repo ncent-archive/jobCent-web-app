@@ -16,7 +16,7 @@ class Dashboard extends React.Component {
       to: "",
       challengeTitle: "",
       challengeDescription: "",
-      tokenAmount: 0,
+      rewardAmount: 0,
       tokenTypeUuid: "",
       tokenName: "",
       challengeTransactionUuid: "",
@@ -82,12 +82,11 @@ class Dashboard extends React.Component {
         tokenTypeUuid: this.state.tokenTypeUuid,
         transactionUuid: this.state.challengeTransactionUuid
     });
-    console.log(transaction);
-    if (this.props.sendJobCents) {
+    if (this.props.sendChallenge) {
       this.props
-        .sendJobCents(transaction)
+        .sendChallenge(transaction)
         .then(res => {
-            this.props.fetchBalance(this.props.currentUser)
+            this.props.fetchUser(this.props.currentUser)
                 .then(res => {
                     let balance = res.balance.data.balance;
                     if (balance) {
@@ -108,112 +107,29 @@ class Dashboard extends React.Component {
 
   createChallengeForUser(e) {
     e.preventDefault();
+    console.log(this.props.currentUser);
     const challenge = Object.assign({}, {
-      challengeTitle: this.state.challengeTitle,
-      challengeDescription: this.state.challengeDescription,
-      tokenAmount: this.state.tokenAmount,
-      sponsorEmail: this.props.currentUser.email
+      senderPublicKey: this.props.currentUser.publicKey,
+      senderPrivateKey: this.props.currentUser.privateKey,
+      name: this.state.challengeTitle,
+      rewardAmount: this.state.rewardAmount
     });
     this.props.createChallenge(challenge).then(res => {
-        this.props.fetchBalance(this.props.currentUser).then(balance => {
+        this.props.fetchUser(this.props.currentUser).then(balance => {
             this.setState({ ...this.state, formType: 'jobCents' });
         });
     });
   }
 
-  // activityTab() {
-  //   if (this.state.formType === "Activity") {
-  //     if (this.props.fetchTransferHistory && this.props.currentUser) {
-  //       console.log("fetching history..");
-  //       console.log(this.props.currentUser);
-  //
-  //       this.props.fetchTransferHistory(this.props.currentUser).then(res => {});
-  //     }
-  //     return (
-  //       <section className="flex-container activity-history">
-  //         <div className=" activity-list-container  ">
-  //           {" "}
-  //           <div id="ember2453" className="activity-list-sections ">
-  //             {" "}
-  //             <div className="activity-no-results">
-  //               <div className="inline-svg-two ">
-  //                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84 84">
-  //                   <path d="M80 42c0 20.949-17.051 38-38 38S4 62.949 4 42 21.051 4 42 4s38 17.051 38 38zm4 0C84 18.842 65.158 0 42 0S0 18.842 0 42s18.842 42 42 42 42-18.842 42-42z" />
-  //                   <path d="M40 22V46.865l1.075.56 16 8.348 1.85-3.546-16-8.348L44 45.652V22h-4z" />
-  //                 </svg>
-  //               </div>
-  //               <h3 className="title-activity">No Activity Yet</h3>
-  //               <a
-  //                 title="New"
-  //                 className="initiate-payment"
-  //                 onClick={this.handleInput("formType")}
-  //               >
-  //                 Send a jobCent
-  //               </a>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </section>
-  //     );
-  //   }
-  // }
   jobCentsTab() {
     if (this.state.formType === "jobCents" && this.props.currentUser) {
       return <MyJobCents
           currentUser={this.props.currentUser}
-          tokenTypeUuid={this.props.tokenTypeUuid}
-          challengeTitle={this.props.challengeTitle}
-          fetchBalance={this.props.fetchBalance}
-          challengeDescription={this.props.challengeDescription}
+          fetchUser={this.props.fetchUser}
           handleInput={this.handleInput}/>;
     }
   }
-  // profileTab() {
-  //   if (this.state.formType === "Settings") {
-  //     return (
-  //       <div className="edit-settings-top">
-  //         <div className="edit-header-top">
-  //           <div className="customer-profile-simple-top">
-  //             <i className="customer-avatar-top">
-  //               <div className="initial-placeholder-top">
-  //                 {this.state.name ? this.state.name[0] : "A"}
-  //               </div>
-  //               <div />
-  //             </i>
-  //             <h3 className="display-name-top">
-  //               <span className="name-top">{this.state.name}</span>
-  //             </h3>
-  //           </div>
-  //         </div>
-  //         <div className="edit-panel">
-  //           <div className="config-column">
-  //             <h3 className="name-header">Display Name</h3>
-  //             <div className="name-container">
-  //               <div className="name-field">
-  //                 <div className="name-field-container">
-  //                   <input
-  //                     type="text"
-  //                     defaultValue={this.state.name}
-  //                     aria-label="Display Name"
-  //                     name="displayName"
-  //                     autoComplete="off"
-  //                     spellCheck="false"
-  //                     autoCapitalize="off"
-  //                     id="display_name"
-  //                     className="name-text-field"
-  //                     placeholder="Display Name"
-  //                     onChange={this.update("name")}
-  //                     onBlur={this.handleBlur}
-  //                   />
-  //                 </div>
-  //               </div>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     );
-  //   }
-  // }
+
   transferTab() {
     if (this.state.formType === "New") {
       return (

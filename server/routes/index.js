@@ -9,10 +9,7 @@ module.exports = (app) => {
         message: 'Welcome to the nCent Hybrid Meta-App API!'
     }));
 
-    app.get('/api/challenges', challengesController.list);
-    app.get('/api/challenges/:uuid', challengesController.retrieve);
     app.post('/api/challenges', challengesController.create);
-    app.patch('/api/challenges/:uuid', challengesController.update);
 
     app.get('/api/tasks', tasksController.list);
     app.get('/api/tasks/:uuid', tasksController.retrieve);
@@ -24,7 +21,6 @@ module.exports = (app) => {
     app.post("/api/session", sessionController.create);
     // get token balance and user data
     app.get("/api/users/:uuid", usersController.getOne);
-    app.put("/api/users/:uuid", usersController.update);
     // logout user
     app.delete("/api/session", sessionController.destroy);
 

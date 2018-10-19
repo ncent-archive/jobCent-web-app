@@ -37,11 +37,6 @@ module.exports = (sequelize, DataTypes) => {
     }, {});
 
     User.associate = function(models) {
-        User.hasMany(models.Challenge, {
-            foreignKey: 'sponsorId',
-            as: 'sponsoredChallenges'
-        });
     };
-    sequelize.sync();
     return User;
 };

@@ -1,14 +1,13 @@
 import * as ApiUtil from "../util/session_api_util";
-export const RECEIVE_BALANCE = "RECEIVE_BALANCE";
+export const RECEIVE_USER = "RECEIVE_USER";
 export const RECEIVE_TRANSFER = "RECEIVE_TRANSFER";
-export const RECEIVE_TRANSFER_HISTORY = "RECEIVE_TRANSFER_HISTORY";
 export const RECEIVE_CHALLENGE = "RECEIVE_CHALLENGE";
 export const RECEIVE_CHALLENGES = "RECEIVE_CHALLENGES";
 export const RECEIVE_DASH_ERRORS = "RECEIVE_DASH_ERRORS";
 
-export const receiveBalance = balance => ({
-  type: RECEIVE_BALANCE,
-  balance
+export const receiveUser = userData => ({
+  type: RECEIVE_USER,
+  userData
 });
 
 export const receiveErrors = errors => ({
@@ -21,11 +20,6 @@ export const receiveTransfer = transfer => ({
   transfer
 });
 
-export const receiveTransferHistory = history => ({
-  type: RECEIVE_TRANSFER_HISTORY,
-  history
-});
-
 export const receiveChallenge = challenge => ({
     type: RECEIVE_CHALLENGE,
     challenge
@@ -36,36 +30,15 @@ export const receiveChallenges = challenges => ({
     challenges
 });
 
-export const fetchBalance = user => dispatch =>
-  ApiUtil.fetchBalance(user).then(
-    balance => dispatch(receiveBalance(balance)),
-    err => {
-      console.log(err);
-      dispatch(receiveErrors(err));
-    }
+export const fetchUser = user => dispatch =>
+  ApiUtil.fetchUser(user).then(
+    balance => dispatch(receiveUser(balance)),
+    err => dispatch(receiveErrors(err))
   );
 
-export const sendJobCents = transaction => dispatch =>
-  ApiUtil.sendJobCents(transaction).then(
+export const sendChallenge = transaction => dispatch =>
+  ApiUtil.sendChallenge(transaction).then(
     data => dispatch(receiveTransfer(data)),
-    err => {
-      console.log(err);
-      dispatch(receiveErrors(err));
-    }
-  );
-
-export const saveName = user => dispatch =>
-  ApiUtil.saveName(user).then(
-    data => console.log(data),
-    err => {
-      console.log(err);
-      dispatch(receiveErrors(err));
-    }
-  );
-
-export const fetchTransferHistory = user => dispatch =>
-  ApiUtil.fetchTransferHistory(user).then(
-    data => dispatch(receiveTransferHistory(data)),
     err => {
       console.log(err);
       dispatch(receiveErrors(err));
