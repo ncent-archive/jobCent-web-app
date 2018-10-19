@@ -38,6 +38,6 @@ module.exports = {
         const receiverPublicKey = toUser.publicKey;
 
         const shareChallengeRes = await sdkInstance.shareChallenge(senderKeypair, challengeUuid, receiverPublicKey);
-        res.status(200).send({shareChallenge: shareChallengeRes});
+        res.status(200).send({sharedChallenge: shareChallengeRes.data});
     }
 };
