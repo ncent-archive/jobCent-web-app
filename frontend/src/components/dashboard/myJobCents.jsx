@@ -33,6 +33,7 @@ export default class MyJobCents extends React.Component {
                 <a
                     title="New"
                     className="initiate-payment"
+                    onClick={this.props.handleInput("formType", {challengeName: sponsoredChallenge.name, challengeUuid: sponsoredChallenge.uuid})}
                 >
                     Send
                 </a>
@@ -46,6 +47,7 @@ export default class MyJobCents extends React.Component {
                     <a
                         title="New"
                         className="initiate-payment"
+                        onClick={this.props.handleInput("formType", {challengeName: heldChallenge.name, challengeUuid: heldChallenge.uuid})}
                     >
                         Send
                     </a>

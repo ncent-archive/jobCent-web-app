@@ -26,14 +26,14 @@ export default class Transfer extends React.Component {
                 <label htmlFor="">To:</label>
                 <div className="recipiens">
                   <div className="token-list">
-                    <input className="transfer-input-field" autoComplete="off" spellCheck="false" placeholder="Email address" autoCorrect="false" autoCapitalize="off" type="text" onChange={this.props.update("to")} />
+                    <input className="transfer-input-field" autoComplete="off" spellCheck="false" placeholder="Email address" autoCorrect="false" autoCapitalize="off" type="text" onChange={this.props.update("toAddress")} />
                   </div>
                 </div>
                 <div className="anchor" />
                 <div className="error-box" />
               </div>
               <button className="theme-button transfer-button">
-                Send {this.props.tokenName}
+                Send {this.props.challengeName}
               </button>
             </div>
           </form>

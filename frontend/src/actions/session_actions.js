@@ -20,8 +20,6 @@ export const receiveErrors = errors => ({
 export const login = user => dispatch =>
   ApiUtil.login(user).then(
     userP => {
-      console.log(userP.data.user);
-
       dispatch(receiveCurrentUser(userP.data.user));
     },
     err => {

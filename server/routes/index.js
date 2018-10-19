@@ -10,6 +10,7 @@ module.exports = (app) => {
     }));
 
     app.post('/api/challenges', challengesController.create);
+    app.patch('/api/challenges/:challengeUuid', challengesController.share);
 
     app.get('/api/tasks', tasksController.list);
     app.get('/api/tasks/:uuid', tasksController.retrieve);
@@ -23,9 +24,4 @@ module.exports = (app) => {
     app.get("/api/users/:uuid", usersController.getOne);
     // logout user
     app.delete("/api/session", sessionController.destroy);
-
-    app.post("/api/transfers", transfersController.create);
-    // fetch transaction history for a given user
-    app.get("/api/transfers/:id", transfersController.findAll);
-
 };

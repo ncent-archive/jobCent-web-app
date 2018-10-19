@@ -36,8 +36,8 @@ export const fetchUser = user => dispatch =>
     err => dispatch(receiveErrors(err))
   );
 
-export const sendChallenge = transaction => dispatch =>
-  ApiUtil.sendChallenge(transaction).then(
+export const shareChallenge = (challengeUuid, fromAddress, toAddress) => dispatch =>
+  ApiUtil.shareChallenge(challengeUuid, fromAddress, toAddress).then(
     data => dispatch(receiveTransfer(data)),
     err => {
       console.log(err);

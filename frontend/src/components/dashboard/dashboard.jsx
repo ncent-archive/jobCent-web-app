@@ -11,17 +11,11 @@ class Dashboard extends React.Component {
     this.state = {
       formType: "jobCents",
       jobCents: "0",
-      name: "Alpha Tester",
-      from: "",
-      to: "",
-      challengeTitle: "",
-      challengeDescription: "",
+      fromAddress: "",
+      toAddress: "",
+      challengeName: "",
       rewardAmount: 0,
-      tokenTypeUuid: "",
-      tokenName: "",
-      challengeTransactionUuid: "",
-      balance: [],
-      challenges: [],
+      challengeUuid: "",
       sponsoredChallenges: [],
       challengesHeld: []
     };
@@ -36,11 +30,10 @@ class Dashboard extends React.Component {
 
   handleInput(key, options) {
     return e => {
-      if (options && options.tokenTypeUuid) {
+      if (options && options.challengeUuid) {
         this.setState({
-            tokenTypeUuid: options.tokenTypeUuid,
-            tokenName: options.tokenName,
-            challengeTransactionUuid: options.challengeUuid,
+            challengeUuid: options.challengeUuid,
+            challengeName: options.challengeName,
             [key]: e.currentTarget.title
         });
       } else {
@@ -59,45 +52,31 @@ class Dashboard extends React.Component {
   }
 
   handleBlur() {
-    if (this.props.saveName) {
-      let user = Object.assign({}, this.state);
-      console.log(user);
-      this.props
-        .saveName(user)
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
   }
 
   handleTransfer(e) {
     e.preventDefault();
 
-    const transaction = Object.assign({}, {
-        from: this.props.currentUser.email,
-        to: this.state.to,
-        tokenTypeUuid: this.state.tokenTypeUuid,
-        transactionUuid: this.state.challengeTransactionUuid
-    });
-    if (this.props.sendChallenge) {
-      this.props
-        .sendChallenge(transaction)
-        .then(res => {
-            this.props.fetchUser(this.props.currentUser)
-                .then(res => {
-                    let balance = res.balance.data.balance;
-                    if (balance) {
-                        this.setState({
-                            balance: balance.balance,
-                            challenges: balance.challenges,
-                            sponsoredChallenges: balance.sponsoredChallenges,
-                            formType: 'jobCents'
-                        });
-                    }
-                })
+    const challengeUuid = this.state.challengeUuid;
+    const fromAddress = this.props.currentUser.email;
+    const toAddress = this.state.toAddress;
+
+    if (this.props.shareChallenge) {
+      this.props.shareChallenge(challengeUuid, fromAddress, toAddress)
+      .then(res => {
+          this.props.fetchUser(this.props.currentUser)
+          .then(res => {
+              let userData = res.userData.data;
+              if (userData) {
+                  this.setState({
+                      sponsoredChallenges: userData.sponsoredChallenges,
+                      heldChallenges: userData.heldChallenges
+                  });
+              }
+          })
+          .catch(err => {
+            console.log(err);
+          })
         })
         .catch(err => {
           console.log(err);
@@ -107,7 +86,6 @@ class Dashboard extends React.Component {
 
   createChallengeForUser(e) {
     e.preventDefault();
-    console.log(this.props.currentUser);
     const challenge = Object.assign({}, {
       senderPublicKey: this.props.currentUser.publicKey,
       senderPrivateKey: this.props.currentUser.privateKey,
@@ -137,9 +115,8 @@ class Dashboard extends React.Component {
           handleInput={this.handleInput}
           update={this.update}
           handleTransfer={this.handleTransfer}
-          tokenName={this.state.tokenName}
-          tokenTypeUuid={this.state.tokenTypeUuid}
-          challengeTransactionUuid={this.state.challengeTransactionUuid}
+          challengeName={this.state.challengeName}
+          challengeUuid={this.state.challengeUuid}
         />
       );
     }
