@@ -32,7 +32,7 @@ export default class MyJobCents extends React.Component {
                 <h3 className="balance-subtitle">Sponsored</h3>
                 <a
                     title="New"
-                    className="initiate-payment"
+                    className="initiate-payment-smaller-margin"
                     onClick={this.props.handleInput("formType", {challengeName: sponsoredChallenge.name, challengeUuid: sponsoredChallenge.uuid})}
                 >
                     Send
