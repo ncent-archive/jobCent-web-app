@@ -3,6 +3,7 @@ const ncentSDK = require('ncent-sandbox-sdk');
 const stellarSDK = require('stellar-sdk');
 const sdkInstance = new ncentSDK('http://localhost:8010/api');
 const awsEmail = require("./awsEmail.js");
+const _ = require('lodash');
 
 module.exports = {
     async create(req, res) {
@@ -49,6 +50,8 @@ module.exports = {
         const sponsorKeypair = stellarSDK.Keypair.fromSecret(sponsor.privateKey);
 
         const redeemChallengeResponse = await sdkInstance.redeemChallenge(sponsorKeypair, challengeUuid);
-        res.status(200).send({redeemedChallenge: redeemChallengeResponse.data});
+        const sponsoredChallenges = redeemChallengeResponse.data.sponsoredChallenges;
+        const heldChallenges = redeemChallengeResponse.data.heldChallenges;
+        res.status(200).send({sponsoredChallenges, heldChallenges});
     }
 };

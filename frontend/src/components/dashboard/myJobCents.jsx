@@ -1,5 +1,6 @@
 import React from "react";
 import ncentLogo from "../../img/logo.png";
+import _ from 'lodash';
 
 export default class MyJobCents extends React.Component {
     constructor(props) {
@@ -15,14 +16,21 @@ export default class MyJobCents extends React.Component {
     componentWillMount() {
         this.props.fetchUser(this.props.currentUser)
             .then(res => {
-                let userData = res.userData.data;
-                if (userData) {
+                if (this.props.userData) {
                     this.setState({
-                        sponsoredChallenges: userData.sponsoredChallenges,
-                        heldChallenges: userData.heldChallenges
+                        sponsoredChallenges: this.props.userData.sponsoredChallenges,
+                        heldChallenges: this.props.userData.heldChallenges
                     });
                 }
             })
+    }
+    componentDidUpdate(prevProps) {
+        if (this.props.userData && !_.isEqual(this.props.userData, prevProps.userData)) {
+            this.setState({
+                sponsoredChallenges: this.props.userData.sponsoredChallenges,
+                heldChallenges: this.props.userData.heldChallenges
+            });
+        }
     }
     challengeList(sponsoredChallenges, heldChallenges) {
         const sponsoredChallengeTiles = sponsoredChallenges.map(function(sponsoredChallenge, index) {

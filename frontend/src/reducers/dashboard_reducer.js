@@ -15,7 +15,8 @@ export default (state = {
   switch (action.type) {
     case RECEIVE_USER:
         const userData = action.userData.data;
-        newState = merge({}, state, { userData });
+        newState = merge({}, state);
+        newState.userData = userData;
         return newState;
     case RECEIVE_TRANSFER:
         const transfer = action.transfer.data;

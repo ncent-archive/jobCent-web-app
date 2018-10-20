@@ -105,7 +105,8 @@ class Dashboard extends React.Component {
           currentUser={this.props.currentUser}
           fetchUser={this.props.fetchUser}
           handleInput={this.handleInput}
-          redeemChallenge={this.props.redeemChallenge}/>;
+          redeemChallenge={this.props.redeemChallenge}
+          userData={this.props.userData}/>;
     }
   }
 

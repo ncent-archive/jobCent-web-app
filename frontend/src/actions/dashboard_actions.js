@@ -53,6 +53,6 @@ export const createChallenge = challenge => dispatch =>
 
 export const redeemChallenge = (challengeUuid, sponsorAddress) => dispatch =>
     ApiUtil.redeemChallenge(challengeUuid, sponsorAddress).then(
-      data => dispatch(receiveTransfer(data)),
+      data => dispatch(receiveUser(data)),
       err => dispatch(receiveErrors(err))
     );

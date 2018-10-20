@@ -8,6 +8,7 @@ const mapStateToProps = (state, ownProps) => ({
   loggedIn: Boolean(state.session.currentUser),
   errors: state.errors.session,
   currentUser: state.session.currentUser,
+  userData: state.dashboard.userData
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
