@@ -56,7 +56,6 @@ module.exports = {
             otpExp: otpExp
           })
           .then(user => {
-            console.log("user otp updated");
             const validCode = bcrypt.compareSync(token, tokenHash);
             console.log(token);
 
@@ -82,7 +81,6 @@ module.exports = {
               return data;
             })
             .then(data => {
-              console.log("storing keys..");
               return data.user.update({
                 publicKey: data.publicKey,
                 privateKey: data.privateKey
@@ -97,8 +95,6 @@ module.exports = {
               res.status(201).send(user);
             })
             .catch(error => {
-              console.log(error.message);
-
               res.status(400).send(error);
             });
         } else {
@@ -107,7 +103,6 @@ module.exports = {
           })
             .then(user => {
               data.user = user;
-              console.log(user);
 
               const wallet = nCentSDKInstance.createWalletAddress();
               data.privateKey = wallet.secret();
@@ -115,7 +110,6 @@ module.exports = {
               return data;
             })
             .then(data => {
-              console.log("storing keys..");
               return data.user.update({
                 publicKey: data.publicKey,
                 privateKey: data.privateKey
@@ -125,7 +119,6 @@ module.exports = {
               res.status(201).send(user);
             })
             .catch(error => {
-              console.log(error);
               res.status(400).send(error);
             });
         }
