@@ -11,6 +11,8 @@ class SessionForm extends React.Component {
       otpReq: true,
       formType: "signup"
     };
+
+    this.returnToSignUp = this.returnToSignUp.bind(this);
   }
 
   update(input) {
@@ -33,8 +35,7 @@ class SessionForm extends React.Component {
   }
 
   handleSubmit = e => {
-    const processForm =
-      this.state.formType === "signup" ? this.props.signup : this.props.login;
+    const processForm = this.state.formType === "signup" ? this.props.signup : this.props.login;
     e.preventDefault();
     const user = Object.assign({}, this.state);
 
@@ -45,6 +46,12 @@ class SessionForm extends React.Component {
       }
     });
   };
+
+  returnToSignUp() {
+    this.setState({
+        formType: "signup"
+    });
+  }
 
   render() {
     if (this.state.formType === "signup") {
@@ -107,7 +114,7 @@ class SessionForm extends React.Component {
               <div className="login-container">
                 <h1 className="step-title">
                   {this.props.errors.length === 0
-                    ? `Cool! We emailed a code to ${this.state.email}`
+                    ? `We emailed a code to ${this.state.email}`
                     : 'There was an error. Please try again'}
                 </h1>
 
@@ -146,6 +153,7 @@ class SessionForm extends React.Component {
                     </div>
                   </div>
                 </form>
+                <span className="returnToSignup">Wrong email address? Click <a className="signupLink" onClick={this.returnToSignUp}>here</a> to start over</span>
               </div>
             </section>
             <div className="modal-manager ">

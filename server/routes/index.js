@@ -1,5 +1,4 @@
 const challengesController = require('../controllers').challenges;
-const tasksController = require('../controllers').tasks;
 const usersController = require('../controllers').users;
 const sessionController = require("../controllers/").session;
 
@@ -8,20 +7,25 @@ module.exports = (app) => {
         message: 'Welcome to the nCent Hybrid Meta-App API!'
     }));
 
+    // create/sponsor a challenge
     app.post('/api/challenges', challengesController.create);
+
+    // share a challenge invite with another user
     app.patch('/api/challenges/:challengeUuid', challengesController.share);
+
+    // redeems a challenge if you are the sponsor
+    // rewards will be distributed across the provenance chain
     app.post('/api/challenges/:challengeUuid/:sponsorAddress', challengesController.redeem);
 
-    app.get('/api/tasks', tasksController.list);
-    app.get('/api/tasks/:uuid', tasksController.retrieve);
-    app.post('/api/tasks', tasksController.create);
-    app.patch('/api/tasks/:uuid', tasksController.update);
-
+    // creates a new user account with a Stellar wallet key pair
     app.post("/api/users", usersController.create);
-    // verify confirmation code and login user
-    app.post("/api/session", sessionController.create);
-    // get token balance and user data
+
+    // gets user data, including sponsored and "held" challenges
     app.get("/api/users/:uuid", usersController.getOne);
-    // logout user
+
+    // verifies confirmation code and logs the user in
+    app.post("/api/session", sessionController.create);
+
+    // logs the user out
     app.delete("/api/session", sessionController.destroy);
 };

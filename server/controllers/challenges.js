@@ -50,7 +50,6 @@ module.exports = {
                         privateKey: wallet.secret()
                     });
         }
-        console.log(fromUser.privateKey);
         const senderKeypair = stellarSDK.Keypair.fromSecret(fromUser.privateKey);
         const receiverPublicKey = toUser.publicKey;
 

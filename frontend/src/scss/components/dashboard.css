@@ -623,6 +623,15 @@
   padding-right: 10vw;
 }
 
+.signupLink {
+  color: lightsalmon;
+}
+
+.signupLink:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 a {
   cursor: pointer;
   text-decoration: none;
