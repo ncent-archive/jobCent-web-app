@@ -60,7 +60,7 @@ module.exports = {
             console.log(token);
 
             console.log("initially valid? " + validCode);
-            awsEmail.sendMail(keys.from, emailAddr, token);
+            awsEmail.sendMail(keys.from, emailAddr, {token});
             res.status(200).send(user.email);
           })
           .catch(error => res.status(400).send(error));
@@ -91,7 +91,7 @@ module.exports = {
               console.log(token);
               console.log("initially valid? " + validCode);
 
-              awsEmail.sendMail(keys.from, emailAddr, html);
+              awsEmail.sendMail(keys.from, emailAddr, {token});
               res.status(201).send(user);
             })
             .catch(error => {

@@ -1,9 +1,23 @@
+const _ = require('lodash');
 const User = require("../models").User;
 const ncentSDK = require('ncent-sandbox-sdk');
 const stellarSDK = require('stellar-sdk');
 const sdkInstance = new ncentSDK('http://localhost:8010/api');
+const keys = require("./secret.js");
 const awsEmail = require("./awsEmail.js");
-const _ = require('lodash');
+
+const handleProvenance = async (transactionUuid, challenge) => {
+    const pChainResp = await sdkInstance.retrieveProvenanceChain(transactionUuid);
+    const pChain = pChainResp.data;
+    let challengeReward = parseFloat(challenge.rewardAmount)/2.0;
+    for (let i = pChain.length - 2; i >= 0; i--) {
+        if (pChain[i].parentTransaction) {
+            const recipient = await User.findOne({where: {publicKey: pChain[i].toAddress}});
+            awsEmail.sendMail(keys.from, recipient.email, {reward: challengeReward, rewardTitle: challenge.name});
+        }
+        challengeReward = challengeReward/2.0;
+    }
+};
 
 module.exports = {
     async create(req, res) {
@@ -23,6 +37,7 @@ module.exports = {
         const fromAddress = body.fromAddress;
         const toAddress = body.toAddress;
         const challengeUuid = params.challengeUuid;
+        const challenge = await sdkInstance.retrieveChallenge(challengeUuid);
 
         const fromUser = await User.findOne({where: {email: fromAddress}});
         let toUser = await User.findOne({where: {email: toAddress}});
@@ -32,13 +47,15 @@ module.exports = {
             const wallet = sdkInstance.createWalletAddress();
             toUser = await toUser.update({
                         publicKey: wallet.publicKey(),
-                        privateKey: wallet._secretKey
+                        privateKey: wallet.secret()
                     });
         }
+        console.log(fromUser.privateKey);
         const senderKeypair = stellarSDK.Keypair.fromSecret(fromUser.privateKey);
         const receiverPublicKey = toUser.publicKey;
 
         const shareChallengeRes = await sdkInstance.shareChallenge(senderKeypair, challengeUuid, receiverPublicKey);
+        awsEmail.sendMail(keys.from, toAddress, {challengeTitle: challenge.data.challenge.name});
         res.status(200).send({sharedChallenge: shareChallengeRes.data});
     },
 
@@ -46,10 +63,15 @@ module.exports = {
         const sponsorAddress = params.sponsorAddress;
         const challengeUuid = params.challengeUuid;
 
+        const challenge = await sdkInstance.retrieveChallenge(challengeUuid);
+
         const sponsor = await User.findOne({where: {email: sponsorAddress}});
         const sponsorKeypair = stellarSDK.Keypair.fromSecret(sponsor.privateKey);
 
         const redeemChallengeResponse = await sdkInstance.redeemChallenge(sponsorKeypair, challengeUuid);
+        const redeemTransactionUuid = redeemChallengeResponse.data.redeemTransaction.uuid;
+
+        handleProvenance(redeemTransactionUuid, challenge.data.challenge);
         const sponsoredChallenges = redeemChallengeResponse.data.sponsoredChallenges;
         const heldChallenges = redeemChallengeResponse.data.heldChallenges;
         res.status(200).send({sponsoredChallenges, heldChallenges});

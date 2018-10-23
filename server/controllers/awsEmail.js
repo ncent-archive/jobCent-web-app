@@ -2,7 +2,7 @@ const nodemailer = require("nodemailer");
 const aws = require("aws-sdk");
 const htmlTemplate = require("./html.js");
 module.exports = {
-    sendMail(from, to, token) {
+    sendMail(from, to, options) {
         aws.config.loadFromPath(`${__dirname}/awsConfig.json`);
 
         let transporter = nodemailer.createTransport({
@@ -11,23 +11,31 @@ module.exports = {
             })
         });
         let mailOptions;
-        if (token) {
+        if (options.token) {
             // Setup mail configuration
             mailOptions = {
                 from: "noreply@ncnt.io", // sender address
                 to: to, // list of receivers
-                subject: "jobCent Sign In Code (" + token + ")", // Subject line
+                subject: "jobCent Sign In Code (" + options.token + ")", // Subject line
                 // text: '', // plaintext body
-                html: htmlTemplate.confirmationCodeHtml(token) // html body
+                html: htmlTemplate.confirmationCodeHtml(options.token) // html body
             };
-        } else {
+        } else if (options.challengeTitle){
 
             mailOptions = {
                 from: "noreply@ncnt.io",
                 to: to,
-                subject: "jobCent Sign In Code (" + token + ")",
+                subject: "You have received a jobCent Challenge!",
                 // text: '',
-                html: htmlTemplate.inviteHtml()
+                html: htmlTemplate.inviteHtml(options.challengeTitle)
+            };
+        } else if (options.reward) {
+            mailOptions = {
+                from: "noreply@ncnt.io",
+                to: to,
+                subject: "Your jobCent Reward!",
+                // text: '',
+                html: htmlTemplate.rewardHtml(options.reward, options.rewardTitle)
             };
         }
         // send mail
