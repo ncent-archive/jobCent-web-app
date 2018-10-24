@@ -17,7 +17,8 @@ class Dashboard extends React.Component {
       rewardAmount: 0,
       challengeUuid: "",
       sponsoredChallenges: [],
-      challengesHeld: []
+      challengesHeld: [],
+      errorMessage: ""
     };
     this.handleInput = this.handleInput.bind(this);
     this.update = this.update.bind(this);
@@ -34,10 +35,12 @@ class Dashboard extends React.Component {
         this.setState({
             challengeUuid: options.challengeUuid,
             challengeName: options.challengeName,
+            errorMessage: "",
             [key]: e.currentTarget.title
         });
       } else {
           this.setState({
+              errorMessage: "",
               [key]: e.currentTarget.title
           });
       }
@@ -86,6 +89,13 @@ class Dashboard extends React.Component {
 
   createChallengeForUser(e) {
     e.preventDefault();
+    console.log(typeof this.state.rewardAmount);
+    if (typeof this.state.rewardAmount !== 'number') {
+      this.setState({
+        errorMessage: "Reward amount must be a number"
+      });
+      return;
+    }
     const challenge = Object.assign({}, {
       senderPublicKey: this.props.currentUser.publicKey,
       senderPrivateKey: this.props.currentUser.privateKey,
@@ -131,6 +141,7 @@ class Dashboard extends React.Component {
             handleInput={this.handleInput}
             update={this.update}
             createChallenge={this.createChallengeForUser}
+            errorMessage={this.state.errorMessage}
           />
       )
     }

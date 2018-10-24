@@ -15,11 +15,10 @@ export default class Transfer extends React.Component {
                 </div>
                 <form autoComplete="off" spellCheck="true" noValidate="true" onSubmit={this.props.createChallenge}>
                     <div className="initiate-transfer">
+                        <span className="errorMessage">{this.props.errorMessage}</span>
                         <div className="display-amount-fixed">
                             <div className="bottom-margin">
-                                <div className="display-amount-input">
-                                    <div className="currency-symbol">Sponsor a jobCent Program Here!</div>
-                                </div>
+                                <div className="currency-symbol">Sponsor a jobCent Program Here!</div>
                             </div>
                         </div>
                         <div className="enter-email">
@@ -34,14 +33,14 @@ export default class Transfer extends React.Component {
                         <div className="enter-email">
                             <div className="recipiens">
                                 <div className="token-list">
-                                    <input className="transfer-input-field" autoComplete="off" spellCheck="false" placeholder="Number of Tokens to Stamp" autoCorrect="false" autoCapitalize="off" type="text" onChange={this.props.update("rewardAmount")} />
+                                    <input className="transfer-input-field" autoComplete="off" spellCheck="false" placeholder="Maximum Tokens for Reward Distribution" autoCorrect="false" autoCapitalize="off" type="text" onChange={this.props.update("rewardAmount")} />
                                 </div>
                             </div>
                             <div className="anchor" />
                             <div className="error-box" />
                         </div>
                         <button className="theme-button transfer-button">
-                            Create Posting
+                            Create Challenge
                         </button>
                     </div>
                 </form>
