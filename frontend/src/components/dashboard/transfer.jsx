@@ -17,6 +17,7 @@ export default class Transfer extends React.Component {
           </div>
           <form autoComplete="off" spellCheck="true" noValidate="true" onSubmit={this.props.handleTransfer}>
             <div className="initiate-transfer">
+              <span className="errorMessage">{this.props.errorMessage}</span>
               <div className="display-amount-fixed">
                 <div className="bottom-margin">
                     <img className="logoImg" src={ncentLogo} alt="ncent logo" />

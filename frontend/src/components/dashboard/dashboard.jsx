@@ -4,6 +4,11 @@ import MyJobCents from "./myJobCents";
 import Transfer from "./transfer";
 import SponsorChallenge from "./sponsorChallenge.jsx";
 
+function validateEmail(email) {
+    const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return regex.test(String(email).toLowerCase());
+}
+
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -63,6 +68,13 @@ class Dashboard extends React.Component {
     const challengeUuid = this.state.challengeUuid;
     const fromAddress = this.props.currentUser.email;
     const toAddress = this.state.toAddress;
+
+    if (!validateEmail(toAddress)) {
+        this.setState({
+            errorMessage: "Please enter a valid email address"
+        });
+        return;
+    }
 
     if (this.props.shareChallenge) {
       this.props.shareChallenge(challengeUuid, fromAddress, toAddress)
@@ -128,6 +140,7 @@ class Dashboard extends React.Component {
           handleTransfer={this.handleTransfer}
           challengeName={this.state.challengeName}
           challengeUuid={this.state.challengeUuid}
+          errorMessage={this.state.errorMessage}
         />
       );
     }
