@@ -89,8 +89,7 @@ class Dashboard extends React.Component {
 
   createChallengeForUser(e) {
     e.preventDefault();
-    console.log(typeof this.state.rewardAmount);
-    if (typeof this.state.rewardAmount !== 'number') {
+    if (isNaN(parseFloat(this.state.rewardAmount))) {
       this.setState({
         errorMessage: "Reward amount must be a number"
       });
