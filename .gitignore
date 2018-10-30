@@ -2,3 +2,4 @@
 node_modules/
 .DS_Store
 server/controllers/awsConfig.json
+frontend/src/util/whitelist.js
