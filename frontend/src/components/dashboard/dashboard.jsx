@@ -3,6 +3,7 @@ import "../../scss/components/dashboard.css";
 import MyJobCents from "./myJobCents";
 import Transfer from "./transfer";
 import SponsorChallenge from "./sponsorChallenge.jsx";
+import Whitelist from "../../util/whitelist.js";
 
 function validateEmail(email) {
     const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -33,6 +34,8 @@ class Dashboard extends React.Component {
     this.handleTransfer = this.handleTransfer.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.createChallengeForUser = this.createChallengeForUser.bind(this);
+    this.isWhitelisted = this.isWhitelisted.bind(this);
+    this.sponsorChallengeButton = this.sponsorChallengeButton.bind(this);
   }
 
   handleInput(key, options) {
@@ -63,6 +66,10 @@ class Dashboard extends React.Component {
   }
 
   handleBlur() {
+  }
+
+  isWhitelisted() {
+    return Whitelist[this.props.currentUser.email];
   }
 
   handleTransfer(e) {
@@ -133,7 +140,8 @@ class Dashboard extends React.Component {
           handleInput={this.handleInput}
           redeemChallenge={this.props.redeemChallenge}
           userData={this.props.userData}
-          successMessage={this.state.successMessage}/>;
+          successMessage={this.state.successMessage}
+          errorMessage={this.state.errorMessage}/>;
     }
   }
 
@@ -153,7 +161,7 @@ class Dashboard extends React.Component {
   }
 
   sponsorChallengeTab() {
-    if (this.state.formType === "Sponsor") {
+    if (this.state.formType === "Sponsor" && this.isWhitelisted()) {
       return (
           <SponsorChallenge
             handleInput={this.handleInput}
@@ -162,6 +170,20 @@ class Dashboard extends React.Component {
             errorMessage={this.state.errorMessage}
           />
       )
+    }
+  }
+
+  sponsorChallengeButton() {
+    if (this.isWhitelisted()) {
+      return (
+          <a
+              title="Sponsor"
+              className="nav-item create-payment active"
+              onClick={this.handleInput("formType")}
+          >
+              <span className="button-text">Sponsor</span>
+          </a>
+      );
     }
   }
 
@@ -331,13 +353,7 @@ class Dashboard extends React.Component {
                     </div>
                     <span className="nav-item-label">Sign Out</span>
                   </a>
-                  <a
-                    title="Sponsor"
-                    className="nav-item create-payment active"
-                    onClick={this.handleInput("formType")}
-                  >
-                    <span className="button-text">Sponsor</span>
-                  </a>
+                  {this.sponsorChallengeButton()}
                 </nav>
               </div>
               <section className="yield-content">

@@ -9,11 +9,13 @@ export default class MyJobCents extends React.Component {
         this.state = {
             sponsoredChallenges: [],
             heldChallenges: [],
-            successMessage: ""
+            successMessage: "",
+            errorMessage: ""
         };
 
         this.challengeList = this.challengeList.bind(this);
         this.successMessage = this.successMessage.bind(this);
+        this.errorMessage = this.errorMessage.bind(this);
     }
     componentWillMount() {
         this.props.fetchUser(this.props.currentUser)
@@ -37,6 +39,11 @@ export default class MyJobCents extends React.Component {
     successMessage(message) {
         if (message) {
             return <div className="successMessage"><span>{message}</span></div>;
+        }
+    }
+    errorMessage(message) {
+        if (message) {
+            return <div className="errorMessage"><span>{message}</span></div>;
         }
     }
     challengeList(sponsoredChallenges, heldChallenges) {
@@ -78,6 +85,7 @@ export default class MyJobCents extends React.Component {
         return (
             <div className="challengesPage">
                 {this.successMessage(this.props.successMessage)}
+                {this.errorMessage(this.props.errorMessage)}
                 <h1 className="challengesHeader">Your jobCent Challenges</h1>
                 <section className="challengeTiles">{sponsoredChallengeTiles}</section>
                 <section className="challengeTiles">{heldChallengeTiles}</section>
