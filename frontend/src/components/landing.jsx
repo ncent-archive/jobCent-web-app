@@ -70,7 +70,6 @@ class Landing extends React.Component {
             <div>
               <header className="about-header-bar">
                 <div className="ncent-logo">
-                  
                   <div className="test-button small">
                     <img src={ncentLogo} alt="ncent logo" />
                   </div>
@@ -95,7 +94,7 @@ class Landing extends React.Component {
                 </div>
                 <div className="app-info">
                   <p>
-                      <b>Hire Better and Faster with the Widest Net</b>
+                    <b>Hire Better and Faster with the Widest Net</b>
                   </p>
                   <p>
                       jobCent incentivizes people to find the most qualified candidates for a job opening by rewarding everyone involved in referral chain.

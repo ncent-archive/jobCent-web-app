@@ -161,7 +161,6 @@ class Dashboard extends React.Component {
   }
 
   sponsorChallengeTab() {
-    if (this.state.formType === "Sponsor" && this.isWhitelisted()) {
       return (
           <SponsorChallenge
             handleInput={this.handleInput}
@@ -170,11 +169,10 @@ class Dashboard extends React.Component {
             errorMessage={this.state.errorMessage}
           />
       )
-    }
   }
 
   sponsorChallengeButton() {
-    if (this.isWhitelisted()) {
+    // if (this.isWhitelisted()) {
       return (
           <a
               title="Sponsor"
@@ -184,7 +182,7 @@ class Dashboard extends React.Component {
               <span className="button-text">Sponsor</span>
           </a>
       );
-    }
+    // }
   }
 
   signOutTab() {
