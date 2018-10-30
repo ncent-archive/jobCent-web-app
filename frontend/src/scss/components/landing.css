@@ -203,6 +203,10 @@
   z-index: 5;
 }
 
+.nav-arrow:hover {
+  cursor: pointer;
+}
+
 .arrow::before {
   -webkit-transform: rotate(135deg);
   -webkit-transform-origin: 50%;
