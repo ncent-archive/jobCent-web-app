@@ -21,7 +21,6 @@ module.exports = {
                                 active: true
                             })
                             .then(user => {
-                                req.session = {};
                                 const userInfo = {
                                     uuid: user.dataValues.uuid,
                                     email: user.dataValues.email,
