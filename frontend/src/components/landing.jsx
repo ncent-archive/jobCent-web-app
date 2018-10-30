@@ -4,9 +4,7 @@ import "../scss/components/landing.css";
 import "../scss/components/bubbles.css";
 import ncentLogo from "../img/logo_white.png";
 import { Bubbles } from "./bubbles";
-import diagnalPhone from "../img/diagnal_phone.png";
-import standupPhone from "../img/standup_phone.png";
-import phone from "../img/phone.png";
+import jobCentGraphic from "../img/jobCentGraphic.png";
 
 class Landing extends React.Component {
   componentDidMount() {
@@ -45,7 +43,7 @@ class Landing extends React.Component {
         <section id="opaque" className="background height">
           <Bubbles />
           <header className="jc-header-bar">
-            <div className="ncent-logo">
+            <div className="ncent-logo" onClick={this.smoothScroll}>
               <div className="test-button small">
                 <img src={ncentLogo} alt="ncent logo" />
               </div>
@@ -90,36 +88,21 @@ class Landing extends React.Component {
                 <div className="app-image">
                  
                   <picture>
-                    <source srcSet={diagnalPhone} media="(min-width: 1278px)" />
-                    <source srcSet={standupPhone} media="(min-width: 1024px)" />
-                    <img src={phone} />
+                    <source srcSet={jobCentGraphic} media="(min-width: 1278px)" />
+                    <source srcSet={jobCentGraphic} media="(min-width: 1024px)" />
+                    <img src={jobCentGraphic} />
                   </picture>
                 </div>
                 <div className="app-info">
                   <p>
-                    jobCent is the nCent Labs incentive protocol that
-                    incentivizes people to find a potential candidate to join
-                    the nCent Labs workspace.
+                      <b>Hire Better and Faster with the Widest Net</b>
                   </p>
                   <p>
-                    jobCent encourages people to refer the most qualified
-                    candidates by rewarding everyone involved in referral upon
-                    the hire of a candidate.
+                      jobCent incentivizes people to find the most qualified candidates for a job opening by rewarding everyone involved in referral chain.
                   </p>
                   <p>
-                    It's a win-win situation: better candidates, faster hires,
-                    and bonuses for those who take part in finding our ideal
-                    employee.
+                      With jobCent, you can utilize incentives to reach the broadest possible candidate pool, while drawing out the best candidates and referrers.
                   </p>
-                 
-                  <div>
-                    <div className="content-sign-in">
-                      
-                      <a href="https://angel.co/ncent/jobs/368555-full-stack-developer">
-                        AngelList
-                      </a>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
