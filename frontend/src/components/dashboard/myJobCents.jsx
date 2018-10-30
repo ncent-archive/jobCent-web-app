@@ -43,8 +43,9 @@ export default class MyJobCents extends React.Component {
         const sponsoredChallengeTiles = sponsoredChallenges.map(function(sponsoredChallenge, index) {
             return ( <div key={index} className="balanceTile">
                 <img className="logoImg" src={ncentLogo} alt="ncent logo" />
-                <h2 className="balance-subtitle">{sponsoredChallenge.name}</h2>
+                <h2 className="balance-title">{sponsoredChallenge.name}</h2>
                 <h3 className="balance-subtitle">Sponsored</h3>
+                <h3 className="balance-subtitle">Unlimited Invites</h3>
                 <a
                     title="New"
                     className="initiate-payment-smaller-margin"
@@ -64,21 +65,20 @@ export default class MyJobCents extends React.Component {
         const heldChallengeTiles = heldChallenges.map(function(heldChallenge, index) {
                 return ( <div key={index} className="balanceTile">
                     <img className="logoImg" src={ncentLogo} alt="ncent logo" />
-                    <h2 className="balance-subtitle">{heldChallenge.name}</h2>
-                    <h3 className="balance-subtitle">Holding</h3>
+                    <h2 className="balance-title">{heldChallenge.name}</h2>
                     <a
                         title="New"
                         className="initiate-payment"
                         onClick={this.props.handleInput("formType", {challengeName: heldChallenge.name, challengeUuid: heldChallenge.uuid})}
                     >
-                        Send
+                        Send Once
                     </a>
                 </div> );
         }.bind(this));
         return (
             <div className="challengesPage">
                 {this.successMessage(this.props.successMessage)}
-                <h1 className="challengesHeader">Your jobCents</h1>
+                <h1 className="challengesHeader">Your jobCent Challenges</h1>
                 <section className="challengeTiles">{sponsoredChallengeTiles}</section>
                 <section className="challengeTiles">{heldChallengeTiles}</section>
             </div>
