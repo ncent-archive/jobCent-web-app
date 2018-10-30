@@ -23,7 +23,8 @@ class Dashboard extends React.Component {
       challengeUuid: "",
       sponsoredChallenges: [],
       challengesHeld: [],
-      errorMessage: ""
+      errorMessage: "",
+      successMessage: ""
     };
     this.handleInput = this.handleInput.bind(this);
     this.update = this.update.bind(this);
@@ -41,11 +42,13 @@ class Dashboard extends React.Component {
             challengeUuid: options.challengeUuid,
             challengeName: options.challengeName,
             errorMessage: "",
+            successMessage: "",
             [key]: e.currentTarget.title
         });
       } else {
           this.setState({
               errorMessage: "",
+              successMessage: "",
               [key]: e.currentTarget.title
           });
       }
@@ -85,7 +88,9 @@ class Dashboard extends React.Component {
               if (userData) {
                   this.setState({
                       sponsoredChallenges: userData.sponsoredChallenges,
-                      heldChallenges: userData.heldChallenges
+                      heldChallenges: userData.heldChallenges,
+                      successMessage: `You have successfully sent your challenge to ${this.state.toAddress}`,
+                      formType: 'jobCents'
                   });
               }
           })
@@ -127,7 +132,8 @@ class Dashboard extends React.Component {
           fetchUser={this.props.fetchUser}
           handleInput={this.handleInput}
           redeemChallenge={this.props.redeemChallenge}
-          userData={this.props.userData}/>;
+          userData={this.props.userData}
+          successMessage={this.state.successMessage}/>;
     }
   }
 

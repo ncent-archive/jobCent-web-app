@@ -15,7 +15,7 @@ export default class Transfer extends React.Component {
                 </div>
                 <form autoComplete="off" spellCheck="true" noValidate="true" onSubmit={this.props.createChallenge}>
                     <div className="initiate-transfer">
-                        <span className="errorMessage">{this.props.errorMessage}</span>
+                        <div className="errorMessage"><span>{this.props.errorMessage}</span></div>
                         <div className="display-amount-fixed">
                             <div className="bottom-margin">
                                 <div className="currency-symbol">Sponsor a jobCent Program Here!</div>

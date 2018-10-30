@@ -639,6 +639,14 @@
   font-size: 18px;
 }
 
+.successMessage {
+  text-align: center;
+  color: green;
+  width: 100%;
+  font-size: 18px;
+  margin-top: 2vh;
+}
+
 a {
   cursor: pointer;
   text-decoration: none;
