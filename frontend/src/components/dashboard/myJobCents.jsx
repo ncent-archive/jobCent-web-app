@@ -49,7 +49,7 @@ export default class MyJobCents extends React.Component {
     challengeList(sponsoredChallenges, heldChallenges) {
         const sponsoredChallengeTiles = sponsoredChallenges.map(function(sponsoredChallenge, index) {
             return ( <div key={index} className="balanceTile">
-                <img className="logoImg" src={ncentLogo} alt="ncent logo" />
+                <img className="logoImg" src={sponsoredChallenge.imageUrl || ncentLogo} alt="ncent logo" />
                 <h2 className="balance-title">{sponsoredChallenge.name}</h2>
                 <h3 className="balance-subtitle">Sponsored</h3>
                 <h3 className="balance-subtitle">Unlimited Invites</h3>
@@ -71,7 +71,7 @@ export default class MyJobCents extends React.Component {
         }.bind(this));
         const heldChallengeTiles = heldChallenges.map(function(heldChallenge, index) {
                 return ( <div key={index} className="balanceTile">
-                    <img className="logoImg" src={ncentLogo} alt="ncent logo" />
+                    <img className="logoImg" src={heldChallenge.imageUrl || ncentLogo} alt="ncent logo" />
                     <h2 className="balance-title">{heldChallenge.name}</h2>
                     <a
                         title="New"

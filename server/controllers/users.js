@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const keys = require("./secret.js");
 const awsEmail = require("./awsEmail.js");
 const nCentSDK = require("ncent-sandbox-sdk");
-const nCentSDKInstance = new nCentSDK("http://18.219.110.45:8010/api");
+const nCentSDKInstance = new nCentSDK("http://localhost:8010/api");
 
 function retrieveProvenanceChain (
     transactions,

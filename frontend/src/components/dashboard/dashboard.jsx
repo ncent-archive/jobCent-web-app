@@ -20,6 +20,8 @@ class Dashboard extends React.Component {
       fromAddress: "",
       toAddress: "",
       challengeName: "",
+        description: "",
+        imageUrl: "",
       rewardAmount: 0,
       challengeUuid: "",
       sponsoredChallenges: [],
@@ -123,6 +125,8 @@ class Dashboard extends React.Component {
       senderPublicKey: this.props.currentUser.publicKey,
       senderPrivateKey: this.props.currentUser.privateKey,
       name: this.state.challengeTitle,
+        description: this.state.description,
+        imageUrl: this.state.imageUrl,
       rewardAmount: this.state.rewardAmount
     });
     this.props.createChallenge(challenge).then(res => {
@@ -161,14 +165,16 @@ class Dashboard extends React.Component {
   }
 
   sponsorChallengeTab() {
-      return (
-          <SponsorChallenge
-            handleInput={this.handleInput}
-            update={this.update}
-            createChallenge={this.createChallengeForUser}
-            errorMessage={this.state.errorMessage}
-          />
-      )
+      if (this.state.formType === "Sponsor") {
+          return (
+              <SponsorChallenge
+                  handleInput={this.handleInput}
+                  update={this.update}
+                  createChallenge={this.createChallengeForUser}
+                  errorMessage={this.state.errorMessage}
+              />
+          );
+      }
   }
 
   sponsorChallengeButton() {

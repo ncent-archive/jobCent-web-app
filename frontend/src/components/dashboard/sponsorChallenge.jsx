@@ -33,7 +33,25 @@ export default class Transfer extends React.Component {
                         <div className="enter-email">
                             <div className="recipiens">
                                 <div className="token-list">
+                                    <input className="transfer-input-field" autoComplete="off" spellCheck="false" placeholder="Job Description" autoCorrect="false" autoCapitalize="off" type="text" onChange={this.props.update("description")} />
+                                </div>
+                            </div>
+                            <div className="anchor" />
+                            <div className="error-box" />
+                        </div>
+                        <div className="enter-email">
+                            <div className="recipiens">
+                                <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false" placeholder="Maximum Tokens for Reward Distribution" autoCorrect="false" autoCapitalize="off" type="text" onChange={this.props.update("rewardAmount")} />
+                                </div>
+                            </div>
+                            <div className="anchor" />
+                            <div className="error-box" />
+                        </div>
+                        <div className="enter-email">
+                            <div className="recipiens">
+                                <div className="token-list">
+                                    <input className="transfer-input-field" autoComplete="off" spellCheck="false" placeholder="Image Link to Display for the Posting" autoCorrect="false" autoCapitalize="off" type="text" onChange={this.props.update("imageUrl")} />
                                 </div>
                             </div>
                             <div className="anchor" />
