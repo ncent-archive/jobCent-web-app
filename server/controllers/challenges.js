@@ -2,7 +2,7 @@ const _ = require('lodash');
 const User = require("../models").User;
 const ncentSDK = require('ncent-sandbox-sdk');
 const stellarSDK = require('stellar-sdk');
-const sdkInstance = new ncentSDK('http://localhost:8010/api');
+const sdkInstance = new ncentSDK('http://18.191.149.219:8010/api');
 const keys = require("./secret.js");
 const awsEmail = require("./awsEmail.js");
 
