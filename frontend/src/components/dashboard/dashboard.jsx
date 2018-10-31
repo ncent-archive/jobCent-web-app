@@ -3,6 +3,7 @@ import "../../scss/components/dashboard.css";
 import MyJobCents from "./myJobCents";
 import Transfer from "./transfer";
 import SponsorChallenge from "./sponsorChallenge.jsx";
+import ChallengeDetail from "./challengeDetail.jsx";
 import Whitelist from "../../util/whitelist.js";
 
 function validateEmail(email) {
@@ -27,17 +28,22 @@ class Dashboard extends React.Component {
       sponsoredChallenges: [],
       challengesHeld: [],
       errorMessage: "",
-      successMessage: ""
+      successMessage: "",
+        challengeDetails: {},
     };
     this.handleInput = this.handleInput.bind(this);
     this.update = this.update.bind(this);
     this.logOut = this.logOut.bind(this);
     this.jobCentsTab = this.jobCentsTab.bind(this);
+    this.sponsorChallengeTab = this.sponsorChallengeTab.bind(this);
+    this.transferTab = this.transferTab.bind(this);
+    this.challengeDetailTab = this.challengeDetailTab.bind(this);
     this.handleTransfer = this.handleTransfer.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.createChallengeForUser = this.createChallengeForUser.bind(this);
     this.isWhitelisted = this.isWhitelisted.bind(this);
     this.sponsorChallengeButton = this.sponsorChallengeButton.bind(this);
+    this.goToChallengeDetail = this.goToChallengeDetail.bind(this);
   }
 
   handleInput(key, options) {
@@ -46,6 +52,7 @@ class Dashboard extends React.Component {
         this.setState({
             challengeUuid: options.challengeUuid,
             challengeName: options.challengeName,
+            imageUrl: options.imageUrl,
             errorMessage: "",
             successMessage: "",
             [key]: e.currentTarget.title
@@ -72,6 +79,13 @@ class Dashboard extends React.Component {
 
   isWhitelisted() {
     return Whitelist[this.props.currentUser.email];
+  }
+
+  goToChallengeDetail(challengeDetails) {
+      this.setState({
+          challengeDetails,
+          formType: "challengeDetail"
+      });
   }
 
   handleTransfer(e) {
@@ -144,6 +158,7 @@ class Dashboard extends React.Component {
           handleInput={this.handleInput}
           redeemChallenge={this.props.redeemChallenge}
           userData={this.props.userData}
+          goToChallengeDetail={this.goToChallengeDetail}
           successMessage={this.state.successMessage}
           errorMessage={this.state.errorMessage}/>;
     }
@@ -158,10 +173,22 @@ class Dashboard extends React.Component {
           handleTransfer={this.handleTransfer}
           challengeName={this.state.challengeName}
           challengeUuid={this.state.challengeUuid}
+          imageUrl={this.state.imageUrl}
           errorMessage={this.state.errorMessage}
         />
       );
     }
+  }
+
+  challengeDetailTab() {
+      if (this.state.formType === "challengeDetail") {
+          return (
+              <ChallengeDetail
+                  handleInput={this.handleInput}
+                challengeDetails={this.state.challengeDetails}
+              />
+          )
+      }
   }
 
   sponsorChallengeTab() {
@@ -365,6 +392,7 @@ class Dashboard extends React.Component {
                 {this.signOutTab(this.props.logout)}
                 {this.transferTab()}
                 {this.sponsorChallengeTab()}
+                {this.challengeDetailTab()}
               </section>
             </div>
           </div>

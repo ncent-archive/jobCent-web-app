@@ -20,7 +20,7 @@ export default class Transfer extends React.Component {
               <span className="errorMessage">{this.props.errorMessage}</span>
               <div className="display-amount-fixed">
                 <div className="bottom-margin">
-                    <img className="logoImg" src={ncentLogo} alt="ncent logo" />
+                    <img className="logoImg" src={this.props.imageUrl || ncentLogo} alt="ncent logo" />
                 </div>
               </div>
               <div className="enter-email">
