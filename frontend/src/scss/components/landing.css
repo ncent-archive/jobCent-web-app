@@ -162,6 +162,10 @@
   transition: background 0.35s ease-out;
 }
 
+.how-it-works {
+  text-align: center;
+}
+
 .footer {
   -ms-flex-align: center;
   -ms-flex-direction: column;

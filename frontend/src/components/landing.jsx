@@ -5,6 +5,8 @@ import "../scss/components/bubbles.css";
 import ncentLogo from "../img/logo_white.png";
 import { Bubbles } from "./bubbles";
 import jobCentGraphic from "../img/jobCentGraphic.png";
+import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
+import 'react-vertical-timeline-component/style.min.css';
 
 class Landing extends React.Component {
   componentDidMount() {
@@ -105,6 +107,45 @@ class Landing extends React.Component {
                 </div>
               </div>
             </div>
+              <h1 className="how-it-works">How It Works</h1>
+              <VerticalTimeline>
+                  <VerticalTimelineElement
+                      className="vertical-timeline-element--work"
+                      iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+                  >
+                      <h3 className="vertical-timeline-element-title">Startup Co.</h3>
+                      <h4 className="vertical-timeline-element-subtitle">The Sponsor</h4>
+                      <p>
+                          Startup Co. is eager to hire 10 software developers. Startup Co. buys NCNT and stamps them to create 100 jobCents. They distribute the jobCents to the most promising CS majors at Dev University.                      </p>
+                  </VerticalTimelineElement>
+                  <VerticalTimelineElement
+                      className="vertical-timeline-element--work"
+                      iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+                  >
+                      <h3 className="vertical-timeline-element-title">Alice</h3>
+                      <h4 className="vertical-timeline-element-subtitle">President of Dev U Computer Club</h4>
+                      <p>
+                          Alice recieves a jobCent from Startup Co. She can apply for the job and if she is hired recieve a 10k NCNT signing bonus. However, she has already committed to working at FacePamphlet Inc. so she sends the jobCent to Bob instead.                      </p>
+                  </VerticalTimelineElement>
+                  <VerticalTimelineElement
+                      className="vertical-timeline-element--work"
+                      iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+                  >
+                      <h3 className="vertical-timeline-element-title">Bob</h3>
+                      <h4 className="vertical-timeline-element-subtitle">Alice's Hardworking Peer</h4>
+                      <p>
+                          Bob wants to take a gap year after graduating, so he chooses not to apply for the job. However, he knows Carol is still looking for a job and that she would fit well with this company. He sends the jobCent to Carol.                      </p>
+                  </VerticalTimelineElement>
+                  <VerticalTimelineElement
+                      className="vertical-timeline-element--work"
+                      iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+                  >
+                      <h3 className="vertical-timeline-element-title">Carol</h3>
+                      <h4 className="vertical-timeline-element-subtitle">Bob's CS Partner</h4>
+                      <p>
+                          Upon receiving the jobCent Carol applies for the job. She must keep her jobCent during the application process if she wants to receive a bonus upon hire. After several interviews, Startup Co. decides that Carol would be a great addition to their team. When Carol gets hired, she receives the 10k NCNT signing bonus. For referring Carol, Bob gets 5k, half of Carol's signing bonus. Alice gets 2.5k, half of Bob's reward, for helping to find the hired candidate.                      </p>
+                  </VerticalTimelineElement>
+              </VerticalTimeline>
             <footer className="footer">
               <div className="social-media">
                 <a
