@@ -96,13 +96,13 @@ class Landing extends React.Component {
                 </div>
                 <div className="app-info">
                   <p>
-                    <b>Hire Better and Faster with the Widest Net</b>
+                    <b>Get Hired. Get Your Network Hired. Get Paid.</b>
                   </p>
                   <p>
-                      jobCent incentivizes people to find the most qualified candidates for a job opening by rewarding everyone involved in referral chain.
+                      jobCent is a platform that provides incentives for people to find the most qualified candiates for jobs.
                   </p>
                   <p>
-                      With jobCent, you can utilize incentives to reach the broadest possible candidate pool, while drawing out the best candidates and referrers.
+                      jobCent is simple and easy to use. Sign in with your email to view your challenge invitations. Hang onto an invitation and get hired, or send it along until someone else does. Either way, you get paid!
                   </p>
                 </div>
               </div>

@@ -29,7 +29,7 @@
 }
 
 .about-jobcent {
-  background-color: #fff;
+  background-color: lightgray;
   font-size: 25px;
   max-width: 1278px;
   min-height: 100vh;
@@ -180,6 +180,8 @@
   font-size: 15px;
   font-weight: 300;
   padding: 40px 0;
+  background-color: blue;
+  width: 100%;
 }
 
 .social-media {
@@ -421,7 +423,7 @@
     -webkit-flex: 0 0 550px;
     flex: 0 0 550px;
     margin-left: 65px;
-    margin-top: 28px;
+    margin-top: 55px;
     min-width: 370px;
     width: 550px;
   }
