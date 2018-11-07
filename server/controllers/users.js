@@ -5,34 +5,7 @@ const bcrypt = require("bcrypt");
 const keys = require("./secret.js");
 const awsEmail = require("./awsEmail.js");
 const nCentSDK = require("ncent-sandbox-sdk");
-const nCentSDKInstance = new nCentSDK("http://18.191.149.219:8010/api");
-
-function retrieveProvenanceChain (
-    transactions,
-    currentTransactionIndex,
-    totalTransactions,
-    pChains,
-    callback
-) {
-    const currentTransaction = transactions[currentTransactionIndex];
-    if (currentTransactionIndex <= totalTransactions - 1) {
-        if (currentTransaction.fromAddress === currentTransaction.toAddress) {
-            pChains.push([currentTransaction]);
-            retrieveProvenanceChain(transactions, currentTransactionIndex + 1, totalTransactions, pChains, callback);
-        } else {
-            nCentSDKInstance.retrieveProvenanceChain(currentTransaction.uuid)
-            .then(function(retrievePChainResponse) {
-                pChains.push(retrievePChainResponse.data);
-                retrieveProvenanceChain(transactions, currentTransactionIndex + 1, totalTransactions, pChains, callback);
-            })
-            .catch(err => {
-                retrieveProvenanceChain(transactions, currentTransactionIndex + 1, totalTransactions, pChains, callback);
-            })
-        }
-    } else {
-      callback(pChains);
-    }
-}
+const nCentSDKInstance = new nCentSDK("http://localhost:8010/api");
 
 module.exports = {
   otplib: otplib,

@@ -17,6 +17,7 @@ export default class MyJobCents extends React.Component {
         this.successMessage = this.successMessage.bind(this);
         this.errorMessage = this.errorMessage.bind(this);
     }
+
     componentWillMount() {
         this.props.fetchUser(this.props.currentUser)
             .then(res => {
@@ -28,6 +29,7 @@ export default class MyJobCents extends React.Component {
                 }
             })
     }
+
     componentDidUpdate(prevProps) {
         if (this.props.userData && !_.isEqual(this.props.userData, prevProps.userData)) {
             this.setState({
@@ -36,51 +38,69 @@ export default class MyJobCents extends React.Component {
             });
         }
     }
+
     successMessage(message) {
         if (message) {
             return <div className="successMessage"><span>{message}</span></div>;
         }
     }
+
     errorMessage(message) {
         if (message) {
             return <div className="errorMessage"><span>{message}</span></div>;
         }
     }
+
     challengeList(sponsoredChallenges, heldChallenges) {
-        const sponsoredChallengeTiles = sponsoredChallenges.map(function(sponsoredChallenge, index) {
-            return ( <div key={index} className="balanceTile">
-                <img className="logoImg" src={sponsoredChallenge.imageUrl || ncentLogo} alt="ncent logo" onClick={() => {this.props.goToChallengeDetail(sponsoredChallenge)}} />
+        const sponsoredChallengeTiles = sponsoredChallenges.map(function (sponsoredChallenge, index) {
+            return (<div key={index} className="balanceTile">
+                <img className="logoImg" src={sponsoredChallenge.imageUrl || ncentLogo} alt="ncent logo"
+                     onClick={() => {
+                         this.props.goToChallengeDetail(sponsoredChallenge)
+                     }}/>
                 <h2 className="balance-title">{sponsoredChallenge.name}</h2>
                 <h3 className="balance-subtitle">Sponsored</h3>
                 <h3 className="balance-subtitle">Unlimited Invites</h3>
                 <a
                     title="New"
                     className="initiate-payment-smaller-margin"
-                    onClick={this.props.handleInput("formType", {challengeName: sponsoredChallenge.name, challengeUuid: sponsoredChallenge.uuid, imageUrl: sponsoredChallenge.imageUrl})}
+                    onClick={this.props.handleInput("formType", {
+                        challengeName: sponsoredChallenge.name,
+                        challengeUuid: sponsoredChallenge.uuid,
+                        imageUrl: sponsoredChallenge.imageUrl
+                    })}
                 >
                     Send
                 </a>
                 <a
                     title="Redeem"
                     className="initiate-payment"
-                    onClick={this.props.redeemChallenge.bind(null, sponsoredChallenge.uuid, this.props.currentUser.email)}
+                    onClick={() => {
+                        this.props.goToRedeemTab(sponsoredChallenge)
+                    }}
                 >
                     Redeem
                 </a>
-            </div> );
+            </div>);
         }.bind(this));
-        const heldChallengeTiles = heldChallenges.map(function(heldChallenge, index) {
-                return ( <div key={index} className="balanceTile">
-                    <img className="logoImg" src={heldChallenge.imageUrl || ncentLogo} alt="ncent logo" onClick={() => {this.props.goToChallengeDetail(heldChallenge)}} />
-                    <h2 className="balance-title">{heldChallenge.name}</h2>
-                    <a
-                        title="New"
-                        className="initiate-payment"
-                        onClick={this.props.handleInput("formType", {challengeName: heldChallenge.name, challengeUuid: heldChallenge.uuid, imageUrl: heldChallenge.imageUrl})}
-                    >
-                        Send Once
-                    </a>
-                </div> );
+        const heldChallengeTiles = heldChallenges.map(function (heldChallenge, index) {
+            return (<div key={index} className="balanceTile">
+                <img className="logoImg" src={heldChallenge.imageUrl || ncentLogo} alt="ncent logo" onClick={() => {
+                    this.props.goToChallengeDetail(heldChallenge)
+                }}/>
+                <h2 className="balance-title">{heldChallenge.name}</h2>
+                <a
+                    title="New"
+                    className="initiate-payment"
+                    onClick={this.props.handleInput("formType", {
+                        challengeName: heldChallenge.name,
+                        challengeUuid: heldChallenge.uuid,
+                        imageUrl: heldChallenge.imageUrl
+                    })}
+                >
+                    Send Once
+                </a>
+            </div>);
         }.bind(this));
         return (
             <div className="challengesPage">
@@ -92,6 +112,7 @@ export default class MyJobCents extends React.Component {
             </div>
         );
     }
+
     render() {
         return (
             this.challengeList(this.state.sponsoredChallenges, this.state.heldChallenges)

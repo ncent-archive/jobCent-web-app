@@ -1,10 +1,15 @@
 import axios from "axios";
-import { merge } from "lodash";
+import {merge} from "lodash";
 
-export const login = user => axios.post("api/session", { user });
+export const login = user => axios.post("api/session", {user});
 export const logout = () => axios.delete("api/session");
-export const signup = user => axios.post("api/users", { user });
+export const signup = user => axios.post("api/users", {user});
 export const fetchUser = user => axios.get("api/users/" + user.uuid);
-export const shareChallenge = (challengeUuid, fromAddress, toAddress) => axios.patch(`api/challenges/${challengeUuid}`, {fromAddress, toAddress});
+export const shareChallenge = (challengeUuid, fromAddress, toAddress, numShares) => axios.patch(`api/challenges/${challengeUuid}`, {
+    fromAddress,
+    toAddress,
+    numShares
+});
 export const createChallenge = challenge => axios.post("api/challenges/", challenge);
-export const redeemChallenge = (challengeUuid, sponsorAddress) => axios.post(`api/challenges/${challengeUuid}/${sponsorAddress}`);
+export const redeemChallenge = (challengeUuid, sponsorAddress, redeemerAddress) => axios.post(`api/challenges/${challengeUuid}/${sponsorAddress}`, {redeemerAddress});
+export const retrieveLeafNodeTransactions = challengeUuid => axios.get(`api/challenges/leafNodes/${challengeUuid}`);
