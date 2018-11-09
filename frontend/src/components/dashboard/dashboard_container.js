@@ -6,7 +6,7 @@ import {
     shareChallenge,
     createChallenge,
     redeemChallenge,
-    retrieveLeafNodeTransactions
+    retrieveLeafNodeUsers
 } from "../../actions/dashboard_actions";
 
 const mapStateToProps = (state, ownProps) => ({
@@ -21,10 +21,10 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
     fetchUser: user => dispatch(fetchUser(user)),
     shareChallenge: (challengeUuid, fromAddress, toAddress, numShares) => dispatch(shareChallenge(challengeUuid, fromAddress, toAddress, numShares)),
-    redeemChallenge: (challengeUuid, sponsorAddress) => dispatch(redeemChallenge(challengeUuid, sponsorAddress)),
+    redeemChallenge: (challengeUuid, sponsorAddress, redeemerAddress) => dispatch(redeemChallenge(challengeUuid, sponsorAddress, redeemerAddress)),
     logout: () => dispatch(logout()),
     createChallenge: challenge => dispatch(createChallenge(challenge)),
-    retrieveLeafNodeTransactions: challengeUuid => dispatch(retrieveLeafNodeTransactions(challengeUuid))
+    retrieveLeafNodeUsers: challengeUuid => dispatch(retrieveLeafNodeUsers(challengeUuid))
 });
 
 export default connect(

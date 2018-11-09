@@ -21,7 +21,7 @@ class Dashboard extends React.Component {
             jobCents: "0",
             fromAddress: "",
             toAddress: "",
-            redeemAddress: "",
+            redeemerAddress: "",
             challengeName: "",
             description: "",
             imageUrl: "",
@@ -35,7 +35,7 @@ class Dashboard extends React.Component {
             errorMessage: "",
             successMessage: "",
             challengeDetails: {},
-            leafNodeTransactions: []
+            leafNodeUsers: []
         };
         this.handleInput = this.handleInput.bind(this);
         this.update = this.update.bind(this);
@@ -52,6 +52,8 @@ class Dashboard extends React.Component {
         this.goToChallengeDetail = this.goToChallengeDetail.bind(this);
         this.goToRedeemTab = this.goToRedeemTab.bind(this);
         this.redeemTab = this.redeemTab.bind(this);
+        this.selectRedeemer = this.selectRedeemer.bind(this);
+        this.handleRedeem = this.handleRedeem.bind(this);
     }
 
     handleInput(key, options) {
@@ -98,9 +100,10 @@ class Dashboard extends React.Component {
     }
 
     async goToRedeemTab(challengeDetails) {
-        const leafNodeResponse = await this.props.retrieveLeafNodeTransactions(challengeDetails.uuid);
+        const leafNodeResponse = await this.props.retrieveLeafNodeUsers(challengeDetails.uuid);
+        console.log(leafNodeResponse);
         this.setState({
-            leafNodeTransactions: leafNodeResponse.leafNodes.data.leafNodeTransactions.leafNodeTransactions,
+            leafNodeUsers: leafNodeResponse.leafNodes.data.leafNodeUsers,
             challengeDetails,
             formType: "Redeem"
         });
@@ -171,6 +174,20 @@ class Dashboard extends React.Component {
         });
     }
 
+    selectRedeemer(redeemerAddress) {
+        this.setState({
+            redeemerAddress
+        });
+    }
+
+    handleRedeem(challengeUuid, sponsorAddress) {
+        this.props.redeemChallenge(challengeUuid, sponsorAddress, this.state.redeemerAddress).then(res => {
+            this.props.fetchUser(this.props.currentUser).then(balance => {
+                this.setState({...this.state, formType: 'jobCents'});
+            });
+        });
+    }
+
     jobCentsTab() {
         if (this.state.formType === "jobCents" && this.props.currentUser) {
             return <MyJobCents
@@ -206,11 +223,11 @@ class Dashboard extends React.Component {
             return (
                 <Redeem
                     handleInput={this.handleInput}
-                    update={this.update}
+                    selectRedeemer={this.selectRedeemer}
                     currentUser={this.props.currentUser}
-                    redeemChallenge={this.props.redeemChallenge}
+                    handleRedeem={this.handleRedeem}
                     challengeDetails={this.state.challengeDetails}
-                    leafNodeTransactions={this.state.leafNodeTransactions}
+                    leafNodeUsers={this.state.leafNodeUsers}
                 />
             )
         }

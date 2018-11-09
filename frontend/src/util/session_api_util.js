@@ -12,4 +12,4 @@ export const shareChallenge = (challengeUuid, fromAddress, toAddress, numShares)
 });
 export const createChallenge = challenge => axios.post("api/challenges/", challenge);
 export const redeemChallenge = (challengeUuid, sponsorAddress, redeemerAddress) => axios.post(`api/challenges/${challengeUuid}/${sponsorAddress}`, {redeemerAddress});
-export const retrieveLeafNodeTransactions = challengeUuid => axios.get(`api/challenges/leafNodes/${challengeUuid}`);
+export const retrieveLeafNodeUsers = challengeUuid => axios.get(`api/challenges/leafNodes/${challengeUuid}`);

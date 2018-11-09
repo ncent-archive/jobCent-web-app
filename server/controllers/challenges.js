@@ -6,10 +6,10 @@ const sdkInstance = new ncentSDK('http://localhost:8010/api');
 const keys = require("./secret.js");
 const awsEmail = require("./awsEmail.js");
 
-const handleProvenance = async (transactionUuid, challenge) => {
-    const pChainResp = await sdkInstance.retrieveProvenanceChain(transactionUuid);
+const handleProvenance = async (challenge, redeemTransactionUuid) => {
+    const pChainResp = await sdkInstance.retrieveProvenanceChain(redeemTransactionUuid);
     const pChain = pChainResp.data;
-    let challengeReward = parseFloat(challenge.rewardAmount) / 2.0;
+    let challengeReward = parseFloat(challenge.rewardAmount) / challenge.maxRedemptions / 2.0;
     for (let i = pChain.length - 2; i >= 0; i--) {
         if (pChain[i].parentTransaction) {
             const recipient = await User.findOne({where: {publicKey: pChain[i].toAddress}});
@@ -36,7 +36,7 @@ module.exports = {
         const tokenTypeUuid = NCNT[0].uuid;
         const expiration = '2020';
 
-        const createChallengeResponse = await sdkInstance.createChallenge(senderKeypair, name, description, imageUrl, expiration, tokenTypeUuid, rewardAmountInt, maxSharesInt, maxRedemptionsInt);
+        const createChallengeResponse = await sdkInstance.createChallenge(senderKeypair, name, description, imageUrl, expiration, tokenTypeUuid, rewardAmountInt, "NCNT", maxSharesInt, maxRedemptionsInt);
         res.status(200).send({challenge: createChallengeResponse.data});
     },
 
@@ -68,26 +68,33 @@ module.exports = {
         const {sponsorAddress, challengeUuid} = params;
         const redeemerAddress = body.redeemerAddress;
 
-        const challenge = await sdkInstance.retrieveChallenge(challengeUuid);
-
         const sponsor = await User.findOne({where: {email: sponsorAddress}});
         const sponsorKeypair = stellarSDK.Keypair.fromSecret(sponsor.privateKey);
 
         const redeemChallengeResponse = await sdkInstance.redeemChallenge(sponsorKeypair, challengeUuid, redeemerAddress);
         const redeemTransactionUuid = redeemChallengeResponse.data.redeemTransaction.uuid;
 
-        handleProvenance(redeemTransactionUuid, challenge.data.challenge);
+        const challenge = await sdkInstance.retrieveChallenge(challengeUuid);
+
+        handleProvenance(challenge.data.challenge, redeemTransactionUuid);
         const sponsoredChallenges = redeemChallengeResponse.data.sponsoredChallenges;
         const heldChallenges = redeemChallengeResponse.data.heldChallenges;
         res.status(200).send({sponsoredChallenges, heldChallenges});
     },
 
-    async retrieveLeafNodeTransactions({params}, res) {
+    async retrieveLeafNodeUsers({params}, res) {
+        let leafNodeUsers = [];
         const leafNodesResp = await sdkInstance.retrieveLeafNodeTransactions(params.challengeUuid);
         if (leafNodesResp.status === 200) {
-            return res.status(200).send({leafNodeTransactions: leafNodesResp.data});
+            leafNodesResp.data.leafNodeTransactions.forEach(async (transaction, index) => {
+                let leafNodeUser = await User.find({where: {publicKey: transaction.toAddress}});
+                leafNodeUsers.push(leafNodeUser);
+                if (index === leafNodesResp.data.leafNodeTransactions.length - 1) {
+                    return res.status(200).send({leafNodeUsers});
+                }
+            });
+        } else {
+            return res.status(404).send({message: "Leaf nodes not found"});
         }
-
-        return res.status(404).send({message: "Leaf nodes not found"});
     }
 };

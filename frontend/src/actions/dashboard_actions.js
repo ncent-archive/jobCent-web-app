@@ -64,8 +64,8 @@ export const redeemChallenge = (challengeUuid, sponsorAddress, redeemerAddress) 
         err => dispatch(receiveErrors(err))
     );
 
-export const retrieveLeafNodeTransactions = challengeUuid => dispatch =>
-    ApiUtil.retrieveLeafNodeTransactions(challengeUuid).then(
+export const retrieveLeafNodeUsers = challengeUuid => dispatch =>
+    ApiUtil.retrieveLeafNodeUsers(challengeUuid).then(
         data => dispatch(receiveLeafNodes(data)),
         err => dispatch(receiveErrors(err))
     );
