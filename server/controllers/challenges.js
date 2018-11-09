@@ -84,11 +84,16 @@ module.exports = {
 
     async retrieveLeafNodeUsers({params}, res) {
         let leafNodeUsers = [];
+        let leafNodeUserUuids = [];
         const leafNodesResp = await sdkInstance.retrieveLeafNodeTransactions(params.challengeUuid);
         if (leafNodesResp.status === 200) {
             leafNodesResp.data.leafNodeTransactions.forEach(async (transaction, index) => {
                 let leafNodeUser = await User.find({where: {publicKey: transaction.toAddress}});
-                leafNodeUsers.push(leafNodeUser);
+                let leafNodeUserUuid = leafNodeUser.uuid;
+                if (!leafNodeUserUuids.includes(leafNodeUserUuid)) {
+                    leafNodeUsers.push(leafNodeUser);
+                    leafNodeUserUuids.push(leafNodeUserUuid);
+                }
                 if (index === leafNodesResp.data.leafNodeTransactions.length - 1) {
                     return res.status(200).send({leafNodeUsers});
                 }
