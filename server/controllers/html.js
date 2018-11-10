@@ -1,5 +1,5 @@
 module.exports = {
-    inviteHtml(challengeTitle){
+    inviteHtml(challengeTitle) {
         return (
             `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
@@ -465,7 +465,7 @@ module.exports = {
                               </tr>
                               <tr>
                                 <td align="center" class="code">
-                                  <div class="text">${challengeTitle}</div>
+                                  <div class="text">${challengeTitle} jobCents!</div>
                                 </td>
                               </tr>
                               <tr>
@@ -481,7 +481,8 @@ module.exports = {
                                     <tbody>
                                       <tr>
                                         <td align="center" class="secondary">
-                                          <div class="subtitle text">Please go to the jobCent website and sign in with this email address to view your invite!</div>
+                                          <div class="subtitle text">Please go to the <a href="http://3.16.1.20:3000">jobCent website</a> and sign in with this email address to view your invite!</div>
+                                            <span align="center"><a href="http://3.16.1.20:3000#about">Click Here</a> To Learn More About jobCent</a></span>
                                         </td>
                                       </tr>
                                       <tr>
@@ -1074,8 +1075,8 @@ module.exports = {
 
 
                                       <tr>
-                                        <td height="36">
-
+                                        <td height="36" align="center">
+                                      <span><a href="http://3.16.1.20:3000#about">Click Here</a> To Learn More About jobCent</a></span>
                                         </td>
                                       </tr>
                                     </tbody>
@@ -1161,7 +1162,7 @@ module.exports = {
 
 </html>`);
     },
-    rewardHtml (reward, rewardTitle) {
+    rewardHtml(reward, rewardTitle) {
         return (`<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html>
@@ -1644,6 +1645,7 @@ module.exports = {
                                       <tr>
                                         <td align="center" class="secondary">
                                           <div class="subtitle text">Thank you for using jobCent!</div>
+                                        <span><a href="http://3.16.1.20:3000#about">Click Here</a> To Learn More About jobCent</a></span>  
                                         </td>
                                       </tr>
                                       <tr>
@@ -1742,7 +1744,7 @@ module.exports = {
 
 </html>`);
     },
-    redemptionHtml (redemptionInfoHtml, challengeTitle) {
+    redemptionHtml(redemptionInfoHtml, challengeTitle) {
         return (`<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html>
@@ -2224,6 +2226,7 @@ module.exports = {
                                       <tr>
                                         <td align="center" class="secondary">
                                           <div class="subtitle text">Thank you for using jobCent!</div>
+                                          <span align="center"><a href="http://3.16.1.20:3000#about">Click Here</a> To Learn More About jobCent</a></span>
                                         </td>
                                       </tr>
                                       <tr>

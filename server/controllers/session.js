@@ -48,7 +48,7 @@ module.exports = {
             res.clearCookie("session_token");
             res.status(200).send("Logged out successfully");
         } else {
-            res.status(404).send("No user logged in to log out!");
+            res.status(403).send("No user logged in to log out!");
         }
     }
 };
