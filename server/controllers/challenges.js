@@ -86,7 +86,10 @@ module.exports = {
         let leafNodeUsers = [];
         let leafNodeUserUuids = [];
         const leafNodesResp = await sdkInstance.retrieveLeafNodeTransactions(params.challengeUuid);
-        if (leafNodesResp.status === 200) {
+        if (leafNodesResp && leafNodesResp.status === 200) {
+            if (leafNodesResp.data.leafNodeTransactions.length <= 0) {
+                return res.status(200).send({leafNodeUsers});
+            }
             leafNodesResp.data.leafNodeTransactions.forEach(async (transaction, index) => {
                 let leafNodeUser = await User.find({where: {publicKey: transaction.toAddress}});
                 let leafNodeUserUuid = leafNodeUser.uuid;

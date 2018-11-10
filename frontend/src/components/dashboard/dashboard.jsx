@@ -101,12 +101,17 @@ class Dashboard extends React.Component {
 
     async goToRedeemTab(challengeDetails) {
         const leafNodeResponse = await this.props.retrieveLeafNodeUsers(challengeDetails.uuid);
-        console.log(leafNodeResponse);
-        this.setState({
-            leafNodeUsers: leafNodeResponse.leafNodes.data.leafNodeUsers,
-            challengeDetails,
-            formType: "Redeem"
-        });
+        if (leafNodeResponse.leafNodes.data.leafNodeUsers.length) {
+            this.setState({
+                leafNodeUsers: leafNodeResponse.leafNodes.data.leafNodeUsers,
+                challengeDetails,
+                formType: "Redeem"
+            });
+        } else {
+            this.setState({
+                errorMessage: "No eligible redeemers at this time, click the 'Send' button to send jobCents to other users for redemption!"
+            });
+        }
     }
 
     handleTransfer(e) {
