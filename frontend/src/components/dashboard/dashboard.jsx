@@ -188,7 +188,7 @@ class Dashboard extends React.Component {
     handleRedeem(challengeUuid, sponsorAddress) {
         this.props.redeemChallenge(challengeUuid, sponsorAddress, this.state.redeemerAddress).then(res => {
             this.props.fetchUser(this.props.currentUser).then(balance => {
-                this.setState({...this.state, formType: 'jobCents'});
+                this.setState({...this.state, formType: 'jobCents', successMessage: "Your challenge has been redeemed! Please check your email for confirmation and details."});
             });
         });
     }

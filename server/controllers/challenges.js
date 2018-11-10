@@ -9,13 +9,25 @@ const awsEmail = require("./awsEmail.js");
 const handleProvenance = async (challenge, redeemTransactionUuid) => {
     const pChainResp = await sdkInstance.retrieveProvenanceChain(redeemTransactionUuid);
     const pChain = pChainResp.data;
+    const sponsor = await User.find({where: {publicKey: challenge.sponsorWalletAddress}});
+    const sponsorEmail = sponsor.email;
+    const redemptionInfo = {};
     let challengeReward = parseFloat(challenge.rewardAmount) / challenge.maxRedemptions / 2.0;
     for (let i = pChain.length - 2; i >= 0; i--) {
+        console.log(pChain[i]);
         if (pChain[i].parentTransaction) {
             const recipient = await User.findOne({where: {publicKey: pChain[i].toAddress}});
             awsEmail.sendMail(keys.from, recipient.email, {reward: challengeReward, rewardTitle: challenge.name});
+            redemptionInfo[recipient.email] = challengeReward;
+            challengeReward = challengeReward / 2.0;
+        } else {
+            let redemptionInfoHtml = "";
+            const redemptionInfoKeys = Object.keys(redemptionInfo);
+            redemptionInfoKeys.forEach(key => {
+                redemptionInfoHtml += `${key} won $${redemptionInfo[key]}` + "\n";
+            });
+            awsEmail.sendMail(keys.from, sponsorEmail, {redemptionInfoHtml, redemptionChallengeTitle: challenge.name});
         }
-        challengeReward = challengeReward / 2.0;
     }
 };
 

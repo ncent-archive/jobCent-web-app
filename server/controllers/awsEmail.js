@@ -37,6 +37,14 @@ module.exports = {
                 // text: '',
                 html: htmlTemplate.rewardHtml(options.reward, options.rewardTitle)
             };
+        } else if (options.redemptionInfoHtml) {
+            mailOptions = {
+                from: "noreply@ncnt.io",
+                to: to,
+                subject: "Your jobCent Challenge was Redeemed!",
+                // text: '',
+                html: htmlTemplate.redemptionHtml(options.redemptionInfoHtml, options.redemptionChallengeTitle)
+            };
         }
         // send mail
         transporter.sendMail(mailOptions, function(error, info) {
