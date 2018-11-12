@@ -170,18 +170,72 @@
   -ms-flex-align: center;
   -ms-flex-direction: column;
   -webkit-align-items: center;
-  -webkit-flex-direction: column;
   align-items: center;
+  justify-content: center;
   border-top: 1px solid #d8d8d8;
-  color: #cdcdcd;
+  color: #ffffff;
   display: flex;
   flex: 1 1 auto;
-  flex-direction: column;
   font-size: 15px;
   font-weight: 300;
   padding: 40px 0;
   background-color: blue;
   width: 100%;
+}
+
+.headerLogo, .headerLogoImg {
+  width: 20vw;
+  height: auto;
+}
+
+.contactUs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-right: 10vw;
+  padding-left: 10vw;
+  vertical-align: center;
+  width: 50vw;
+}
+
+.followUsHeader {
+  font-size: 2.5vh;
+}
+
+.contactImg {
+  font-size: 30px;
+  padding-left: 1vh;
+  padding-right: 1vh;
+  color: #ffffff;
+}
+
+.emailLink {
+  color: lightsalmon;
+}
+
+.contactImg.linkedinIcon {
+  width: 8vh;
+  height: 5vh;
+}
+
+.moreInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 25vw;
+  font-size: 2vh;
+}
+
+.phone {
+  padding-bottom: 2vh;
+}
+
+.copyright {
+  padding-top: 2vh;
+}
+
+.contactButton:hover {
+  text-decoration: none;
 }
 
 .social-media {

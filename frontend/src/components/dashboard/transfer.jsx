@@ -40,7 +40,7 @@ export default class Transfer extends React.Component {
                             <div className="recipiens">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Number of Shares (Tokens) to Send" autoCorrect="false" autoCapitalize="off"
+                                           placeholder="Number of jobCents to Send" autoCorrect="false" autoCapitalize="off"
                                            type="text" onChange={this.props.update("numShares")}/>
                                 </div>
                             </div>
@@ -50,6 +50,7 @@ export default class Transfer extends React.Component {
                         <button className="theme-button transfer-button">
                             Send {this.props.challengeName}
                         </button>
+                        <p className="disclaimerText">*Please note that rewards can only be redeemed if you have a jobCent balance greater than zero for the challenge you get hired for.</p>
                     </div>
                 </form>
             </div>

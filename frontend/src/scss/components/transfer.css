@@ -243,6 +243,10 @@ label {
     cursor: pointer;
 }
 
+.disclaimerText {
+    font-size: 11px;
+}
+
 @keyframes fadeOut {
     0% {
         opacity: 1;
