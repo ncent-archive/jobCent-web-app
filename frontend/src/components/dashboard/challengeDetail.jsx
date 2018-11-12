@@ -1,6 +1,7 @@
 import React from "react";
 import "../../scss/components/transfer.css";
 import x from "../../img/x.png";
+import ncentLogo from "../../img/logo.png";
 
 export default class ChallengeDetail extends React.Component {
     constructor(props) {
@@ -16,12 +17,13 @@ export default class ChallengeDetail extends React.Component {
                 <div className="not-x-button">
                     <h1 className="challengeName">{this.props.challengeDetails.name}</h1>
                     <div className="headerChallengeImage">
-                        <img src={this.props.challengeDetails.imageUrl} className="challengeImage"/>
+                        <img src={this.props.challengeDetails.imageUrl || ncentLogo} className="challengeImage"/>
                     </div>
                     <div className="challengeContent">
-                        <h2 className="challengeReward">Total
-                            Reward: {this.props.challengeDetails.rewardAmount} Tokens</h2>
-                        <p className="challengeDescription">{this.props.challengeDetails.description}</p>
+                        <h2 className="challengeReward">Total Reward: ${this.props.challengeDetails.rewardAmount}</h2>
+                        <p className="challengeDescription">Description: {this.props.challengeDetails.description}</p>
+                        <h2>Your balance: {this.props.challengeBalance} jobCent(s)</h2>
+                        <h2>This challenge can still be redeemed {this.props.remainingRedemptions} time(s)</h2>
                     </div>
                 </div>
             </div>

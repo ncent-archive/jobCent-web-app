@@ -29,6 +29,8 @@ class Dashboard extends React.Component {
             maxShares: 0,
             maxRedemptions: 0,
             numShares: 0,
+            challengeBalance: 0,
+            remainingRedemptions: 0,
             challengeUuid: "",
             sponsoredChallenges: [],
             challengesHeld: [],
@@ -92,9 +94,11 @@ class Dashboard extends React.Component {
         return Whitelist[this.props.currentUser.email];
     }
 
-    goToChallengeDetail(challengeDetails) {
+    goToChallengeDetail(challengeDetails, challengeBalance, remainingRedemptions) {
         this.setState({
             challengeDetails,
+            challengeBalance,
+            remainingRedemptions,
             formType: "challengeDetail"
         });
     }
@@ -244,6 +248,8 @@ class Dashboard extends React.Component {
                 <ChallengeDetail
                     handleInput={this.handleInput}
                     challengeDetails={this.state.challengeDetails}
+                    challengeBalance={this.state.challengeBalance}
+                    remainingRedemptions={this.state.remainingRedemptions}
                 />
             )
         }

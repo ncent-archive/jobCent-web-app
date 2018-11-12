@@ -9,8 +9,10 @@ export default class MyJobCents extends React.Component {
         this.state = {
             sponsoredChallenges: [],
             sponsoredChallengeBalances: [],
+            sponsoredChallengeRemainingRedemptions: [],
             heldChallenges: [],
             heldChallengeBalances: [],
+            heldChallengeRemainingRedemptions: [],
             successMessage: "",
             errorMessage: ""
         };
@@ -27,8 +29,10 @@ export default class MyJobCents extends React.Component {
                     this.setState({
                         sponsoredChallenges: this.props.userData.sponsoredChallenges,
                         sponsoredChallengeBalances: this.props.userData.sponsoredChallengeBalances,
+                        sponsoredChallengeRemainingRedemptions: this.props.userData.sponsoredChallengeRemainingRedemptions,
                         heldChallenges: this.props.userData.heldChallenges,
-                        heldChallengeBalances: this.props.userData.heldChallengeBalances
+                        heldChallengeBalances: this.props.userData.heldChallengeBalances,
+                        heldChallengeRemainingRedemptions: this.props.userData.heldChallengeRemainingRedemptions
                     });
                 }
             })
@@ -55,16 +59,16 @@ export default class MyJobCents extends React.Component {
         }
     }
 
-    challengeList(sponsoredChallenges, heldChallenges, sponsoredChallengeBalances, heldChallengeBalances) {
+    challengeList(sponsoredChallenges, heldChallenges, sponsoredChallengeBalances, heldChallengeBalances, sponsoredChallengeRemainingRedemptions, heldChallengeRemainingRedemptions) {
         const sponsoredChallengeTiles = sponsoredChallenges.map(function (sponsoredChallenge, index) {
             return (<div key={index} className="balanceTile">
                 <img className="logoImg" src={sponsoredChallenge.imageUrl || ncentLogo} alt="ncent logo"
                      onClick={() => {
-                         this.props.goToChallengeDetail(sponsoredChallenge)
+                         this.props.goToChallengeDetail(sponsoredChallenge, sponsoredChallengeBalances[index], sponsoredChallengeRemainingRedemptions[index])
                      }}/>
                 <h2 className="balance-title">{sponsoredChallenge.name}</h2>
                 <h3 className="balance-subtitle">Sponsored</h3>
-                <h3 className="balance-subtitle">{sponsoredChallengeBalances[index]} jobCents</h3>
+                <h3 className="balance-subtitle">{sponsoredChallengeBalances[index]} jobCent(s)</h3>
                 <a
                     title="New"
                     className="initiate-payment-smaller-margin"
@@ -90,10 +94,10 @@ export default class MyJobCents extends React.Component {
         const heldChallengeTiles = heldChallenges.map(function (heldChallenge, index) {
             return (<div key={index} className="balanceTile">
                 <img className="logoImg" src={heldChallenge.imageUrl || ncentLogo} alt="ncent logo" onClick={() => {
-                    this.props.goToChallengeDetail(heldChallenge)
+                    this.props.goToChallengeDetail(heldChallenge, heldChallengeBalances[index], heldChallengeRemainingRedemptions[index])
                 }}/>
                 <h2 className="balance-title">{heldChallenge.name}</h2>
-                <h3 className="balance-subtitle">{heldChallengeBalances[index]} jobCents</h3>
+                <h3 className="balance-subtitle">{heldChallengeBalances[index]} jobCent(s)</h3>
                 <a
                     title="New"
                     className="initiate-payment"
@@ -120,7 +124,7 @@ export default class MyJobCents extends React.Component {
 
     render() {
         return (
-            this.challengeList(this.state.sponsoredChallenges, this.state.heldChallenges, this.state.sponsoredChallengeBalances, this.state.heldChallengeBalances)
+            this.challengeList(this.state.sponsoredChallenges, this.state.heldChallenges, this.state.sponsoredChallengeBalances, this.state.heldChallengeBalances, this.state.sponsoredChallengeRemainingRedemptions, this.state.heldChallengeRemainingRedemptions)
         );
     }
 }
