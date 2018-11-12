@@ -15,7 +15,7 @@ export default class Transfer extends React.Component {
                 <div title="jobCents" className="close-button" onClick={this.props.handleInput("formType")}>
                     <img src={x} alt=""/>
                 </div>
-                <form autoComplete="off" spellCheck="true" noValidate="true" onSubmit={this.props.handleTransfer}>
+                <form autoComplete="off" className="transferForm" spellCheck="true" noValidate="true" onSubmit={this.props.handleTransfer}>
                     <div className="initiate-transfer">
                         <span className="errorMessage">{this.props.errorMessage}</span>
                         <div className="display-amount-fixed">

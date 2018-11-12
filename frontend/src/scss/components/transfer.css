@@ -243,6 +243,10 @@ label {
     cursor: pointer;
 }
 
+.transferForm {
+    min-width: 40vw;
+}
+
 .disclaimerText {
     font-size: 11px;
 }
