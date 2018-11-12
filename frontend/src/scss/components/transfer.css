@@ -193,6 +193,7 @@ label {
 
 .transfer-button:hover {
     background-color: #2859d6;
+    cursor: pointer;
 }
 
 .anchor {

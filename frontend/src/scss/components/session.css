@@ -107,7 +107,6 @@
 
 .text-field::placeholder {
   font-weight: 100px;
-  opacity: 0.5;
 }
 
 .theme-button {
@@ -115,10 +114,10 @@
   background-color: #14d642;
   border: none;
   border-radius: 4px;
-  color: #fff;
+  color: black;
+  font-weight: bold;
   display: block;
   font-size: 18px;
-  font-weight: 300;
   height: 55px;
   opacity: 0.9;
   outline: 0;
@@ -128,6 +127,7 @@
 
 .theme-button:hover {
   background-color: #16df45;
+  cursor: pointer;
 }
 
 .errors-flex {

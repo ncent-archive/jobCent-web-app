@@ -232,6 +232,7 @@
 
 .contactButton:hover {
   text-decoration: none;
+  cursor: pointer;
 }
 
 .social-media {
@@ -364,6 +365,7 @@
 
   .test-button:hover {
     background-color: #27bc01;
+    cursor: pointer;
   }
 
   .app-image img {
