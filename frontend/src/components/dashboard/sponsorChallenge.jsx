@@ -47,6 +47,17 @@ export default class Transfer extends React.Component {
                             <div className="recipiens">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
+                                           placeholder="Company" autoCorrect="false" autoCapitalize="off"
+                                           type="text" onChange={this.props.update("company")}/>
+                                </div>
+                            </div>
+                            <div className="anchor"/>
+                            <div className="error-box"/>
+                        </div>
+                        <div className="enter-email">
+                            <div className="recipiens">
+                                <div className="token-list">
+                                    <input className="transfer-input-field" autoComplete="off" spellCheck="false"
                                            placeholder="Maximum Reward Payout (U.S. Dollars)" autoCorrect="false"
                                            autoCapitalize="off" type="text"
                                            onChange={this.props.update("rewardAmount")}/>

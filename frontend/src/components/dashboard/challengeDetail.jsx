@@ -16,6 +16,7 @@ export default class ChallengeDetail extends React.Component {
                 </div>
                 <div className="not-x-button">
                     <h1 className="challengeName">{this.props.challengeDetails.name}</h1>
+                    <h1 className="challengeName">{this.props.challengeDetails.company}</h1>
                     <div className="headerChallengeImage">
                         <img src={this.props.challengeDetails.imageUrl || ncentLogo} className="challengeImage"/>
                     </div>

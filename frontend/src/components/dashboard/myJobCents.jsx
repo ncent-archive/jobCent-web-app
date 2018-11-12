@@ -62,6 +62,7 @@ export default class MyJobCents extends React.Component {
     challengeList(sponsoredChallenges, heldChallenges, sponsoredChallengeBalances, heldChallengeBalances, sponsoredChallengeRemainingRedemptions, heldChallengeRemainingRedemptions) {
         const sponsoredChallengeTiles = sponsoredChallenges.map(function (sponsoredChallenge, index) {
             return (<div key={index} className="balanceTile">
+                <h2 className="balance-title">{sponsoredChallenge.company}</h2>
                 <img className="logoImg" src={sponsoredChallenge.imageUrl || ncentLogo} alt="ncent logo"
                      onClick={() => {
                          this.props.goToChallengeDetail(sponsoredChallenge, sponsoredChallengeBalances[index], sponsoredChallengeRemainingRedemptions[index])
@@ -93,6 +94,7 @@ export default class MyJobCents extends React.Component {
         }.bind(this));
         const heldChallengeTiles = heldChallenges.map(function (heldChallenge, index) {
             return (<div key={index} className="balanceTile">
+                <h2 className="balance-title">{heldChallenge.company}</h2>
                 <img className="logoImg" src={heldChallenge.imageUrl || ncentLogo} alt="ncent logo" onClick={() => {
                     this.props.goToChallengeDetail(heldChallenge, heldChallengeBalances[index], heldChallengeRemainingRedemptions[index])
                 }}/>

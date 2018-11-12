@@ -33,7 +33,7 @@ const handleProvenance = async (challenge, redeemTransactionUuid) => {
 
 module.exports = {
     async create(req, res) {
-        const {senderPublicKey, name, description, imageUrl, participationUrl, rewardAmount, maxShares, maxRedemptions} = req.body;
+        const {senderPublicKey, name, description, company, imageUrl, participationUrl, rewardAmount, maxShares, maxRedemptions} = req.body;
 
         const rewardAmountInt = parseInt(rewardAmount);
         const maxSharesInt = parseInt(maxShares);
@@ -48,7 +48,7 @@ module.exports = {
         const tokenTypeUuid = NCNT[0].uuid;
         const expiration = '2020';
 
-        const createChallengeResponse = await sdkInstance.createChallenge(senderKeypair, name, description, imageUrl, participationUrl, expiration, tokenTypeUuid, rewardAmountInt, "NCNT", maxSharesInt, maxRedemptionsInt);
+        const createChallengeResponse = await sdkInstance.createChallenge(senderKeypair, name, description, company, imageUrl, participationUrl, expiration, tokenTypeUuid, rewardAmountInt, "NCNT", maxSharesInt, maxRedemptionsInt);
         res.status(200).send({challenge: createChallengeResponse.data});
     },
 
