@@ -8,7 +8,9 @@ export default class MyJobCents extends React.Component {
 
         this.state = {
             sponsoredChallenges: [],
+            sponsoredChallengeBalances: [],
             heldChallenges: [],
+            heldChallengeBalances: [],
             successMessage: "",
             errorMessage: ""
         };
@@ -24,7 +26,9 @@ export default class MyJobCents extends React.Component {
                 if (this.props.userData) {
                     this.setState({
                         sponsoredChallenges: this.props.userData.sponsoredChallenges,
-                        heldChallenges: this.props.userData.heldChallenges
+                        sponsoredChallengeBalances: this.props.userData.sponsoredChallengeBalances,
+                        heldChallenges: this.props.userData.heldChallenges,
+                        heldChallengeBalances: this.props.userData.heldChallengeBalances
                     });
                 }
             })
@@ -51,7 +55,7 @@ export default class MyJobCents extends React.Component {
         }
     }
 
-    challengeList(sponsoredChallenges, heldChallenges) {
+    challengeList(sponsoredChallenges, heldChallenges, sponsoredChallengeBalances, heldChallengeBalances) {
         const sponsoredChallengeTiles = sponsoredChallenges.map(function (sponsoredChallenge, index) {
             return (<div key={index} className="balanceTile">
                 <img className="logoImg" src={sponsoredChallenge.imageUrl || ncentLogo} alt="ncent logo"
@@ -60,7 +64,7 @@ export default class MyJobCents extends React.Component {
                      }}/>
                 <h2 className="balance-title">{sponsoredChallenge.name}</h2>
                 <h3 className="balance-subtitle">Sponsored</h3>
-                <h3 className="balance-subtitle">Unlimited Invites</h3>
+                <h3 className="balance-subtitle">{sponsoredChallengeBalances[index]} jobCents</h3>
                 <a
                     title="New"
                     className="initiate-payment-smaller-margin"
@@ -89,6 +93,7 @@ export default class MyJobCents extends React.Component {
                     this.props.goToChallengeDetail(heldChallenge)
                 }}/>
                 <h2 className="balance-title">{heldChallenge.name}</h2>
+                <h3 className="balance-subtitle">{heldChallengeBalances[index]} jobCents</h3>
                 <a
                     title="New"
                     className="initiate-payment"
@@ -98,7 +103,7 @@ export default class MyJobCents extends React.Component {
                         imageUrl: heldChallenge.imageUrl
                     })}
                 >
-                    Send Once
+                    Send
                 </a>
             </div>);
         }.bind(this));
@@ -115,7 +120,7 @@ export default class MyJobCents extends React.Component {
 
     render() {
         return (
-            this.challengeList(this.state.sponsoredChallenges, this.state.heldChallenges)
+            this.challengeList(this.state.sponsoredChallenges, this.state.heldChallenges, this.state.sponsoredChallengeBalances, this.state.heldChallengeBalances)
         );
     }
 }

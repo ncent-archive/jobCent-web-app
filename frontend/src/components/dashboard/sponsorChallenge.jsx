@@ -59,7 +59,7 @@ export default class Transfer extends React.Component {
                             <div className="recipiens">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Total Number of Times the Challenge Can Be Shared"
+                                           placeholder="Total jobCents to stamp for this challenge"
                                            autoCorrect="false" autoCapitalize="off" type="text"
                                            onChange={this.props.update("maxShares")}/>
                                 </div>
@@ -71,7 +71,7 @@ export default class Transfer extends React.Component {
                             <div className="recipiens">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Total Number of Times the Challenge Can Be Redeemed"
+                                           placeholder="Number of Times the Challenge Can Be Redeemed"
                                            autoCorrect="false" autoCapitalize="off" type="text"
                                            onChange={this.props.update("maxRedemptions")}/>
                                 </div>
