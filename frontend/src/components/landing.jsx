@@ -32,14 +32,6 @@ class Landing extends React.Component {
       .getElementById("about")
       .scrollIntoView({ behavior: "smooth", block: "start" });
   }
-
-  handleScroll() {
-    let windowHeight = window.innerHeight;
-    let scrollPosition = window.scrollY;
-    let scrollPercentage = scrollPosition / windowHeight;
-    let opacity = 1 - scrollPercentage;
-    document.getElementById("opaque").style.opacity = opacity;
-  }
   render() {
     return (
       <div className="landing">
