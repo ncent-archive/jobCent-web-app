@@ -181,6 +181,8 @@
   padding: 40px 0;
   background-color: blue;
   width: 100%;
+  z-index: 1000;
+  position: absolute;
 }
 
 .headerLogo, .headerLogoImg {

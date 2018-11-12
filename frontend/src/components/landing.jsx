@@ -147,38 +147,38 @@ class Landing extends React.Component {
                           Upon receiving the jobCent Carol applies for the job. She must keep her jobCent during the application process if she wants to receive a bonus upon hire. After several interviews, Startup Co. decides that Carol would be a great addition to their team. When Carol gets hired, she receives the 10k NCNT signing bonus. For referring Carol, Bob gets 5k, half of Carol's signing bonus. Alice gets 2.5k, half of Bob's reward, for helping to find the hired candidate.                      </p>
                   </VerticalTimelineElement>
               </VerticalTimeline>
-              <footer className="footer">
-                  <div className="headerLogo">
-                      <img className="headerLogoImage" src={ncentHeaderLogo}/>
-                  </div>
-                  <div className="contactUs">
-                      <h3 className="followUsHeader">Follow Us</h3>
-                      <div className="contactButtons">
-                          <a className="fab fa-github contactImg" href="https://github.com/ncent/ncent.github.io">
-                          </a>
-                          <a className="fab fa-twitter contactImg" href="https://twitter.com/kk_ncnt">
-                          </a>
-                          <a className="fab fa-telegram contactImg" href="https://t.me/ncent">
-                          </a>
-                          <a className="fab fa-medium contactImg" href="https://medium.com/@kk_ncnt">
-                          </a>
-                          <a className="fab fa-youtube contactImg"
-                             href="https://www.youtube.com/watch?v=Op6t4u9rwMA&t=841s">
-                          </a>
-                          <a className="fab fa-linkedin contactImg" href="https://www.linkedin.com/company/ncent">
-                          </a>
-                      </div>
-                  </div>
-                  <div className="moreInfo">
-                      <span className="phone"><b>Phone: </b>(650) 503-8785</span>
-                      <span className="email">Email our Founder at <a href="mailto:kk@ncnt.io" className="emailLink">kk@ncnt.io</a></span>
-                      <div className="copyright">
-                          &copy; nCent Labs 2018. All Rights Reserved.
-                      </div>
-                  </div>
-              </footer>
           </div>
         </section>
+          <footer className="footer">
+              <div className="headerLogo">
+                  <img className="headerLogoImage" src={ncentHeaderLogo}/>
+              </div>
+              <div className="contactUs">
+                  <h3 className="followUsHeader">Follow Us</h3>
+                  <div className="contactButtons">
+                      <a className="fab fa-github contactImg" href="https://github.com/ncent/ncent.github.io">
+                      </a>
+                      <a className="fab fa-twitter contactImg" href="https://twitter.com/kk_ncnt">
+                      </a>
+                      <a className="fab fa-telegram contactImg" href="https://t.me/ncent">
+                      </a>
+                      <a className="fab fa-medium contactImg" href="https://medium.com/@kk_ncnt">
+                      </a>
+                      <a className="fab fa-youtube contactImg"
+                         href="https://www.youtube.com/watch?v=Op6t4u9rwMA&t=841s">
+                      </a>
+                      <a className="fab fa-linkedin contactImg" href="https://www.linkedin.com/company/ncent">
+                      </a>
+                  </div>
+              </div>
+              <div className="moreInfo">
+                  <span className="phone"><b>Phone: </b>(650) 503-8785</span>
+                  <span className="email">Email our Founder at <a href="mailto:kk@ncnt.io" className="emailLink">kk@ncnt.io</a></span>
+                  <div className="copyright">
+                      &copy; nCent Labs 2018. All Rights Reserved.
+                  </div>
+              </div>
+          </footer>
       </div>
     );
   }
