@@ -90,6 +90,17 @@ export default class Transfer extends React.Component {
                             <div className="anchor"/>
                             <div className="error-box"/>
                         </div>
+                        <div className="enter-email">
+                            <div className="recipiens">
+                                <div className="token-list">
+                                    <input className="transfer-input-field" autoComplete="off" spellCheck="false"
+                                           placeholder="Job Application Link" autoCorrect="false"
+                                           autoCapitalize="off" type="text" onChange={this.props.update("participationUrl")}/>
+                                </div>
+                            </div>
+                            <div className="anchor"/>
+                            <div className="error-box"/>
+                        </div>
                         <button className="theme-button transfer-button">
                             Create Challenge
                         </button>

@@ -100,7 +100,7 @@ export default class MyJobCents extends React.Component {
                 <h3 className="balance-subtitle">{heldChallengeBalances[index]} jobCent(s)</h3>
                 <a
                     title="New"
-                    className="initiate-payment"
+                    className="initiate-payment-smaller-margin"
                     onClick={this.props.handleInput("formType", {
                         challengeName: heldChallenge.name,
                         challengeUuid: heldChallenge.uuid,
@@ -108,6 +108,12 @@ export default class MyJobCents extends React.Component {
                     })}
                 >
                     Send
+                </a>
+                <a
+                    className="initiate-payment"
+                    href={heldChallenge.participationUrl}
+                >
+                    Apply
                 </a>
             </div>);
         }.bind(this));

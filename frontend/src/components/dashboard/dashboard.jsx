@@ -25,6 +25,7 @@ class Dashboard extends React.Component {
             challengeName: "",
             description: "",
             imageUrl: "",
+            participationUrl: "",
             rewardAmount: 0,
             maxShares: 0,
             maxRedemptions: 0,
@@ -172,6 +173,7 @@ class Dashboard extends React.Component {
             name: this.state.challengeTitle,
             description: this.state.description,
             imageUrl: this.state.imageUrl,
+            participationUrl: this.state.participationUrl,
             rewardAmount: this.state.rewardAmount,
             maxShares: this.state.maxShares,
             maxRedemptions: this.state.maxRedemptions
