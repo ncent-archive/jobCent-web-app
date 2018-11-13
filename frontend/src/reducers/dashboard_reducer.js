@@ -2,7 +2,7 @@ import {
     RECEIVE_USER,
     RECEIVE_TRANSFER,
     RECEIVE_CHALLENGE,
-    RECEIVE_LEAF_NODES
+    RECEIVE_CHALLENGE_BALANCES
 } from "../actions/dashboard_actions";
 import {merge} from "lodash";
 
@@ -10,7 +10,7 @@ export default (state = {
     balance: {}, // changed balance into an object from array
     transfer: {},
     challenge: {},
-    leafNodes: []
+    challengeBalances: []
 }, action) => {
     let newState;
     Object.freeze(state);
@@ -28,9 +28,9 @@ export default (state = {
             const challenge = action.challenge.data;
             newState = merge({}, state, {challenge});
             return newState;
-        case RECEIVE_LEAF_NODES:
-            const leafNodes = action.leafNodes.data;
-            newState = merge({}, state, {leafNodes});
+        case RECEIVE_CHALLENGE_BALANCES:
+            const challengeBalances = action.challengeBalances.data;
+            newState = merge({}, state, {challengeBalances});
             return newState;
         default:
             return state;

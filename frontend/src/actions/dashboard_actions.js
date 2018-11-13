@@ -5,7 +5,7 @@ export const RECEIVE_TRANSFER = "RECEIVE_TRANSFER";
 export const RECEIVE_CHALLENGE = "RECEIVE_CHALLENGE";
 export const RECEIVE_CHALLENGES = "RECEIVE_CHALLENGES";
 export const RECEIVE_DASH_ERRORS = "RECEIVE_DASH_ERRORS";
-export const RECEIVE_LEAF_NODES = "RECEIVE_LEAF_NODES";
+export const RECEIVE_CHALLENGE_BALANCES = "RECEIVE_CHALLENGE_BALANCES";
 
 export const receiveUser = userData => ({
     type: RECEIVE_USER,
@@ -32,9 +32,9 @@ export const receiveChallenges = challenges => ({
     challenges
 });
 
-export const receiveLeafNodes = leafNodes => ({
-    type: RECEIVE_LEAF_NODES,
-    leafNodes
+export const receiveChallengeBalances = challengeBalances => ({
+    type: RECEIVE_CHALLENGE_BALANCES,
+    challengeBalances
 });
 
 export const fetchUser = user => dispatch =>
@@ -64,8 +64,8 @@ export const redeemChallenge = (challengeUuid, sponsorAddress, redeemerAddress) 
         err => dispatch(receiveErrors(err))
     );
 
-export const retrieveLeafNodeUsers = challengeUuid => dispatch =>
-    ApiUtil.retrieveLeafNodeUsers(challengeUuid).then(
-        data => dispatch(receiveLeafNodes(data)),
+export const retrieveChallengeUsers = challengeUuid => dispatch =>
+    ApiUtil.retrieveChallengeUsers(challengeUuid).then(
+        data => dispatch(receiveChallengeBalances(data)),
         err => dispatch(receiveErrors(err))
     );

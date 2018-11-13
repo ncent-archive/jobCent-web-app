@@ -39,7 +39,7 @@ class Dashboard extends React.Component {
             errorMessage: "",
             successMessage: "",
             challengeDetails: {},
-            leafNodeUsers: []
+            challengeUsers: []
         };
         this.handleInput = this.handleInput.bind(this);
         this.update = this.update.bind(this);
@@ -106,10 +106,10 @@ class Dashboard extends React.Component {
     }
 
     async goToRedeemTab(challengeDetails) {
-        const leafNodeResponse = await this.props.retrieveLeafNodeUsers(challengeDetails.uuid);
-        if (leafNodeResponse.leafNodes.data.leafNodeUsers.length) {
+        const challengeBalancesResponse = await this.props.retrieveChallengeUsers(challengeDetails.uuid);
+        if (challengeBalancesResponse.challengeBalances.data.challengeUsers.length) {
             this.setState({
-                leafNodeUsers: leafNodeResponse.leafNodes.data.leafNodeUsers,
+                challengeUsers: challengeBalancesResponse.challengeBalances.data.challengeUsers,
                 challengeDetails,
                 formType: "Redeem"
             });
@@ -152,7 +152,7 @@ class Dashboard extends React.Component {
                                 this.setState({
                                     sponsoredChallenges: userData.sponsoredChallenges,
                                     heldChallenges: userData.heldChallenges,
-                                    successMessage: `You have successfully sent ${this.state.numShares} jobCents to ${this.state.toAddress}`,
+                                    successMessage: `You have successfully sent ${this.state.numShares} jobCent(s) to ${this.state.toAddress}`,
                                     formType: 'jobCents'
                                 });
                             }
@@ -247,7 +247,7 @@ class Dashboard extends React.Component {
                     currentUser={this.props.currentUser}
                     handleRedeem={this.handleRedeem}
                     challengeDetails={this.state.challengeDetails}
-                    leafNodeUsers={this.state.leafNodeUsers}
+                    challengeUsers={this.state.challengeUsers}
                 />
             )
         }

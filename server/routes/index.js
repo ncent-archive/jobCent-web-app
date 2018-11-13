@@ -17,7 +17,7 @@ module.exports = (app) => {
     // rewards will be distributed across the provenance chain
     app.post('/api/challenges/:challengeUuid/:sponsorAddress', challengesController.redeem);
 
-    app.get('/api/challenges/leafNodes/:challengeUuid', challengesController.retrieveLeafNodeUsers);
+    app.get('/api/challenges/balances/:challengeUuid', challengesController.retrieveChallengeUsers);
     // creates a new user account with a Stellar wallet key pair
     app.post("/api/users", usersController.create);
 

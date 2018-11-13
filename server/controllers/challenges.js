@@ -94,23 +94,23 @@ module.exports = {
         res.status(200).send({sponsoredChallenges, heldChallenges});
     },
 
-    async retrieveLeafNodeUsers({params}, res) {
-        let leafNodeUsers = [];
+    async retrieveChallengeUsers({params}, res) {
+        let challengeUsers = [];
         let leafNodeUserUuids = [];
-        const leafNodesResp = await sdkInstance.retrieveLeafNodeTransactions(params.challengeUuid);
-        if (leafNodesResp && leafNodesResp.status === 200) {
-            if (leafNodesResp.data.leafNodeTransactions.length <= 0) {
-                return res.status(200).send({leafNodeUsers});
+        const challengeBalancesResp = await sdkInstance.retrieveLeafNodeTransactions(params.challengeUuid);
+        if (challengeBalancesResp && challengeBalancesResp.status === 200) {
+            if (challengeBalancesResp.data.leafNodeTransactions.length <= 0) {
+                return res.status(200).send({challengeUsers});
             }
-            leafNodesResp.data.leafNodeTransactions.forEach(async (transaction, index) => {
+            challengeBalancesResp.data.leafNodeTransactions.forEach(async (transaction, index) => {
                 let leafNodeUser = await User.find({where: {publicKey: transaction.toAddress}});
                 let leafNodeUserUuid = leafNodeUser.uuid;
                 if (!leafNodeUserUuids.includes(leafNodeUserUuid)) {
-                    leafNodeUsers.push(leafNodeUser);
+                    challengeUsers.push(leafNodeUser);
                     leafNodeUserUuids.push(leafNodeUserUuid);
                 }
-                if (index === leafNodesResp.data.leafNodeTransactions.length - 1) {
-                    return res.status(200).send({leafNodeUsers});
+                if (index === challengeBalancesResp.data.leafNodeTransactions.length - 1) {
+                    return res.status(200).send({challengeUsers});
                 }
             });
         } else {

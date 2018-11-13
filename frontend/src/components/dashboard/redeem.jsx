@@ -12,7 +12,7 @@ export default class Redeem extends React.Component {
 
     radioButtons() {
         let radioButtons = [];
-        this.props.leafNodeUsers.forEach((user, index) => {
+        this.props.challengeUsers.forEach((user, index) => {
             radioButtons.push(
                 <RadioButton key={index} value={user.publicKey}>
                     {user.email}
