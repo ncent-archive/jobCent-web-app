@@ -96,25 +96,26 @@ module.exports = {
 
     async retrieveChallengeUsers({params}, res) {
         let challengeUsers = [];
-        let leafNodeUserUuids = [];
-        const challengeBalancesResp = await sdkInstance.retrieveLeafNodeTransactions(params.challengeUuid);
+        let challengeUserUuids = [];
+        const challengeBalancesResp = await sdkInstance.retrieveAllChallengeBalances(params.challengeUuid);
         if (challengeBalancesResp && challengeBalancesResp.status === 200) {
-            if (challengeBalancesResp.data.leafNodeTransactions.length <= 0) {
-                return res.status(200).send({challengeUsers});
+            const balanceAddresses = Object.keys(challengeBalancesResp.data.challengeBalances);
+            if (balanceAddresses.length < 1) {
+                return res.status(200).send({challengeUsers: []});
             }
-            challengeBalancesResp.data.leafNodeTransactions.forEach(async (transaction, index) => {
-                let leafNodeUser = await User.find({where: {publicKey: transaction.toAddress}});
-                let leafNodeUserUuid = leafNodeUser.uuid;
-                if (!leafNodeUserUuids.includes(leafNodeUserUuid)) {
-                    challengeUsers.push(leafNodeUser);
-                    leafNodeUserUuids.push(leafNodeUserUuid);
+            balanceAddresses.forEach(async (balanceAddress, index) => {
+                let challengeUser = await User.find({where: {publicKey: balanceAddress}});
+                let challengeUserUuid = challengeUser.uuid;
+                if (!challengeUserUuids.includes(challengeUserUuid)) {
+                    challengeUsers.push(challengeUser);
+                    challengeUserUuids.push(challengeUserUuid);
                 }
-                if (index === challengeBalancesResp.data.leafNodeTransactions.length - 1) {
+                if (index === balanceAddresses.length - 1) {
                     return res.status(200).send({challengeUsers});
                 }
             });
         } else {
-            return res.status(404).send({message: "Leaf nodes not found"});
+            return res.status(404).send({message: "Challenge users not found"});
         }
     }
 };
