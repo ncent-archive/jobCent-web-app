@@ -48,7 +48,7 @@ export default class Transfer extends React.Component {
                             <div className="error-box"/>
                         </div>
                         <button className="theme-button transfer-button">
-                            Send {this.props.challengeName}
+                            Send jobCent(s)
                         </button>
                         <p className="disclaimerText">*Please note that rewards can only be redeemed if you have a jobCent balance greater than zero for the challenge you get hired for.</p>
                     </div>
