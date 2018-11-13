@@ -548,13 +548,14 @@
 
 .nav-item {
   align-items: center;
-  color: #6683ce;
   display: flex;
-  flex: 1 1 auto;
   flex-direction: column;
   justify-content: center;
-  max-width: 53px;
   touch-action: manipulation;
+  background-color: #00c730;
+  border-radius: 20px;
+  width: 100px;
+  height: 50px;
 }
 
 .nav-item-label {
@@ -571,6 +572,7 @@
   flex: 1 0 auto;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 }
 
 .title-activity {
@@ -669,7 +671,8 @@
 .noJobCents {
   width: 100%;
   text-align: center;
-  padding-top: 10vh;
+  position: absolute;
+  top: 45%;
 }
 
 .not-x-button {
@@ -678,7 +681,7 @@
   align-items: center;
   background-color: blue;
   padding: 10vh;
-  border-radius: 20px;
+  border-radius: 50px;
   color: #ffffff;
 }
 
