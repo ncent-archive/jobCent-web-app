@@ -145,7 +145,7 @@ class Dashboard extends React.Component {
                                 this.setState({
                                     sponsoredChallenges: userData.sponsoredChallenges,
                                     heldChallenges: userData.heldChallenges,
-                                    successMessage: `You have successfully sent ${this.state.numShares} Shares (tokens) to ${this.state.toAddress}`,
+                                    successMessage: `You have successfully sent ${this.state.numShares} jobCents to ${this.state.toAddress}`,
                                     formType: 'jobCents'
                                 });
                             }
