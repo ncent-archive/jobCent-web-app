@@ -20,6 +20,7 @@ export default class MyJobCents extends React.Component {
         this.challengeList = this.challengeList.bind(this);
         this.successMessage = this.successMessage.bind(this);
         this.errorMessage = this.errorMessage.bind(this);
+        this.applyButton = this.applyButton.bind(this);
     }
 
     componentWillMount() {
@@ -56,6 +57,18 @@ export default class MyJobCents extends React.Component {
     errorMessage(message) {
         if (message) {
             return <div className="errorMessage"><span>{message}</span></div>;
+        }
+    }
+    applyButton(link) {
+        if (link) {
+            return (
+                <a
+                    className="initiate-payment"
+                    href={link}
+                >
+                    Apply
+                </a>
+            );
         }
     }
 
@@ -119,12 +132,7 @@ export default class MyJobCents extends React.Component {
                 >
                     Send
                 </a>
-                <a
-                    className="initiate-payment"
-                    href={heldChallenge.participationUrl}
-                >
-                    Apply
-                </a>
+                {this.applyButton(heldChallenge.participationUrl)}
             </div>);
         }.bind(this));
         return (
