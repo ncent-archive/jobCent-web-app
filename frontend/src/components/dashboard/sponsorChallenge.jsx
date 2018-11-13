@@ -58,7 +58,7 @@ export default class Transfer extends React.Component {
                             <div className="recipiens">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Maximum Reward Payout (U.S. Dollars)" autoCorrect="false"
+                                           placeholder="Total Budget for Challenge*" autoCorrect="false"
                                            autoCapitalize="off" type="text"
                                            onChange={this.props.update("rewardAmount")}/>
                                 </div>
@@ -82,7 +82,7 @@ export default class Transfer extends React.Component {
                             <div className="recipiens">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Number of Times the Challenge Can Be Redeemed"
+                                           placeholder="Number of Times the Challenge Can Be Redeemed**"
                                            autoCorrect="false" autoCapitalize="off" type="text"
                                            onChange={this.props.update("maxRedemptions")}/>
                                 </div>
@@ -115,6 +115,10 @@ export default class Transfer extends React.Component {
                         <button className="theme-button transfer-button">
                             Create Challenge
                         </button>
+                    </div>
+                    <div className="disclaimerContainer">
+                        <div className="disclaimerText"><span>*1/2 of total goes to hire(s), remainder goes to referral chain(s).</span></div>
+                        <div className="disclaimerText"><span>**Reward distributed evenly between multiple redemption chains.</span></div>
                     </div>
                 </form>
             </div>

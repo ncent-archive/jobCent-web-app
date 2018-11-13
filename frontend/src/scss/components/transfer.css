@@ -252,6 +252,14 @@ label {
     font-size: 11px;
 }
 
+.disclaimerContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 2vh;
+    flex-direction: column;
+}
+
 @keyframes fadeOut {
     0% {
         opacity: 1;
