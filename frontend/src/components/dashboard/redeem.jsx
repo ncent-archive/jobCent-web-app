@@ -29,6 +29,11 @@ export default class Redeem extends React.Component {
                     <img src={x} alt=""/>
                 </div>
                 <div className="redeemForm">
+                    <div className="display-amount-fixed">
+                        <div className="bottom-margin">
+                            <div className="currency-symbol">Redeem Your jobCent Challenge</div>
+                        </div>
+                    </div>
                     <RadioGroup onChange={this.props.selectRedeemer} horizontal={false}>
                         {this.radioButtons()}
                     </RadioGroup>
