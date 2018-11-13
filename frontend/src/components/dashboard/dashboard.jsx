@@ -135,6 +135,13 @@ class Dashboard extends React.Component {
             return;
         }
 
+        if (toAddress === this.props.currentUser.email) {
+            this.setState({
+                errorMessage: "Please enter the email address of another user"
+            });
+            return;
+        }
+
         if (this.props.shareChallenge) {
             this.props.shareChallenge(challengeUuid, fromAddress, toAddress, numShares)
                 .then(res => {
