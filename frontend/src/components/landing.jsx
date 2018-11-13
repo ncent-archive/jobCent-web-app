@@ -146,7 +146,7 @@ class Landing extends React.Component {
                   <img className="headerLogoImage" src={ncentHeaderLogo}/>
               </div>
               <div className="contactUs">
-                  <h3 className="followUsHeader">Follow Us</h3>
+                  <div className="followUsHeader">Follow Us</div>
                   <div className="contactButtons">
                       <a className="fab fa-github contactImg" href="https://github.com/ncent/ncent.github.io">
                       </a>

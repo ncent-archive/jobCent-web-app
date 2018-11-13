@@ -190,12 +190,13 @@
   align-items: center;
   padding-right: 10vw;
   padding-left: 10vw;
-  vertical-align: center;
+  justify-content: center;
   width: 50vw;
 }
 
 .followUsHeader {
   font-size: 2.5vh;
+  padding-bottom: 2vh;
 }
 
 .contactImg {
