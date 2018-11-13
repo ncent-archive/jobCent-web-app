@@ -60,6 +60,14 @@ export default class MyJobCents extends React.Component {
     }
 
     challengeList(sponsoredChallenges, heldChallenges, sponsoredChallengeBalances, heldChallengeBalances, sponsoredChallengeRemainingRedemptions, heldChallengeRemainingRedemptions) {
+        if ((!sponsoredChallenges || sponsoredChallenges.length < 1) && (!heldChallengeBalances || heldChallenges.length < 1)) {
+            return <div className="challengesPage">
+                {this.successMessage(this.props.successMessage)}
+                {this.errorMessage(this.props.errorMessage)}
+                <h1 className="challengesHeader">Your jobCent Challenges</h1>
+                <h1 className="noJobCents">You do not currently have any jobCents</h1>
+            </div>;
+        }
         const sponsoredChallengeTiles = sponsoredChallenges.map(function (sponsoredChallenge, index) {
             return (<div key={index} className="balanceTile">
                 <h2 className="balance-title">{sponsoredChallenge.company}</h2>
