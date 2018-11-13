@@ -6,6 +6,7 @@ import Redeem from "./redeem";
 import SponsorChallenge from "./sponsorChallenge.jsx";
 import ChallengeDetail from "./challengeDetail.jsx";
 import Whitelist from "../../util/whitelist.js";
+import axios from "axios";
 
 function validateEmail(email) {
     const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -58,6 +59,17 @@ class Dashboard extends React.Component {
         this.redeemTab = this.redeemTab.bind(this);
         this.selectRedeemer = this.selectRedeemer.bind(this);
         this.handleRedeem = this.handleRedeem.bind(this);
+    }
+
+    componentWillMount() {
+        if (!this.props.currentUser) {
+            axios.get("api/session")
+                .then(function(verifyResp) {
+                    if (verifyResp.data.sessionVerified) {
+                        this.props.login(verifyResp.data.user)
+                    }
+                }.bind(this));
+        }
     }
 
     handleInput(key, options) {

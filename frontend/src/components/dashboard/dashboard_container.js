@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
 import Dashboard from "./dashboard";
-import {logout} from "../../actions/session_actions";
+import {logout, login} from "../../actions/session_actions";
 import {
     fetchUser,
     shareChallenge,
@@ -23,6 +23,7 @@ const mapDispatchToProps = (dispatch) => ({
     shareChallenge: (challengeUuid, fromAddress, toAddress, numShares) => dispatch(shareChallenge(challengeUuid, fromAddress, toAddress, numShares)),
     redeemChallenge: (challengeUuid, sponsorAddress, redeemerAddress) => dispatch(redeemChallenge(challengeUuid, sponsorAddress, redeemerAddress)),
     logout: () => dispatch(logout()),
+    login: user => dispatch(login(user)),
     createChallenge: challenge => dispatch(createChallenge(challenge)),
     retrieveChallengeUsers: challengeUuid => dispatch(retrieveChallengeUsers(challengeUuid))
 });

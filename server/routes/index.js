@@ -29,4 +29,6 @@ module.exports = (app) => {
 
     // logs the user out
     app.delete("/api/session", sessionController.destroy);
+
+    app.get("/api/session", sessionController.verify);
 };
