@@ -28,9 +28,10 @@ class Dashboard extends React.Component {
             company: "",
             imageUrl: "",
             participationUrl: "",
+            agreement: false,
             rewardAmount: 0,
-            maxShares: 0,
-            maxRedemptions: 0,
+            maxShares: 1000,
+            maxRedemptions: 1,
             numShares: 0,
             challengeBalance: 0,
             remainingRedemptions: 0,
@@ -59,6 +60,7 @@ class Dashboard extends React.Component {
         this.redeemTab = this.redeemTab.bind(this);
         this.selectRedeemer = this.selectRedeemer.bind(this);
         this.handleRedeem = this.handleRedeem.bind(this);
+        this.handleAgreementCheck = this.handleAgreementCheck.bind(this);
     }
 
     componentWillMount() {
@@ -68,6 +70,8 @@ class Dashboard extends React.Component {
                     if (verifyResp.data.sessionVerified) {
                         this.props.login(verifyResp.data.user)
                     }
+                }.bind(this), function() {
+                    this.props.logout().then(this.props.history.push("/"));
                 }.bind(this));
         }
     }
@@ -102,6 +106,14 @@ class Dashboard extends React.Component {
     }
 
     handleBlur() {
+    }
+
+    handleAgreementCheck() {
+        if (this.state.agreement) {
+            this.setState({agreement: false});
+        } else {
+            this.setState({agreement: true});
+        }
     }
 
     isWhitelisted() {
@@ -181,6 +193,12 @@ class Dashboard extends React.Component {
 
     createChallengeForUser(e) {
         e.preventDefault();
+        if (!this.state.agreement) {
+            this.setState({
+                errorMessage: "Please click the checkbox to agree to the challenge bounty"
+            });
+            return;
+        }
         if (isNaN(parseFloat(this.state.rewardAmount))) {
             this.setState({
                 errorMessage: "Reward amount must be a number"
@@ -201,7 +219,14 @@ class Dashboard extends React.Component {
         });
         this.props.createChallenge(challenge).then(res => {
             this.props.fetchUser(this.props.currentUser).then(balance => {
-                this.setState({...this.state, formType: 'jobCents'});
+                this.setState(
+                    {
+                        ...this.state,
+                        formType: 'jobCents',
+                        agreement: false,
+                        errorMessage: "",
+                        successMessage: ""
+                    });
             });
         });
     }
@@ -286,6 +311,7 @@ class Dashboard extends React.Component {
                     update={this.update}
                     createChallenge={this.createChallengeForUser}
                     errorMessage={this.state.errorMessage}
+                    handleAgreementCheck={this.handleAgreementCheck}
                 />
             );
         }

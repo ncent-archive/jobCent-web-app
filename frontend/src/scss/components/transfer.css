@@ -65,7 +65,7 @@
 }
 
 .initiate-transfer {
-    margin-bottom: 0;
+    margin-bottom: 5vh;
     max-width: 100%;
     transition: opacity 0.1s linear;
     visibility: visible;
@@ -189,6 +189,7 @@ label {
 
 .transfer-button {
     background-color: #204fc7;
+    margin-top: 2vh;
 }
 
 .transfer-button:hover {
@@ -258,6 +259,12 @@ label {
     align-items: center;
     margin-top: 2vh;
     flex-direction: column;
+}
+
+.sponsorFormCategory {
+    font-size: 20px;
+    margin-bottom: 2vh;
+    margin-top: 2vh;
 }
 
 @keyframes fadeOut {

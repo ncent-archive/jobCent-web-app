@@ -18,8 +18,36 @@ export default class Transfer extends React.Component {
                         <div className="errorMessage"><span>{this.props.errorMessage}</span></div>
                         <div className="display-amount-fixed">
                             <div className="bottom-margin">
-                                <div className="currency-symbol">Sponsor a jobCent Program Here!</div>
+                                <div className="currency-symbol">Sponsor a jobCent Challenge</div>
                             </div>
+                        </div>
+                        <div className="sponsorFormCategory">
+                            Company Information
+                        </div>
+                        <div className="enter-email">
+                            <div className="recipiens">
+                                <div className="token-list">
+                                    <input className="transfer-input-field" autoComplete="off" spellCheck="false"
+                                           placeholder="Company Name" autoCorrect="false" autoCapitalize="off"
+                                           type="text" onChange={this.props.update("company")}/>
+                                </div>
+                            </div>
+                            <div className="anchor"/>
+                            <div className="error-box"/>
+                        </div>
+                        <div className="enter-email">
+                            <div className="recipiens">
+                                <div className="token-list">
+                                    <input className="transfer-input-field" autoComplete="off" spellCheck="false"
+                                           placeholder="Company Logo Image URL" autoCorrect="false"
+                                           autoCapitalize="off" type="text" onChange={this.props.update("imageUrl")}/>
+                                </div>
+                            </div>
+                            <div className="anchor"/>
+                            <div className="error-box"/>
+                        </div>
+                        <div className="sponsorFormCategory">
+                            Job Details
                         </div>
                         <div className="enter-email">
                             <div className="recipiens">
@@ -47,30 +75,21 @@ export default class Transfer extends React.Component {
                             <div className="recipiens">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Company" autoCorrect="false" autoCapitalize="off"
-                                           type="text" onChange={this.props.update("company")}/>
+                                           placeholder="Job Application Link" autoCorrect="false"
+                                           autoCapitalize="off" type="text" onChange={this.props.update("participationUrl")}/>
                                 </div>
                             </div>
                             <div className="anchor"/>
                             <div className="error-box"/>
                         </div>
-                        <div className="enter-email">
-                            <div className="recipiens">
-                                <div className="token-list">
-                                    <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Total Budget for Challenge*" autoCorrect="false"
-                                           autoCapitalize="off" type="text"
-                                           onChange={this.props.update("rewardAmount")}/>
-                                </div>
-                            </div>
-                            <div className="anchor"/>
-                            <div className="error-box"/>
+                        <div className="sponsorFormCategory">
+                            Advanced Settings
                         </div>
                         <div className="enter-email">
                             <div className="recipiens">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Total jobCents to stamp for this challenge"
+                                           placeholder="Total jobCents (Default of 1000)"
                                            autoCorrect="false" autoCapitalize="off" type="text"
                                            onChange={this.props.update("maxShares")}/>
                                 </div>
@@ -82,7 +101,7 @@ export default class Transfer extends React.Component {
                             <div className="recipiens">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Number of Times the Challenge Can Be Redeemed**"
+                                           placeholder="Number of Redemptions (Default of 1)"
                                            autoCorrect="false" autoCapitalize="off" type="text"
                                            onChange={this.props.update("maxRedemptions")}/>
                                 </div>
@@ -94,31 +113,21 @@ export default class Transfer extends React.Component {
                             <div className="recipiens">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Image Link to Display for the Posting" autoCorrect="false"
-                                           autoCapitalize="off" type="text" onChange={this.props.update("imageUrl")}/>
+                                           placeholder="Bounty (U.S. Dollars)" autoCorrect="false"
+                                           autoCapitalize="off" type="text"
+                                           onChange={this.props.update("rewardAmount")}/>
                                 </div>
                             </div>
                             <div className="anchor"/>
                             <div className="error-box"/>
                         </div>
-                        <div className="enter-email">
-                            <div className="recipiens">
-                                <div className="token-list">
-                                    <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Job Application Link" autoCorrect="false"
-                                           autoCapitalize="off" type="text" onChange={this.props.update("participationUrl")}/>
-                                </div>
-                            </div>
-                            <div className="anchor"/>
-                            <div className="error-box"/>
+                        <div className="agreementContainer">
+                            <input type="checkbox" onClick={this.props.handleAgreementCheck}/>
+                            <span className="disclaimerText">I agree to pay an amount up to - but not greater than - the bounty amount I have chosen upon successful completion of the challenge</span>
                         </div>
                         <button className="theme-button transfer-button">
                             Create Challenge
                         </button>
-                    </div>
-                    <div className="disclaimerContainer">
-                        <div className="disclaimerText"><span>*1/2 of total goes to hire(s), remainder goes to referral chain(s).</span></div>
-                        <div className="disclaimerText"><span>**Reward distributed evenly between multiple redemption chains.</span></div>
                     </div>
                 </form>
             </div>
