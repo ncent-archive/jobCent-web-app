@@ -1,6 +1,11 @@
 const nodemailer = require("nodemailer");
 const aws = require("aws-sdk");
 const htmlTemplate = require("./html.js");
+
+function formatDollars(amount) {
+    return amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+}
+
 module.exports = {
     sendMail(from, to, options) {
         aws.config.loadFromPath(`${__dirname}/awsConfig.json`);
@@ -35,7 +40,7 @@ module.exports = {
                 to: to,
                 subject: "Your jobCent Reward!",
                 // text: '',
-                html: htmlTemplate.rewardHtml(options.reward, options.rewardTitle)
+                html: htmlTemplate.rewardHtml(formatDollars(options.reward), options.rewardTitle, options.email)
             };
         } else if (options.redemptionInfoHtml) {
             mailOptions = {

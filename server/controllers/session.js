@@ -53,6 +53,7 @@ module.exports = {
             .catch(error => res.status(400).send(error));
     },
     async destroy(req, res) {
+        console.log(req.session.user, req.cookies.session_token);
         if (req.session.user && req.cookies.session_token) {
             const user = await User.find({where: {email: req.session.user.email}});
             const loggedOutUser = await user.updateAttributes({active: false});

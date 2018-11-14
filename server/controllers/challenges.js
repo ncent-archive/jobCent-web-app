@@ -6,6 +6,10 @@ const sdkInstance = new ncentSDK('http://localhost:8010/api');
 const keys = require("./secret.js");
 const awsEmail = require("./awsEmail.js");
 
+function formatDollars(amount) {
+    return amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+}
+
 const handleProvenance = async (challenge, redeemTransactionUuid) => {
     const pChainResp = await sdkInstance.retrieveProvenanceChain(redeemTransactionUuid);
     const pChain = pChainResp.data;
@@ -17,14 +21,14 @@ const handleProvenance = async (challenge, redeemTransactionUuid) => {
         console.log(pChain[i]);
         if (pChain[i].parentTransaction) {
             const recipient = await User.findOne({where: {publicKey: pChain[i].toAddress}});
-            awsEmail.sendMail(keys.from, recipient.email, {reward: challengeReward, rewardTitle: challenge.name});
+            awsEmail.sendMail(keys.from, recipient.email, {reward: challengeReward, rewardTitle: challenge.name, email: sponsorEmail});
             redemptionInfo[recipient.email] = challengeReward;
             challengeReward = challengeReward / 2.0;
         } else {
             let redemptionInfoHtml = "";
             const redemptionInfoKeys = Object.keys(redemptionInfo);
             redemptionInfoKeys.forEach(key => {
-                redemptionInfoHtml += `${key} won $${redemptionInfo[key]}` + "\n";
+                redemptionInfoHtml += `${key} won $${formatDollars(redemptionInfo[key])}` + "<br>";
             });
             awsEmail.sendMail(keys.from, sponsorEmail, {redemptionInfoHtml, redemptionChallengeTitle: challenge.name});
         }

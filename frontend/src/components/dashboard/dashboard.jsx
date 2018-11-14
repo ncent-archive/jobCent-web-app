@@ -13,36 +13,39 @@ function validateEmail(email) {
     return regex.test(String(email).toLowerCase());
 }
 
+const defaultState = {
+    formType: "jobCents",
+    jobCents: "0",
+    fromAddress: "",
+    toAddress: "",
+    redeemerAddress: "",
+    challengeName: "",
+    description: "",
+    company: "",
+    imageUrl: "",
+    participationUrl: "",
+    agreement: false,
+    rewardAmount: 0,
+    maxShares: 1000,
+    maxRedemptions: 1,
+    numShares: 1,
+    challengeBalance: 0,
+    remainingRedemptions: 0,
+    challengeUuid: "",
+    sponsoredChallenges: [],
+    challengesHeld: [],
+    errorMessage: "",
+    successMessage: "",
+    challengeDetails: {},
+    challengeUsers: []
+};
+
 class Dashboard extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            formType: "jobCents",
-            jobCents: "0",
-            fromAddress: "",
-            toAddress: "",
-            redeemerAddress: "",
-            challengeName: "",
-            description: "",
-            company: "",
-            imageUrl: "",
-            participationUrl: "",
-            agreement: false,
-            rewardAmount: 0,
-            maxShares: 1000,
-            maxRedemptions: 1,
-            numShares: 0,
-            challengeBalance: 0,
-            remainingRedemptions: 0,
-            challengeUuid: "",
-            sponsoredChallenges: [],
-            challengesHeld: [],
-            errorMessage: "",
-            successMessage: "",
-            challengeDetails: {},
-            challengeUsers: []
-        };
+        this.state = defaultState;
+
         this.handleInput = this.handleInput.bind(this);
         this.update = this.update.bind(this);
         this.logOut = this.logOut.bind(this);
@@ -99,9 +102,15 @@ class Dashboard extends React.Component {
 
     update(key) {
         return e => {
-            this.setState({
-                [key]: e.currentTarget.value
-            });
+            if (!e.currentTarget.value) {
+                this.setState({
+                    [key]: defaultState[key]
+                });
+            } else {
+                this.setState({
+                    [key]: e.currentTarget.value
+                });
+            }
         };
     }
 
@@ -177,7 +186,10 @@ class Dashboard extends React.Component {
                                     sponsoredChallenges: userData.sponsoredChallenges,
                                     heldChallenges: userData.heldChallenges,
                                     successMessage: `You have successfully sent ${this.state.numShares} jobCent(s) to ${this.state.toAddress}`,
-                                    formType: 'jobCents'
+                                    formType: 'jobCents',
+                                    maxShares: 1000,
+                                    maxRedemptions: 1,
+                                    numShares: 1
                                 });
                             }
                         })
@@ -225,7 +237,10 @@ class Dashboard extends React.Component {
                         formType: 'jobCents',
                         agreement: false,
                         errorMessage: "",
-                        successMessage: ""
+                        successMessage: "",
+                        maxShares: 1000,
+                        maxRedemptions: 1,
+                        numShares: 1
                     });
             });
         });
@@ -240,7 +255,16 @@ class Dashboard extends React.Component {
     handleRedeem(challengeUuid, sponsorAddress) {
         this.props.redeemChallenge(challengeUuid, sponsorAddress, this.state.redeemerAddress).then(res => {
             this.props.fetchUser(this.props.currentUser).then(balance => {
-                this.setState({...this.state, formType: 'jobCents', successMessage: "Your challenge has been redeemed! Please check your email for confirmation and details."});
+                this.setState(
+                    {
+                        ...this.state,
+                        formType: 'jobCents',
+                        successMessage: "Your challenge has been redeemed! Please check your email for confirmation and details.",
+                        maxShares: 1000,
+                        maxRedemptions: 1,
+                        numShares: 1
+                    }
+                );
             });
         });
     }
