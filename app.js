@@ -13,8 +13,8 @@ app.use(
     session({
         key: "session_token",
         secret: "somesecret",
-        resave: false,
-        saveUninitialized: false,
+        resave: true,
+        saveUninitialized: true,
         cookie: {
             expires: 600000
         }
