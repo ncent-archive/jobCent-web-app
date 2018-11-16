@@ -16,7 +16,7 @@ const handleProvenance = async (challenge, redeemTransactionUuid) => {
     const sponsor = await User.find({where: {publicKey: challenge.sponsorWalletAddress}});
     const sponsorEmail = sponsor.email;
     const redemptionInfo = {};
-    let challengeReward = parseFloat(challenge.rewardAmount) / challenge.maxRedemptions / 2.0;
+    let challengeReward = parseFloat(challenge.rewardAmount) / 2.0;
     for (let i = pChain.length - 2; i >= 0; i--) {
         console.log(pChain[i]);
         if (pChain[i].parentTransaction) {
@@ -37,11 +37,10 @@ const handleProvenance = async (challenge, redeemTransactionUuid) => {
 
 module.exports = {
     async create(req, res) {
-        const {senderPublicKey, name, description, company, imageUrl, participationUrl, rewardAmount, maxShares, maxRedemptions} = req.body;
+        const {senderPublicKey, name, description, company, imageUrl, participationUrl, rewardAmount, maxShares, challengeDuration} = req.body;
 
         const rewardAmountInt = parseInt(rewardAmount);
         const maxSharesInt = parseInt(maxShares);
-        const maxRedemptionsInt = parseInt(maxRedemptions);
 
         const user = await User.findOne({where: {publicKey: senderPublicKey}});
         const senderKeypair = stellarSDK.Keypair.fromSecret(user.privateKey);
@@ -50,9 +49,9 @@ module.exports = {
         const tokenTypes = await sdkInstance.getTokenTypes();
         const NCNT = tokenTypes.data.filter(tokenType => tokenType.name === "NCNT");
         const tokenTypeUuid = NCNT[0].uuid;
-        const expiration = '2020';
+        const expiration = Date.now() + parseInt(challengeDuration)*24*60*60*1000;
 
-        const createChallengeResponse = await sdkInstance.createChallenge(senderKeypair, name, description, company, imageUrl, participationUrl, expiration, tokenTypeUuid, rewardAmountInt, "NCNT", maxSharesInt, maxRedemptionsInt);
+        const createChallengeResponse = await sdkInstance.createChallenge(senderKeypair, name, description, company, imageUrl, participationUrl, expiration, tokenTypeUuid, rewardAmountInt, "NCNT", maxSharesInt);
         res.status(200).send({challenge: createChallengeResponse.data});
     },
 

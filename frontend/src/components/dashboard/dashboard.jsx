@@ -27,7 +27,7 @@ const defaultState = {
     agreement: false,
     rewardAmount: 0,
     maxShares: 1000,
-    maxRedemptions: 1,
+    challengeDuration: 30,
     numShares: 1,
     challengeBalance: 0,
     remainingRedemptions: 0,
@@ -188,7 +188,7 @@ class Dashboard extends React.Component {
                                     successMessage: `You have successfully sent ${this.state.numShares} jobCent(s) to ${this.state.toAddress}`,
                                     formType: 'jobCents',
                                     maxShares: 1000,
-                                    maxRedemptions: 1,
+                                    challengeDuration: 30,
                                     numShares: 1
                                 });
                             }
@@ -227,7 +227,7 @@ class Dashboard extends React.Component {
             participationUrl: this.state.participationUrl,
             rewardAmount: this.state.rewardAmount,
             maxShares: this.state.maxShares,
-            maxRedemptions: this.state.maxRedemptions
+            challengeDuration: this.state.challengeDuration
         });
         this.props.createChallenge(challenge).then(res => {
             this.props.fetchUser(this.props.currentUser).then(balance => {
@@ -239,7 +239,7 @@ class Dashboard extends React.Component {
                         errorMessage: "",
                         successMessage: "",
                         maxShares: 1000,
-                        maxRedemptions: 1,
+                        challengeDuration: 30,
                         numShares: 1
                     });
             });
@@ -261,7 +261,7 @@ class Dashboard extends React.Component {
                         formType: 'jobCents',
                         successMessage: "Your challenge has been redeemed! Please check your email for confirmation and details.",
                         maxShares: 1000,
-                        maxRedemptions: 1,
+                        challengeDuration: 30,
                         numShares: 1
                     }
                 );

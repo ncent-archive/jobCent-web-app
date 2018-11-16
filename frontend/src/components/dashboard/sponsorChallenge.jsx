@@ -101,9 +101,9 @@ export default class Transfer extends React.Component {
                             <div className="recipiens">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Number of Redemptions (Default of 1)"
+                                           placeholder="Challenge Duration (days)"
                                            autoCorrect="false" autoCapitalize="off" type="text"
-                                           onChange={this.props.update("maxRedemptions")}/>
+                                           onChange={this.props.update("challengeDuration")}/>
                                 </div>
                             </div>
                             <div className="anchor"/>
@@ -123,7 +123,7 @@ export default class Transfer extends React.Component {
                         </div>
                         <div className="agreementContainer">
                             <input type="checkbox" onClick={this.props.handleAgreementCheck}/>
-                            <span className="disclaimerText">I agree to pay an amount up to - but not greater than - the bounty amount I have chosen upon successful completion of the challenge</span>
+                            <span className="disclaimerText">I agree to pay an amount up to - but not greater than - the bounty amount I have chosen upon each successful hire</span>
                         </div>
                         <button className="theme-button transfer-button">
                             Create Challenge
