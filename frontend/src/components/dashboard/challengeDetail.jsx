@@ -3,6 +3,13 @@ import "../../scss/components/transfer.css";
 import x from "../../img/x.png";
 import ncentLogo from "../../img/logo.png";
 
+const convertToDays = dateString => {
+    const date = Date.parse(dateString);
+    const now = Date.now();
+
+    return (date - now)/(1000*60*60*24);
+}
+
 export default class ChallengeDetail extends React.Component {
     constructor(props) {
         super(props);
@@ -24,7 +31,7 @@ export default class ChallengeDetail extends React.Component {
                         <h2 className="challengeReward">Total Reward: ${this.props.challengeDetails.rewardAmount}</h2>
                         <p className="challengeDescription">Description: {this.props.challengeDetails.description}</p>
                         <h2>Your balance: {this.props.challengeBalance} jobCent(s)</h2>
-                        <h2>This challenge can still be redeemed {this.props.remainingRedemptions} time(s)</h2>
+                        <h2>{Math.floor(convertToDays(this.props.challengeDetails.expiration))} days remaining!</h2>
                     </div>
                 </div>
             </div>

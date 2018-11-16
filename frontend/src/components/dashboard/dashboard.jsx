@@ -27,7 +27,7 @@ const defaultState = {
     agreement: false,
     rewardAmount: 0,
     maxShares: 1000,
-    challengeDuration: 30,
+    challengeDuration: 90,
     numShares: 1,
     challengeBalance: 0,
     remainingRedemptions: 0,
@@ -67,16 +67,14 @@ class Dashboard extends React.Component {
     }
 
     componentWillMount() {
-        if (!this.props.currentUser) {
-            axios.get("api/session")
-                .then(function(verifyResp) {
-                    if (verifyResp.data.sessionVerified) {
-                        this.props.login(verifyResp.data.user)
-                    }
-                }.bind(this), function() {
-                    this.props.logout().then(this.props.history.push("/"));
-                }.bind(this));
-        }
+        axios.get("api/session")
+            .then(function(verifyResp) {
+                if (verifyResp.data.sessionVerified) {
+                    this.props.login(verifyResp.data.user)
+                }
+            }.bind(this), function() {
+                this.props.logout().then(this.props.history.push("/"));
+            }.bind(this));
     }
 
     handleInput(key, options) {
@@ -188,7 +186,7 @@ class Dashboard extends React.Component {
                                     successMessage: `You have successfully sent ${this.state.numShares} jobCent(s) to ${this.state.toAddress}`,
                                     formType: 'jobCents',
                                     maxShares: 1000,
-                                    challengeDuration: 30,
+                                    challengeDuration: 90,
                                     numShares: 1
                                 });
                             }
@@ -239,7 +237,7 @@ class Dashboard extends React.Component {
                         errorMessage: "",
                         successMessage: "",
                         maxShares: 1000,
-                        challengeDuration: 30,
+                        challengeDuration: 90,
                         numShares: 1
                     });
             });
@@ -261,7 +259,7 @@ class Dashboard extends React.Component {
                         formType: 'jobCents',
                         successMessage: "Your challenge has been redeemed! Please check your email for confirmation and details.",
                         maxShares: 1000,
-                        challengeDuration: 30,
+                        challengeDuration: 90,
                         numShares: 1
                     }
                 );
