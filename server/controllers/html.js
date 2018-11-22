@@ -1,5 +1,5 @@
 module.exports = {
-    inviteHtml(challengeTitle) {
+    inviteHtml(challengeTitle, description, fromAddress, rewardAmount, participationUrl, company) {
         return (
             `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
@@ -95,22 +95,21 @@ module.exports = {
       font-weight: 400;
       letter-spacing: 0.2px;
       line-height: 22px;
-      color: #333;
+      color: black;
     }
 
     .title a {
-      color: #333;
-      text-decoration: none;
+      text-decoration: underline;
     }
 
     /* ---- BODY TEXT ---- */
     .secondary,
     .secondary a {
-      color: #999;
       font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica, Arial, sans-serif;
       font-size: 16px;
       line-height: 24px;
       font-weight: 400;
+      color: black;
     }
 
     /* ---- DETAIL LIST ROWS ---- */
@@ -125,7 +124,6 @@ module.exports = {
     }
 
     .detail-row-text {
-      color: #999;
       font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica, Arial, sans-serif;
       font-size: 14px;
       line-height: 24px;
@@ -369,11 +367,11 @@ module.exports = {
       margin: 1em 0;
     }
 
-    @media screen and (min-width: 415px) {
-      .container {
-        width: 375px !important;
-      }
-    }
+    /*@media screen and (min-width: 415px) {*/
+      /*.container {*/
+        /*width: 375px !important;*/
+      /*}*/
+    /*}*/
   </style>
   <style>
     /* These styles get inlined before sending. */
@@ -391,7 +389,7 @@ module.exports = {
     <tbody>
       <tr>
         <td></td>
-        <td width="415">
+        <td width="600px">
           <!-- Max-width Table -->
 
           <!-- Padding Between Screen and Content Table -->
@@ -437,7 +435,7 @@ module.exports = {
 
 
                               <tr>
-                                <td align="center" style="padding: 0 48px">
+                                <td align="center" style="padding: 10px 48px">
                                   <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
 
 
@@ -445,7 +443,9 @@ module.exports = {
                                     <tbody>
                                       <tr>
                                         <td align="center" class="title">
-                                          <div class="text">Congratulations! You got a</div>
+                                          <div class="text" style="font-size: 24px; padding-bottom: 20px">From ${fromAddress}</div><br>
+                                          <div class="text">Join my quest to fill this job: <b>${challengeTitle}, ${company}</b> now... and GET PAID up to $${rewardAmount}!</div>
+                                          <div class="text">See the job description below for more details:</div>
                                         </td>
                                       </tr>
                                       <tr>
@@ -459,13 +459,21 @@ module.exports = {
                               </tr>
 
                               <tr>
-                                <td height="22">
-
+                                <td align="center" style="padding: 10px 48px">
+                                    <p style="font-size: 14px; color: black">"${description}"</p>
                                 </td>
-                              </tr>
+                              </tr
                               <tr>
-                                <td align="center" class="code">
-                                  <div class="text">${challengeTitle} jobCents!</div>
+                                        <td height="16">
+
+                                        </td>
+                                      </tr>
+                              <tr>
+                                <td align="center" class="title" style="padding: 10px 48px">
+                                  <div class="text" style="font-weight: bolder; color: black; font-size: 20px">1. <a href="http://3.16.1.20:3000">Recruit teammates here</a> to join our quest.</div><br>
+                                  <div class="text" style="font-weight: bolder; color: black; font-size: 20px">2. If our team finds the hire... then you, me and our teammates all GET PAID <span style="font-size: 14px; color: black">(</span><a style="color: blue; text-decoration: underline; font-size: 14px" href="http://3.16.1.20:3000#about">See how this works</a><span style="font-size: 14px; color: black">)</span></div><br>
+                                  <div class="text" style="color: black">And we help a great cause by helping someone get their dream job!</div><br>
+                                  <div class="text" style="color: black">... btw, if you could be a match for the job <a style="color: blue; text-decoration: underline" href="${participationUrl}">apply here</a>, it can only help us!</div>
                                 </td>
                               </tr>
                               <tr>
@@ -481,8 +489,7 @@ module.exports = {
                                     <tbody>
                                       <tr>
                                         <td align="center" class="secondary">
-                                          <div class="subtitle text">Please go to the <a href="http://3.16.1.20:3000/login">jobCent website</a> and sign in with this email address to view your invite!</div>
-                                            <span align="center"><a href="http://3.16.1.20:3000#about">Click Here</a> To Learn More About jobCent</a></span>
+                                          <div class="subtitle text">Let's do this - onward!!!</div>
                                         </td>
                                       </tr>
                                       <tr>
@@ -677,7 +684,7 @@ module.exports = {
       font-weight: 400;
       letter-spacing: 0.2px;
       line-height: 22px;
-      color: #333;
+      color: black;
     }
 
     .title a {
@@ -1257,7 +1264,7 @@ module.exports = {
       font-weight: 400;
       letter-spacing: 0.2px;
       line-height: 22px;
-      color: #333;
+      color: black;
     }
 
     .title a {
@@ -1839,7 +1846,7 @@ module.exports = {
       font-weight: 400;
       letter-spacing: 0.2px;
       line-height: 22px;
-      color: #333;
+      color: black;
     }
 
     .title a {

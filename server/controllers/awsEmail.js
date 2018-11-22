@@ -30,9 +30,9 @@ module.exports = {
             mailOptions = {
                 from: "noreply@ncnt.io",
                 to: to,
-                subject: "You have received a jobCent Challenge!",
+                subject: `Your friend ${options.fromAddress} gave you jobCents!`,
                 // text: '',
-                html: htmlTemplate.inviteHtml(options.challengeTitle)
+                html: htmlTemplate.inviteHtml(options.challengeTitle, options.description, options.fromAddress, formatDollars(options.rewardAmount), options.participationUrl, options.company)
             };
         } else if (options.reward) {
             mailOptions = {

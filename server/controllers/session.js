@@ -14,6 +14,7 @@ module.exports = {
                             publicKey: user.dataValues.publicKey,
                             name: user.dataValues.name
                         };
+                        req.session.user = userInfo;
                         return res.status(200).send({user: userInfo});
                     }
                     const confirmationCode = req.body.user.code;

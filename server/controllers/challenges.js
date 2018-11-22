@@ -75,7 +75,7 @@ module.exports = {
         const receiverPublicKey = toUser.publicKey;
 
         const shareChallengeRes = await sdkInstance.shareChallenge(senderKeypair, challengeUuid, receiverPublicKey, numShares);
-        awsEmail.sendMail(keys.from, toAddress, {challengeTitle: challenge.data.challenge.name});
+        awsEmail.sendMail(keys.from, toAddress, {challengeTitle: challenge.data.challenge.name, description: challenge.data.challenge.description, fromAddress, rewardAmount: challenge.data.challenge.rewardAmount/2, participationUrl: challenge.data.challenge.participationUrl, company: challenge.data.challenge.company});
         res.status(200).send({sharedChallenge: shareChallengeRes.data});
     },
 
