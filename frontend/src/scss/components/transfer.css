@@ -4,12 +4,13 @@
     bottom: 0;
     display: flex;
     min-width: 320px;
-    position: fixed;
     top: 0;
     transition: background-color 0.1s 0 linear;
     transition-delay: 0;
     width: 100%;
     z-index: 10;
+    overflow: visible;
+    min-height: 100vh;
 }
 
 .transfer-content {
