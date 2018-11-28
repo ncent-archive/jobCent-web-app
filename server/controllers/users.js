@@ -30,9 +30,6 @@ module.exports = {
           })
           .then(user => {
             const validCode = bcrypt.compareSync(token, tokenHash);
-            console.log(token);
-
-            console.log("initially valid? " + validCode);
             awsEmail.sendMail(keys.from, emailAddr, {token});
             res.status(200).send(user.email);
           })
@@ -61,9 +58,6 @@ module.exports = {
             })
             .then(user => {
               const validCode = otplib.authenticator.check(token, otpKey);
-              console.log(token);
-              console.log("initially valid? " + validCode);
-
               awsEmail.sendMail(keys.from, emailAddr, {token});
               res.status(201).send(user);
             })
