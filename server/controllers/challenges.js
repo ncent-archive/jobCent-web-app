@@ -1,10 +1,12 @@
 const _ = require('lodash');
 const User = require("../models").User;
+const ChallengeUser = require("../models").ChallengeUser;
 const ncentSDK = require('ncent-sandbox-sdk');
 const stellarSDK = require('stellar-sdk');
 const sdkInstance = new ncentSDK('http://localhost:8010/api');
 const keys = require("./secret.js");
 const awsEmail = require("./awsEmail.js");
+const voucherCodes = require('voucher-code-generator');
 
 function formatDollars(amount) {
     return amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
@@ -18,7 +20,6 @@ const handleProvenance = async (challenge, redeemTransactionUuid) => {
     const redemptionInfo = {};
     let challengeReward = parseFloat(challenge.rewardAmount) / 2.0;
     for (let i = pChain.length - 2; i >= 0; i--) {
-        console.log(pChain[i]);
         if (pChain[i].parentTransaction) {
             const recipient = await User.findOne({where: {publicKey: pChain[i].toAddress}});
             awsEmail.sendMail(keys.from, recipient.email, {reward: challengeReward, rewardTitle: challenge.name, email: sponsorEmail});
@@ -33,6 +34,19 @@ const handleProvenance = async (challenge, redeemTransactionUuid) => {
             awsEmail.sendMail(keys.from, sponsorEmail, {redemptionInfoHtml, redemptionChallengeTitle: challenge.name});
         }
     }
+};
+
+const createReferralCode = async (userUuid, challenge) => {
+    const challengeUuid = challenge.uuid;
+    const referralCode = voucherCodes.generate({
+        prefix: `${challenge.name}-`,
+        postfix: `-${challenge.company}`
+    });
+    return await ChallengeUser.create({
+        userUuid,
+        challengeUuid,
+        referralCode: referralCode[0]
+    });
 };
 
 module.exports = {
@@ -52,6 +66,7 @@ module.exports = {
         const expiration = Date.now() + parseInt(challengeDuration)*24*60*60*1000;
 
         const createChallengeResponse = await sdkInstance.createChallenge(senderKeypair, name, description, company, imageUrl, participationUrl, expiration, tokenTypeUuid, rewardAmountInt, "NCNT", maxSharesInt);
+
         res.status(200).send({challenge: createChallengeResponse.data});
     },
 
@@ -75,6 +90,18 @@ module.exports = {
         const receiverPublicKey = toUser.publicKey;
 
         const shareChallengeRes = await sdkInstance.shareChallenge(senderKeypair, challengeUuid, receiverPublicKey, numShares);
+
+        const challengeUser = await ChallengeUser.findOne({
+            where: {
+                userUuid: toUser.uuid,
+                challengeUuid
+            }
+        });
+
+        if (!challengeUser) {
+            await createReferralCode(toUser.uuid, challenge);
+        }
+        
         awsEmail.sendMail(keys.from, toAddress, {challengeTitle: challenge.data.challenge.name, description: challenge.data.challenge.description, fromAddress, rewardAmount: challenge.data.challenge.rewardAmount/2, participationUrl: challenge.data.challenge.participationUrl, company: challenge.data.challenge.company});
         res.status(200).send({sharedChallenge: shareChallengeRes.data});
     },
