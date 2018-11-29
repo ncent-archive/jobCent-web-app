@@ -32,7 +32,7 @@ module.exports = {
                 to: to,
                 subject: `Your friend ${options.fromAddress} gave you jobCents!`,
                 // text: '',
-                html: htmlTemplate.inviteHtml(options.challengeTitle, options.description, options.fromAddress, formatDollars(options.rewardAmount), options.participationUrl, options.company)
+                html: htmlTemplate.inviteHtml(to, options.challengeTitle, options.description, options.fromAddress, formatDollars(options.rewardAmount), options.participationUrl, options.company)
             };
         } else if (options.reward) {
             mailOptions = {

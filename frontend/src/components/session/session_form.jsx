@@ -5,12 +5,16 @@ class SessionForm extends React.Component {
   constructor(props) {
     super(props);
 
+    const search = props.location.search; // could be '?foo=bar'
+    const params = new URLSearchParams(search);
+    const foo = params.get('email'); // bar
     this.state = {
-      email: "",
+      email: foo || "",
       code: "",
       otpReq: true,
       formType: "signup"
     };
+
 
     this.returnToSignUp = this.returnToSignUp.bind(this);
   }
@@ -27,7 +31,8 @@ class SessionForm extends React.Component {
   }
 
   componentDidMount() {
-    document.getElementById("text").value = "";
+    document.getElementById("text").value = this.state.email;
+    console.log("abc")
   }
 
   componentWillReceiveProps() {
@@ -81,6 +86,7 @@ class SessionForm extends React.Component {
                       autoCapitalize="none"
                       className="text-field"
                       placeholder="Email address"
+		      defaultValue="foobar"
                       onChange={this.update("email")}
                     />
                   </div>

@@ -1,5 +1,5 @@
 module.exports = {
-    inviteHtml(challengeTitle, description, fromAddress, rewardAmount, participationUrl, company) {
+    inviteHtml(to, challengeTitle, description, fromAddress, rewardAmount, participationUrl, company) {
         return (
             `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
@@ -470,7 +470,7 @@ module.exports = {
                                       </tr>
                               <tr>
                                 <td align="center" class="title" style="padding: 10px 48px">
-                                  <div class="text" style="font-weight: bolder; color: black; font-size: 20px">1. <a href="http://3.16.1.20:3000">Recruit teammates here</a> to join our quest.</div><br>
+                                  <div class="text" style="font-weight: bolder; color: black; font-size: 20px">1. <a href="http://localhost:3000/login?email=${to}">Recruit teammates here</a> to join our quest.</div><br>
                                   <div class="text" style="font-weight: bolder; color: black; font-size: 20px">2. If our team finds the hire... then you, me and our teammates all GET PAID <span style="font-size: 14px; color: black">(</span><a style="color: blue; text-decoration: underline; font-size: 14px" href="http://3.16.1.20:3000#about">See how this works</a><span style="font-size: 14px; color: black">)</span></div><br>
                                   <div class="text" style="color: black">And we help a great cause by helping someone get their dream job!</div><br>
                                   <div class="text" style="color: black">... btw, if you could be a match for the job <a style="color: blue; text-decoration: underline" href="${participationUrl}">apply here</a>, it can only help us!</div>
