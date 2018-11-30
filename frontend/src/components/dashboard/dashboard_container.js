@@ -6,7 +6,8 @@ import {
     shareChallenge,
     createChallenge,
     redeemChallenge,
-    retrieveChallengeUsers
+    retrieveChallengeUsers,
+    redeemReferralCode
 } from "../../actions/dashboard_actions";
 
 const mapStateToProps = (state, ownProps) => ({
@@ -25,7 +26,8 @@ const mapDispatchToProps = (dispatch) => ({
     logout: () => dispatch(logout()),
     login: user => dispatch(login(user)),
     createChallenge: challenge => dispatch(createChallenge(challenge)),
-    retrieveChallengeUsers: challengeUuid => dispatch(retrieveChallengeUsers(challengeUuid))
+    retrieveChallengeUsers: challengeUuid => dispatch(retrieveChallengeUsers(challengeUuid)),
+    redeemReferralCode: (referralCode, recipientUuid) => dispatch(redeemReferralCode(referralCode, recipientUuid))
 });
 
 export default connect(

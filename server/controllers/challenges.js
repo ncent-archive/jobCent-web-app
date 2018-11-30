@@ -66,6 +66,7 @@ module.exports = {
         const expiration = Date.now() + parseInt(challengeDuration)*24*60*60*1000;
 
         const createChallengeResponse = await sdkInstance.createChallenge(senderKeypair, name, description, company, imageUrl, participationUrl, expiration, tokenTypeUuid, rewardAmountInt, "NCNT", maxSharesInt);
+        await createReferralCode(user.uuid, createChallengeResponse.data.challenge);
 
         res.status(200).send({challenge: createChallengeResponse.data});
     },
@@ -101,7 +102,7 @@ module.exports = {
         if (!challengeUser) {
             await createReferralCode(toUser.uuid, challenge);
         }
-        
+
         awsEmail.sendMail(keys.from, toAddress, {challengeTitle: challenge.data.challenge.name, description: challenge.data.challenge.description, fromAddress, rewardAmount: challenge.data.challenge.rewardAmount/2, participationUrl: challenge.data.challenge.participationUrl, company: challenge.data.challenge.company});
         res.status(200).send({sharedChallenge: shareChallengeRes.data});
     },
@@ -147,5 +148,40 @@ module.exports = {
         } else {
             return res.status(404).send({message: "Challenge users not found"});
         }
+    },
+
+    async redeemReferralCode({params, body}, res) {
+        const referralCode = params.referralCode;
+        const recipientUuid = body.recipientUuid;
+        const challengeUser = await ChallengeUser.findOne({
+            where: {
+                referralCode
+            }
+        });
+
+        if (!challengeUser) {
+            return res.status(403).send({message: "invalid referral code"});
+        }
+
+        const challenge = await sdkInstance.retrieveChallenge(challengeUser.challengeUuid);
+
+        const fromUser = await User.findOne({
+            where: {
+                uuid: challengeUser.userUuid
+            }
+        });
+
+        const toUser = await User.findOne({
+            where: {
+                uuid: recipientUuid
+            }
+        });
+
+
+        const senderKeypair = stellarSDK.Keypair.fromSecret(fromUser.privateKey);
+
+        const shareChallengeRes = await sdkInstance.shareChallenge(senderKeypair, challengeUser.challengeUuid, toUser.publicKey, 1);
+        awsEmail.sendMail(keys.from, toUser.email, {challengeTitle: challenge.name, description: challenge.description, fromAddress: fromUser.email, rewardAmount: challenge.rewardAmount/2, participationUrl: challenge.participationUrl, company: challenge.company});
+        res.status(200).send({sharedChallenge: shareChallengeRes.data});
     }
 };

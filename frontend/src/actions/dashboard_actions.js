@@ -69,3 +69,9 @@ export const retrieveChallengeUsers = challengeUuid => dispatch =>
         data => dispatch(receiveChallengeBalances(data)),
         err => dispatch(receiveErrors(err))
     );
+
+export const redeemReferralCode = (referralCode, recipientUuid) => dispatch =>
+    ApiUtil.redeemReferralCode(referralCode, recipientUuid).then(
+        data => dispatch(receiveTransfer(data)),
+        err => dispatch(receiveErrors(err))
+    );
