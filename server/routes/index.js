@@ -26,6 +26,8 @@ module.exports = (app) => {
     // gets user data, including sponsored and "held" challenges
     app.get("/api/users/:uuid", usersController.getOne);
 
+    app.get("/api/users/:userUuid/:challengeUuid", usersController.getReferralCode);
+
     // verifies confirmation code and logs the user in
     app.post("/api/session", sessionController.create);
 

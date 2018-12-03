@@ -10,9 +10,11 @@ export default class MyJobCents extends React.Component {
             sponsoredChallenges: [],
             sponsoredChallengeBalances: [],
             sponsoredChallengeRemainingRedemptions: [],
+            sponsoredChallengeReferralCodes: [],
             heldChallenges: [],
             heldChallengeBalances: [],
             heldChallengeRemainingRedemptions: [],
+            heldChallengeReferralCodes: [],
             successMessage: "",
             errorMessage: ""
         };

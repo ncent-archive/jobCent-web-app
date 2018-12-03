@@ -170,7 +170,7 @@ class Dashboard extends React.Component {
                             this.setState({
                                 sponsoredChallenges: userData.sponsoredChallenges,
                                 heldChallenges: userData.heldChallenges,
-                                successMessage: `You have successfully sent ${this.state.numShares} jobCent(s) to ${this.state.toAddress}`,
+                                successMessage: `You have successfully redeemed 1 jobCent!`,
                                 formType: 'jobCents',
                                 maxShares: 1000,
                                 challengeDuration: 90,
@@ -369,6 +369,8 @@ class Dashboard extends React.Component {
                     challengeDetails={this.state.challengeDetails}
                     challengeBalance={this.state.challengeBalance}
                     remainingRedemptions={this.state.remainingRedemptions}
+                    getReferralCode={this.props.getReferralCode}
+                    currentUser={this.props.currentUser}
                 />
             )
         }

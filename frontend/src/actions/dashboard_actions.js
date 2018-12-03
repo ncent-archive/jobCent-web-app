@@ -6,6 +6,7 @@ export const RECEIVE_CHALLENGE = "RECEIVE_CHALLENGE";
 export const RECEIVE_CHALLENGES = "RECEIVE_CHALLENGES";
 export const RECEIVE_DASH_ERRORS = "RECEIVE_DASH_ERRORS";
 export const RECEIVE_CHALLENGE_BALANCES = "RECEIVE_CHALLENGE_BALANCES";
+export const RECEIVE_REFERRAL_CODE = "RECEIVE_REFERRAL_CODE";
 
 export const receiveUser = userData => ({
     type: RECEIVE_USER,
@@ -35,6 +36,11 @@ export const receiveChallenges = challenges => ({
 export const receiveChallengeBalances = challengeBalances => ({
     type: RECEIVE_CHALLENGE_BALANCES,
     challengeBalances
+});
+
+export const receiveReferralCode = referralCode => ({
+    type: RECEIVE_REFERRAL_CODE,
+    referralCode
 });
 
 export const fetchUser = user => dispatch =>
@@ -73,5 +79,11 @@ export const retrieveChallengeUsers = challengeUuid => dispatch =>
 export const redeemReferralCode = (referralCode, recipientUuid) => dispatch =>
     ApiUtil.redeemReferralCode(referralCode, recipientUuid).then(
         data => dispatch(receiveTransfer(data)),
+        err => dispatch(receiveErrors(err))
+    );
+
+export const getReferralCode = (userUuid, challengeUuid) => dispatch =>
+    ApiUtil.getReferralCode(userUuid, challengeUuid).then(
+        data => dispatch(receiveReferralCode(data)),
         err => dispatch(receiveErrors(err))
     );
