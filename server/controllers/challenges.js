@@ -74,7 +74,7 @@ module.exports = {
     async share({body, params}, res) {
         const {fromAddress, toAddress, numShares} = body;
         const challengeUuid = params.challengeUuid;
-        const challenge = await sdkInstance.retrieveChallenge(challengeUuid);
+        const challengeResponse = await sdkInstance.retrieveChallenge(challengeUuid);
 
         const fromUser = await User.findOne({where: {email: fromAddress}});
         let toUser = await User.findOne({where: {email: toAddress}});
@@ -100,10 +100,10 @@ module.exports = {
         });
 
         if (!challengeUser) {
-            await createReferralCode(toUser.uuid, challenge);
+            await createReferralCode(toUser.uuid, challengeResponse.data.challenge);
         }
 
-        awsEmail.sendMail(keys.from, toAddress, {challengeTitle: challenge.data.challenge.name, description: challenge.data.challenge.description, fromAddress, rewardAmount: challenge.data.challenge.rewardAmount/2, participationUrl: challenge.data.challenge.participationUrl, company: challenge.data.challenge.company});
+        awsEmail.sendMail(keys.from, toAddress, {challengeTitle: challengeResponse.data.challenge.name, description: challengeResponse.data.challenge.description, fromAddress, rewardAmount: challengeResponse.data.challenge.rewardAmount/2, participationUrl: challengeResponse.data.challenge.participationUrl, company: challengeResponse.data.challenge.company});
         res.status(200).send({sharedChallenge: shareChallengeRes.data});
     },
 
