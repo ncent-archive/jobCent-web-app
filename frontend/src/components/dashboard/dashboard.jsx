@@ -160,27 +160,35 @@ class Dashboard extends React.Component {
 
         const referralCode = this.state.referralCode;
         const recipientUuid = this.props.currentUser.uuid;
+        let redeemCodeStatus;
 
         this.props.redeemReferralCode(referralCode, recipientUuid)
             .then(res => {
-                this.props.fetchUser(this.props.currentUser)
-                    .then(res => {
-                        let userData = res.userData.data;
-                        if (userData) {
-                            this.setState({
-                                sponsoredChallenges: userData.sponsoredChallenges,
-                                heldChallenges: userData.heldChallenges,
-                                successMessage: `You have successfully redeemed 1 jobCent!`,
-                                formType: 'jobCents',
-                                maxShares: 1000,
-                                challengeDuration: 90,
-                                numShares: 1
-                            });
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    })
+                if (res.type === "RECEIVE_DASH_ERRORS") {
+                    this.setState({
+                        formType: 'jobCents',
+                        errorMessage: "Unable to redeem code. If you have already used this code, it cannot be redeemed again."
+                    });
+                } else {
+                    this.props.fetchUser(this.props.currentUser)
+                        .then(res => {
+                            let userData = res.userData.data;
+                            if (userData) {
+                                this.setState({
+                                    sponsoredChallenges: userData.sponsoredChallenges,
+                                    heldChallenges: userData.heldChallenges,
+                                    successMessage: `You have successfully redeemed 1 jobCent!`,
+                                    formType: 'jobCents',
+                                    maxShares: 1000,
+                                    challengeDuration: 90,
+                                    numShares: 1
+                                });
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+                }
             })
             .catch(err => {
                 console.log(err);

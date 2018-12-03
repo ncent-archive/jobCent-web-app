@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const User = require("../models").User;
 const ChallengeUser = require("../models").ChallengeUser;
+const CodeRedemption = require("../models").CodeRedemption;
 const ncentSDK = require('ncent-sandbox-sdk');
 const stellarSDK = require('stellar-sdk');
 const sdkInstance = new ncentSDK('http://localhost:8010/api');
@@ -163,6 +164,17 @@ module.exports = {
             return res.status(403).send({message: "invalid referral code"});
         }
 
+        const redemption = await CodeRedemption.findOne({
+            where: {
+                referralCode,
+                userUuid: recipientUuid
+            }
+        });
+
+        if (redemption) {
+            return res.status(403).send({message: "user has already redeemed this code"});
+        }
+
         const challenge = await sdkInstance.retrieveChallenge(challengeUser.challengeUuid);
 
         const fromUser = await User.findOne({
@@ -177,10 +189,14 @@ module.exports = {
             }
         });
 
-
         const senderKeypair = stellarSDK.Keypair.fromSecret(fromUser.privateKey);
 
         const shareChallengeRes = await sdkInstance.shareChallenge(senderKeypair, challengeUser.challengeUuid, toUser.publicKey, 1);
+        await CodeRedemption.create({
+            referralCode,
+            userUuid: recipientUuid
+        });
+
         awsEmail.sendMail(keys.from, toUser.email, {challengeTitle: challenge.name, description: challenge.description, fromAddress: fromUser.email, rewardAmount: challenge.rewardAmount/2, participationUrl: challenge.participationUrl, company: challenge.company});
         res.status(200).send({sharedChallenge: shareChallengeRes.data});
     }
