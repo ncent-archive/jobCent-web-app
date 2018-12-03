@@ -1,6 +1,6 @@
-jobcentserver = process.env.JOBCENTSERVER
-if (typeof jobcentserver == 'undefined') 
-    jobcentserver = "localhost:3000"
+let jobcentserver = process.env.JOBCENTSERVER
+    if (!jobcentserver)
+	jobcentserver = "localhost:3000"
 
 
 
