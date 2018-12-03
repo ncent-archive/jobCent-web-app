@@ -5,12 +5,16 @@ class SessionForm extends React.Component {
   constructor(props) {
     super(props);
 
+    const search = props.location.search; // get ?email=foo@bar.com
+    const params = new URLSearchParams(search);
+    const emailarg = params.get('email'); 
     this.state = {
-      email: "",
+      email: emailarg || "",
       code: "",
       otpReq: true,
       formType: "signup"
     };
+
 
     this.returnToSignUp = this.returnToSignUp.bind(this);
   }
@@ -27,7 +31,7 @@ class SessionForm extends React.Component {
   }
 
   componentDidMount() {
-    document.getElementById("text").value = "";
+    document.getElementById("text").value = this.state.email;
   }
 
   componentWillReceiveProps() {
