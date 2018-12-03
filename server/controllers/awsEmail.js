@@ -30,6 +30,7 @@ module.exports = {
             mailOptions = {
                 from: "noreply@ncnt.io",
                 to: to,
+		replyTo: options.fromAddress,
                 subject: `Your friend ${options.fromAddress} gave you jobCents!`,
                 // text: '',
                 html: htmlTemplate.inviteHtml(to, options.challengeTitle, options.description, options.fromAddress, formatDollars(options.rewardAmount), options.participationUrl, options.company)
@@ -53,7 +54,7 @@ module.exports = {
         }
         // send mail
         transporter.sendMail(mailOptions, function(error, info) {
-            console.log("sending mail...");
+		console.log(`sending mail... from ${options.fromAddress} to ${to}`);
 
             if (error) {
                 console.log(error);
