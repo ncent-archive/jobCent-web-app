@@ -2,6 +2,7 @@ import React from "react";
 import "../../scss/components/dashboard.css";
 import MyJobCents from "./myJobCents";
 import Transfer from "./transfer";
+import ReferralCode from "./referralCode";
 import Redeem from "./redeem";
 import SponsorChallenge from "./sponsorChallenge.jsx";
 import ChallengeDetail from "./challengeDetail.jsx";
@@ -37,7 +38,8 @@ const defaultState = {
     errorMessage: "",
     successMessage: "",
     challengeDetails: {},
-    challengeUsers: []
+    challengeUsers: [],
+    referralCode: ""
 };
 
 class Dashboard extends React.Component {
@@ -64,6 +66,8 @@ class Dashboard extends React.Component {
         this.selectRedeemer = this.selectRedeemer.bind(this);
         this.handleRedeem = this.handleRedeem.bind(this);
         this.handleAgreementCheck = this.handleAgreementCheck.bind(this);
+        this.referralCodeTab = this.referralCodeTab.bind(this);
+        this.redeemReferralCode = this.redeemReferralCode.bind(this);
     }
 
     componentWillMount() {
@@ -150,6 +154,39 @@ class Dashboard extends React.Component {
             });
         }
     }
+
+    async redeemReferralCode(e) {
+        e.preventDefault();
+
+        const referralCode = this.state.referralCode;
+        const recipientUuid = this.props.currentUser.uuid;
+
+        this.props.redeemReferralCode(referralCode, recipientUuid)
+            .then(res => {
+                this.props.fetchUser(this.props.currentUser)
+                    .then(res => {
+                        let userData = res.userData.data;
+                        if (userData) {
+                            this.setState({
+                                sponsoredChallenges: userData.sponsoredChallenges,
+                                heldChallenges: userData.heldChallenges,
+                                successMessage: `You have successfully redeemed 1 jobCent!`,
+                                formType: 'jobCents',
+                                maxShares: 1000,
+                                challengeDuration: 90,
+                                numShares: 1
+                            });
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
 
     handleTransfer(e) {
         e.preventDefault();
@@ -312,6 +349,18 @@ class Dashboard extends React.Component {
         }
     }
 
+    referralCodeTab() {
+        if (this.state.formType === "ReferralCode") {
+            return (
+                <ReferralCode
+                    handleInput={this.handleInput}
+                    update={this.update}
+                    redeemReferralCode={this.redeemReferralCode}
+                />
+            )
+        }
+    }
+
     challengeDetailTab() {
         if (this.state.formType === "challengeDetail") {
             return (
@@ -320,6 +369,8 @@ class Dashboard extends React.Component {
                     challengeDetails={this.state.challengeDetails}
                     challengeBalance={this.state.challengeBalance}
                     remainingRedemptions={this.state.remainingRedemptions}
+                    getReferralCode={this.props.getReferralCode}
+                    currentUser={this.props.currentUser}
                 />
             )
         }
@@ -419,33 +470,6 @@ class Dashboard extends React.Component {
                                     </div>
                                 </div>
                                 <nav className="nav-items">
-                                    {/*<a*/}
-                                    {/*title="Activity"*/}
-                                    {/*value="Activity"*/}
-                                    {/*id="ember1156"*/}
-                                    {/*className={*/}
-                                    {/*this.state.formType === "Activity"*/}
-                                    {/*? "nav-item active"*/}
-                                    {/*: "nav-item"*/}
-                                    {/*}*/}
-                                    {/*onClick={this.handleInput("formType")}*/}
-                                    {/*>*/}
-                                    {/*{" "}*/}
-                                    {/*<div id="ember1163" className="inline-svg ">*/}
-                                    {/*<svg*/}
-                                    {/*xmlns="http://www.w3.org/2000/svg"*/}
-                                    {/*width="22"*/}
-                                    {/*height="22"*/}
-                                    {/*viewBox="0 0 22 22"*/}
-                                    {/*>*/}
-                                    {/*<g fill="#FFF" fillRule="evenodd">*/}
-                                    {/*<path d="M11 0C4.9 0 0 4.9 0 11s4.9 11 11 11 11-4.9 11-11S17.1 0 11 0zm0 20c-5 0-9-4-9-9s4-9 9-9 9 4 9 9-4 9-9 9z" />*/}
-                                    {/*<path d="M12 6h-2v6.5l4.5 2.4 1-1.8-3.5-1.8V6z" />*/}
-                                    {/*</g>*/}
-                                    {/*</svg>*/}
-                                    {/*</div>*/}
-                                    {/*<span className="nav-item-label">Activity</span>*/}
-                                    {/*</a>*/}
                                     <a
                                         title="jobCents"
                                         value="jobCents"
@@ -459,32 +483,19 @@ class Dashboard extends React.Component {
                                     >
                                         <span className="button-text">Wallet</span>
                                     </a>
-                                    {/*<a*/}
-                                    {/*title="Settings"*/}
-                                    {/*id="ember1188"*/}
-                                    {/*className={*/}
-                                    {/*this.state.formType === "Settings"*/}
-                                    {/*? "nav-item settings active"*/}
-                                    {/*: "nav-item"*/}
-                                    {/*}*/}
-                                    {/*onClick={this.handleInput("formType")}*/}
-                                    {/*>*/}
-                                    {/*{" "}*/}
-                                    {/*<div id="ember1197" className="inline-svg ">*/}
-                                    {/*<svg*/}
-                                    {/*xmlns="http://www.w3.org/2000/svg"*/}
-                                    {/*width="23"*/}
-                                    {/*height="22"*/}
-                                    {/*viewBox="0 0 23 22"*/}
-                                    {/*>*/}
-                                    {/*<g fill="#FFF" fillRule="evenodd">*/}
-                                    {/*<path d="M22.5 11c0-6.1-4.9-11-11-11S.5 4.9.5 11c0 4.7 2.9 8.7 7.1 10.3 1.1.5 2.4.7 3.9.7s2.9-.3 3.9-.7c4.2-1.6 7.1-5.6 7.1-10.3zm-5.4 7c-.8-1.2-3-2-5.6-2-2.6 0-4.8.8-5.6 2-2-1.7-3.4-4.2-3.4-7 0-5 4-9 9-9s9 4 9 9c0 2.8-1.3 5.3-3.4 7z" />*/}
-                                    {/*<circle cx="11.5" cy="9" r="3" />*/}
-                                    {/*</g>*/}
-                                    {/*</svg>*/}
-                                    {/*</div>*/}
-                                    {/*<span className="nav-item-label">Settings</span>*/}
-                                    {/*</a>{" "}*/}
+                                    <a
+                                        title="ReferralCode"
+                                        value="ReferralCode"
+                                        id="ember1174"
+                                        className={
+                                            this.state.formType === "ReferralCode"
+                                                ? "nav-item active"
+                                                : "nav-item"
+                                        }
+                                        onClick={this.handleInput("formType")}
+                                    >
+                                        <span className="button-text">Redeem Code</span>
+                                    </a>
                                     <a
                                         title="Sign Out"
                                         className={
@@ -506,6 +517,7 @@ class Dashboard extends React.Component {
                                 {this.sponsorChallengeTab()}
                                 {this.challengeDetailTab()}
                                 {this.redeemTab()}
+                                {this.referralCodeTab()}
                             </section>
                         </div>
                     </div>

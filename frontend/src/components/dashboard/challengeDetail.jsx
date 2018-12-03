@@ -8,11 +8,24 @@ const convertToDays = dateString => {
     const now = Date.now();
 
     return (date - now)/(1000*60*60*24);
-}
+};
 
 export default class ChallengeDetail extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            referralCode: ""
+        };
+    }
+
+    componentWillMount() {
+        this.props.getReferralCode(this.props.currentUser.uuid, this.props.challengeDetails.uuid)
+            .then(referralCodeResp => {
+                this.setState({
+                    referralCode: referralCodeResp.referralCode.data.referralCode
+                });
+            });
     }
 
     render() {
@@ -32,6 +45,7 @@ export default class ChallengeDetail extends React.Component {
                         <p className="challengeDescription">Description: {this.props.challengeDetails.description}</p>
                         <h2>Your balance: {this.props.challengeBalance} jobCent(s)</h2>
                         <h2>{Math.floor(convertToDays(this.props.challengeDetails.expiration))} days remaining!</h2>
+                        <h2>Your referral code for this challenge: {this.state.referralCode}</h2>
                     </div>
                 </div>
             </div>
