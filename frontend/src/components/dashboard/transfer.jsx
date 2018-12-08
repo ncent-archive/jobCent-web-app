@@ -25,7 +25,7 @@ export default class Transfer extends React.Component {
                         </div>
                         <div className="enter-email">
                             <label htmlFor="">To:</label>
-                            <div className="recipiens">
+                            <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
                                            placeholder="Email address" autoCorrect="false" autoCapitalize="off"
@@ -37,7 +37,7 @@ export default class Transfer extends React.Component {
                         </div>
                         <div className="enter-email">
                             <label htmlFor="">To:</label>
-                            <div className="recipiens">
+                            <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
                                            placeholder="Number of jobCents to Send" autoCorrect="false" autoCapitalize="off"

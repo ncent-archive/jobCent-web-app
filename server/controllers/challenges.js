@@ -39,6 +39,7 @@ const handleProvenance = async (challenge, redeemTransactionUuid) => {
 
 const createReferralCode = async (userUuid, challenge) => {
     const challengeUuid = challenge.uuid;
+
     const referralCode = voucherCodes.generate({
         prefix: `${challenge.name}-`,
         postfix: `-${challenge.company}`
@@ -159,6 +160,7 @@ module.exports = {
                 referralCode
             }
         });
+        const numShares = challengeUser.tokensPerReferral;
 
         if (!challengeUser) {
             return res.status(403).send({message: "invalid referral code"});
@@ -174,12 +176,11 @@ module.exports = {
         if (redemption) {
             return res.status(403).send({message: "user has already redeemed this code"});
         }
-
         const challenge = await sdkInstance.retrieveChallenge(challengeUser.challengeUuid);
 
         const fromUser = await User.findOne({
             where: {
-                uuid: challengeUser.userUuid
+                uuid: challengeUser['userUuid']
             }
         });
 
@@ -191,7 +192,8 @@ module.exports = {
 
         const senderKeypair = stellarSDK.Keypair.fromSecret(fromUser.privateKey);
 
-        const shareChallengeRes = await sdkInstance.shareChallenge(senderKeypair, challengeUser.challengeUuid, toUser.publicKey, 1);
+        const shareChallengeRes = await sdkInstance.shareChallenge(senderKeypair, challengeUser['challengeUuid'], toUser.publicKey, numShares);
+        await createReferralCode(toUser.uuid, challenge.data.challenge);
         await CodeRedemption.create({
             referralCode,
             userUuid: recipientUuid

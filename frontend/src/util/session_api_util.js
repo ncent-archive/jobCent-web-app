@@ -14,4 +14,5 @@ export const createChallenge = challenge => axios.post("api/challenges/", challe
 export const redeemChallenge = (challengeUuid, sponsorAddress, redeemerAddress) => axios.post(`api/challenges/${challengeUuid}/${sponsorAddress}`, {redeemerAddress});
 export const retrieveChallengeUsers = challengeUuid => axios.get(`api/challenges/balances/${challengeUuid}`);
 export const redeemReferralCode = (referralCode, recipientUuid) => axios.put(`api/challenges/referralCode/${referralCode}`, {recipientUuid});
-export const getReferralCode = (userUuid, challengeUuid) => axios.get(`api/users/${userUuid}/${challengeUuid}`);
+export const getReferralCode = (userUuid, challengeUuid) => axios.get(`api/challengeUsers/${userUuid}/${challengeUuid}`);
+export const setTokensPerReferral = (userUuid, challengeUuid, tokensPerReferral ) => axios.patch(`api/challengeUsers/${userUuid}/${challengeUuid}`, {tokensPerReferral});

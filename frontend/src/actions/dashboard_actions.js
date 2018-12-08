@@ -6,7 +6,7 @@ export const RECEIVE_CHALLENGE = "RECEIVE_CHALLENGE";
 export const RECEIVE_CHALLENGES = "RECEIVE_CHALLENGES";
 export const RECEIVE_DASH_ERRORS = "RECEIVE_DASH_ERRORS";
 export const RECEIVE_CHALLENGE_BALANCES = "RECEIVE_CHALLENGE_BALANCES";
-export const RECEIVE_REFERRAL_CODE = "RECEIVE_REFERRAL_CODE";
+export const RECEIVE_CHALLENGE_USER_DATA = "RECEIVE_CHALLENGE_USER_DATA";
 
 export const receiveUser = userData => ({
     type: RECEIVE_USER,
@@ -38,10 +38,11 @@ export const receiveChallengeBalances = challengeBalances => ({
     challengeBalances
 });
 
-export const receiveReferralCode = referralCode => ({
-    type: RECEIVE_REFERRAL_CODE,
-    referralCode
+export const receiveChallengeUserData = challengeUserData => ({
+    type: RECEIVE_CHALLENGE_USER_DATA,
+    challengeUserData
 });
+
 
 export const fetchUser = user => dispatch =>
     ApiUtil.fetchUser(user).then(
@@ -84,6 +85,11 @@ export const redeemReferralCode = (referralCode, recipientUuid) => dispatch =>
 
 export const getReferralCode = (userUuid, challengeUuid) => dispatch =>
     ApiUtil.getReferralCode(userUuid, challengeUuid).then(
-        data => dispatch(receiveReferralCode(data)),
+        data => dispatch(receiveChallengeUserData(data)),
+        err => dispatch(receiveErrors(err))
+    );
+export const setTokensPerReferral = (userUuid, challengeUuid, tokensPerReferral) => dispatch =>
+    ApiUtil.setTokensPerReferral(userUuid, challengeUuid, tokensPerReferral).then(
+        data => dispatch(receiveChallengeUserData(data)),
         err => dispatch(receiveErrors(err))
     );

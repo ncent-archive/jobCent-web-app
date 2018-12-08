@@ -23,7 +23,7 @@ export default class ReferralCode extends React.Component {
                             </div>
                         </div>
                         <div className="enter-email">
-                            <div className="recipiens">
+                            <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
                                            placeholder="Referral Code" autoCorrect="false" autoCapitalize="off"

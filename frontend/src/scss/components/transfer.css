@@ -164,7 +164,7 @@ label {
     width: 100%;
 }
 
-.recipiens {
+.recipients {
     display: flex;
     flex-direction: row;
     padding-left: 15px;
@@ -266,6 +266,11 @@ label {
     font-size: 20px;
     margin-bottom: 2vh;
     margin-top: 2vh;
+}
+
+.tokensPerReferralForm {
+    display: flex;
+    align-items: center;
 }
 
 @keyframes fadeOut {

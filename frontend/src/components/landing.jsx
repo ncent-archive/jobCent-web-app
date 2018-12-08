@@ -118,7 +118,7 @@ class Landing extends React.Component {
                       <h3 className="vertical-timeline-element-title">Alice</h3>
                       <h4 className="vertical-timeline-element-subtitle">President of Dev U Computer Club</h4>
                       <p>
-                          Alice recieves a jobCent from Startup Co. She can apply for the job and if she is hired recieve a 10k NCNT signing bonus. However, she has already committed to working at FacePamphlet Inc. so she sends the jobCent to Bob instead.                      </p>
+                          Alice receives a jobCent from Startup Co. She can apply for the job and if she is hired receive a 10k NCNT signing bonus. However, she has already committed to working at FacePamphlet Inc. so she sends the jobCent to Bob instead.                      </p>
                   </VerticalTimelineElement>
                   <VerticalTimelineElement
                       className="vertical-timeline-element--work"

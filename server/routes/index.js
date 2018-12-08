@@ -1,11 +1,12 @@
 const challengesController = require('../controllers').challenges;
 const usersController = require('../controllers').users;
 const sessionController = require("../controllers/").session;
-
+const challengeUsersController = require("../controllers/").challengeUsers;
 module.exports = (app) => {
     app.get('/api', (req, res) => res.status(200).send({
         message: 'Welcome to the nCent Hybrid Meta-App API!'
     }));
+
 
     // create/sponsor a challenge
     app.post('/api/challenges', challengesController.create);
@@ -26,7 +27,7 @@ module.exports = (app) => {
     // gets user data, including sponsored and "held" challenges
     app.get("/api/users/:uuid", usersController.getOne);
 
-    app.get("/api/users/:userUuid/:challengeUuid", usersController.getReferralCode);
+    app.get("/api/challengeUsers/:userUuid/:challengeUuid", challengeUsersController.getReferralCode);
 
     // verifies confirmation code and logs the user in
     app.post("/api/session", sessionController.create);
@@ -35,4 +36,6 @@ module.exports = (app) => {
     app.delete("/api/session", sessionController.destroy);
 
     app.get("/api/session", sessionController.verify);
+
+    app.patch("/api/challengeUsers/:userUuid/:challengeUuid", challengeUsersController.setTokensPerReferral)
 };

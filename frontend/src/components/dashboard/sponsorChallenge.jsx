@@ -25,7 +25,7 @@ export default class Transfer extends React.Component {
                             Company Information
                         </div>
                         <div className="enter-email">
-                            <div className="recipiens">
+                            <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
                                            placeholder="Company Name" autoCorrect="false" autoCapitalize="off"
@@ -36,7 +36,7 @@ export default class Transfer extends React.Component {
                             <div className="error-box"/>
                         </div>
                         <div className="enter-email">
-                            <div className="recipiens">
+                            <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
                                            placeholder="Company Logo Image URL" autoCorrect="false"
@@ -50,7 +50,7 @@ export default class Transfer extends React.Component {
                             Job Details
                         </div>
                         <div className="enter-email">
-                            <div className="recipiens">
+                            <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
                                            placeholder="Job Title" autoCorrect="false" autoCapitalize="off" type="text"
@@ -61,7 +61,7 @@ export default class Transfer extends React.Component {
                             <div className="error-box"/>
                         </div>
                         <div className="enter-email">
-                            <div className="recipiens">
+                            <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
                                            placeholder="Job Description" autoCorrect="false" autoCapitalize="off"
@@ -72,7 +72,7 @@ export default class Transfer extends React.Component {
                             <div className="error-box"/>
                         </div>
                         <div className="enter-email">
-                            <div className="recipiens">
+                            <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
                                            placeholder="Job Application Link" autoCorrect="false"
@@ -86,7 +86,7 @@ export default class Transfer extends React.Component {
                             Advanced Settings
                         </div>
                         <div className="enter-email">
-                            <div className="recipiens">
+                            <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
                                            placeholder="Total jobCents (Default of 1000)"
@@ -98,7 +98,7 @@ export default class Transfer extends React.Component {
                             <div className="error-box"/>
                         </div>
                         <div className="enter-email">
-                            <div className="recipiens">
+                            <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
                                            placeholder="Challenge Duration (days)"
@@ -110,7 +110,7 @@ export default class Transfer extends React.Component {
                             <div className="error-box"/>
                         </div>
                         <div className="enter-email">
-                            <div className="recipiens">
+                            <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
                                            placeholder="Bounty (U.S. Dollars)" autoCorrect="false"

@@ -39,7 +39,8 @@ const defaultState = {
     successMessage: "",
     challengeDetails: {},
     challengeUsers: [],
-    referralCode: ""
+    referralCode: "",
+    tokensPerReferral: 1
 };
 
 class Dashboard extends React.Component {
@@ -72,13 +73,20 @@ class Dashboard extends React.Component {
 
     componentWillMount() {
         axios.get("api/session")
-            .then(function(verifyResp) {
+            .then(function (verifyResp) {
                 if (verifyResp.data.sessionVerified) {
                     this.props.login(verifyResp.data.user)
                 }
-            }.bind(this), function() {
+            }.bind(this), function () {
                 this.props.logout().then(this.props.history.push("/"));
             }.bind(this));
+    }
+
+    componentDidMount() {
+        this.setState({
+            formType: "jobCents",
+            ReferralCode: "huo"
+        });
     }
 
     handleInput(key, options) {
@@ -164,6 +172,7 @@ class Dashboard extends React.Component {
 
         this.props.redeemReferralCode(referralCode, recipientUuid)
             .then(res => {
+                const numShares = res.transfer.data.sharedChallenge.transaction.numShares;
                 if (res.type === "RECEIVE_DASH_ERRORS") {
                     this.setState({
                         formType: 'jobCents',
@@ -177,7 +186,7 @@ class Dashboard extends React.Component {
                                 this.setState({
                                     sponsoredChallenges: userData.sponsoredChallenges,
                                     heldChallenges: userData.heldChallenges,
-                                    successMessage: `You have successfully redeemed 1 jobCent!`,
+                                    successMessage: `You have successfully redeemed ${numShares} jobCent(s)!`,
                                     formType: 'jobCents',
                                     maxShares: 1000,
                                     challengeDuration: 90,
@@ -194,6 +203,7 @@ class Dashboard extends React.Component {
                 console.log(err);
             });
     }
+
 
 
     handleTransfer(e) {
@@ -379,6 +389,8 @@ class Dashboard extends React.Component {
                     remainingRedemptions={this.state.remainingRedemptions}
                     getReferralCode={this.props.getReferralCode}
                     currentUser={this.props.currentUser}
+                    update={this.update}
+                    setTokensPerReferral={this.props.setTokensPerReferral}
                 />
             )
         }

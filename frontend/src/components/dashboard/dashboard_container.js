@@ -8,7 +8,8 @@ import {
     redeemChallenge,
     retrieveChallengeUsers,
     redeemReferralCode,
-    getReferralCode
+    getReferralCode,
+    setTokensPerReferral
 } from "../../actions/dashboard_actions";
 
 const mapStateToProps = (state, ownProps) => ({
@@ -29,7 +30,8 @@ const mapDispatchToProps = (dispatch) => ({
     createChallenge: challenge => dispatch(createChallenge(challenge)),
     retrieveChallengeUsers: challengeUuid => dispatch(retrieveChallengeUsers(challengeUuid)),
     redeemReferralCode: (referralCode, recipientUuid) => dispatch(redeemReferralCode(referralCode, recipientUuid)),
-    getReferralCode: (userUuid, challengeUuid) => dispatch(getReferralCode(userUuid, challengeUuid))
+    getReferralCode: (userUuid, challengeUuid) => dispatch(getReferralCode(userUuid, challengeUuid)),
+    setTokensPerReferral: (userUuid, challengeUuid, tokensPerReferral) => dispatch(setTokensPerReferral(userUuid, challengeUuid, tokensPerReferral))
 });
 
 export default connect(
