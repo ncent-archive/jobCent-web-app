@@ -617,6 +617,10 @@
     padding: 5vh;
 }
 
+.jobCentsRedemption {
+    text-align: center;
+}
+
 .logoImg {
     max-width: 100px;
     margin-bottom: 1vh;
@@ -635,6 +639,14 @@
     padding-bottom: 2vh;
 }
 
+.referralCodeHeader {
+    border: 2px solid;
+    border-radius: 10px;
+    border-spacing: 10px;
+    padding: 10px;
+    border-color: rgb(0, 0, 0, 0.25);
+}
+
 .tileClickContainer {
     padding-left: 2vh;
     padding-right: 2vh;
@@ -644,6 +656,12 @@
 
 .tileClickContainer:hover {
     cursor: pointer;
+}
+
+.tokensPerReferralForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .logoImg:hover {
@@ -656,6 +674,17 @@
     flex-wrap: wrap;
     padding-left: 10vw;
     padding-right: 10vw;
+}
+
+.saveChallengeDetail {
+    top: 2vh;
+    position: relative;
+    background-color: #18ef20;
+    margin: -10px;
+}
+
+.saveChallengeDetail:hover {
+    background-color:#34ff04;
 }
 
 .signupLink {
@@ -684,6 +713,10 @@
     margin-top: 2vh;
 }
 
+.tokensPerReferralDesc {
+    padding-bottom: 6px;
+}
+
 .noJobCents {
     width: 100%;
     text-align: center;
@@ -699,6 +732,7 @@
     padding: 10vh;
     border-radius: 50px;
     color: #ffffff;
+    /* max-height: 90vh; */
 }
 
 .challengeContent {
@@ -707,7 +741,7 @@
     align-items: center;
 }
 
-.challengeName {
+.companyName {
     font-size: 30px;
 }
 
@@ -717,6 +751,26 @@
 
 .challengeImage {
     border-radius: 20px;
+    max-height: 75px;
+    max-width: 75px;
+    margin-top: -5vh;
+}
+
+.challengeName {
+    font-size: 22px;
+}
+
+.currentBalance {
+    padding-bottom: 35px;
+    padding-top: 15px;
+}
+
+.referralCode {
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 6px;
+    align-items: center;
 }
 
 a {
