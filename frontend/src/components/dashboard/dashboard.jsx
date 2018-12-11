@@ -83,9 +83,19 @@ class Dashboard extends React.Component {
     }
 
     componentDidMount() {
+        const search = this.props.location.search; // get ?email=foo@bar.com
+        const params = new URLSearchParams(search);
+        const potentialformType = params.get('formType');
+        let formType = "jobCents";
+        let referralCode = "";
+        if (potentialformType === "referral") {
+            formType = "referralCode";
+            referralCode = params.get('referralCode');
+            if (!referralCode) referralCode = '' // if its not there.
+        }
         this.setState({
-            formType: "jobCents",
-            ReferralCode: "huo"
+            formType: formType,
+            referralCode: referralCode
         });
     }
 
@@ -368,12 +378,13 @@ class Dashboard extends React.Component {
     }
 
     referralCodeTab() {
-        if (this.state.formType === "ReferralCode") {
+        if (this.state.formType === "referralCode") {
             return (
                 <ReferralCode
                     handleInput={this.handleInput}
                     update={this.update}
                     redeemReferralCode={this.redeemReferralCode}
+                    referralCode={this.state.referralCode}
                 />
             )
         }
