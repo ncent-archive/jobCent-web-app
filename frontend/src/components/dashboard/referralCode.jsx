@@ -9,6 +9,7 @@ export default class ReferralCode extends React.Component {
     }
 
     render() {
+        console.log(this.props.referralCode);
         return <div className="fs-transfer-sheet">
             <div className="transfer-content">
                 <div title="jobCents" className="close-button" onClick={this.props.handleInput("formType")}>
@@ -27,7 +28,9 @@ export default class ReferralCode extends React.Component {
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
                                            placeholder="Referral Code" autoCorrect="false" autoCapitalize="off"
-                                           type="text" onChange={this.props.update("referralCode")}/>
+                                           type="text" onChange={this.props.update("referralCode")}
+                                           value={this.props.referralCode || ""}
+                                           />
                                 </div>
                             </div>
                             <div className="anchor"/>
