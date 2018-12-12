@@ -2,6 +2,7 @@ import React from "react";
 import "../../scss/components/transfer.css";
 import x from "../../img/x.png";
 import ncentLogo from "../../img/logo.png";
+import copyIcon from "../../img/mono-copy.png";
 
 const convertToDays = dateString => {
     const date = Date.parse(dateString);
@@ -18,10 +19,12 @@ export default class ChallengeDetail extends React.Component {
             referralCode: "",
             tokensPerReferral: 1,
             imageLoadErrBool: true,
+            copying: false
         };
 
         this.handleSetTokensPerReferral = this.handleSetTokensPerReferral.bind(this);
         this.imgLoadError = this.imgLoadError.bind(this);
+        this.copyText = this.copyText.bind(this);
     }
 
     componentWillMount() {
@@ -60,6 +63,14 @@ export default class ChallengeDetail extends React.Component {
         }
     }
 
+    copyText(e) {
+        const newTextInput = document.createElement("input");
+        newTextInput.value = this.referralCode.innerText;
+        document.querySelector("body").appendChild(newTextInput);
+        newTextInput.select();
+        document.execCommand("copy");
+        newTextInput.remove();
+    }
 
     render() {
         let balanceNotPlural = this.props.challengeBalance === 1;
@@ -82,15 +93,25 @@ export default class ChallengeDetail extends React.Component {
                     {/* <div className="challengeContent"> */}
                         <h2 className="challengeReward">Total Reward: ${this.props.challengeDetails.rewardAmount}</h2>
                         <h2>{days} day{daysNotPlural ? "" : "s"} remaining!</h2>
-                        <h2 className="referralCodeHeader">Your referral code for this challenge<br />
-                        <span className="referralCode">{this.state.referralCode}</span></h2>
+                        <h2 className="referralCodeHeader">
+                            <div className="referralCodeWrapper">
+                                <span>Your referral code for this challenge</span>
+                                    <span className="referralCode" ref={(input) => this.referralCode = input}>
+                                        {this.state.referralCode}
+                                    </span>
+                                    <img src={copyIcon}
+                                        width="18px" height="18px" className="copyImg" onClick={this.copyText}
+                                        title="Copy referral code to clipboard"
+                                    />
+                            </div>
+                        </h2>
                         <span className="currentBalance">Your current balance: {this.props.challengeBalance} jobCent{balanceNotPlural ? "" : "s"}</span>
                         <form className="tokensPerReferralForm" autoComplete="off" spellCheck="true" noValidate="true" onSubmit={this.handleSetTokensPerReferral}>
                             <span className="tokensPerReferralDesc">Total jobCents to send per referral code redemption</span>
                             <div className="enter-email">
                                 <div className="recipients">
                                     <div className="token-list">
-                                        <input className="transfer-input-field jobCentsRedemption" autoComplete="off"                         spellCheck="false"
+                                        <input className="transfer-input-field jobCentsRedemption"  autoComplete="off"  spellCheck="false"
                                                placeholder="Default of 1"
                                                autoCorrect="false" autoCapitalize="off" type="text"
                                                value={this.state.tokensPerReferral}
@@ -108,6 +129,7 @@ export default class ChallengeDetail extends React.Component {
                         </form>
                     {/* </div> */}
                 </div>
+                {this.copyText}
             </div>
         </div>;
     }
