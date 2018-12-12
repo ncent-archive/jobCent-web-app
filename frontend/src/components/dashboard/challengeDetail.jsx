@@ -2,6 +2,7 @@ import React from "react";
 import "../../scss/components/transfer.css";
 import x from "../../img/x.png";
 import ncentLogo from "../../img/logo.png";
+import copyIcon from "../../img/mono-copy.png";
 
 const convertToDays = dateString => {
     const date = Date.parse(dateString);
@@ -98,7 +99,7 @@ export default class ChallengeDetail extends React.Component {
                                     <span className="referralCode" ref={(input) => this.referralCode = input}>
                                         {this.state.referralCode}
                                     </span>
-                                    <img src="https://www.iconspng.com/uploads/mono-copy/mono-copy.png"
+                                    <img src={copyIcon}
                                         width="18px" height="18px" className="copyImg" onClick={this.copyText}
                                         title="Copy referral code to clipboard"
                                     />
