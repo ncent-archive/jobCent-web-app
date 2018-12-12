@@ -60,7 +60,7 @@ class Dashboard extends React.Component {
         this.handleBlur = this.handleBlur.bind(this);
         this.createChallengeForUser = this.createChallengeForUser.bind(this);
         this.isWhitelisted = this.isWhitelisted.bind(this);
-        this.sponsorChallengeButton = this.sponsorChallengeButton.bind(this);
+        // this.sponsorChallengeButton = this.sponsorChallengeButton.bind(this);
         this.goToChallengeDetail = this.goToChallengeDetail.bind(this);
         this.goToRedeemTab = this.goToRedeemTab.bind(this);
         this.redeemTab = this.redeemTab.bind(this);
@@ -421,23 +421,23 @@ class Dashboard extends React.Component {
         }
     }
 
-    sponsorChallengeButton() {
-        // if (this.isWhitelisted()) {
-        return (
-            <a
-                title="Sponsor"
-                className={
-                    this.state.formType === "Sponsor"
-                        ? "nav-item active"
-                        : "nav-item"
-                }
-                onClick={this.handleInput("formType")}
-            >
-                <span className="button-text">Sponsor</span>
-            </a>
-        );
-        // }
-    }
+    // sponsorChallengeButton() {
+    //     // if (this.isWhitelisted()) {
+    //     return (
+    //         <a
+    //             title="Sponsor"
+    //             className={
+    //                 this.state.formType === "Sponsor"
+    //                     ? "nav-item active"
+    //                     : "nav-item"
+    //             }
+    //             onClick={this.handleInput("formType")}
+    //         >
+    //             <span className="button-text">Sponsor</span>
+    //         </a>
+    //     );
+    //     // }
+    // }
 
     signOutTab() {
         if (this.state.formType === "Sign Out") {
@@ -528,6 +528,17 @@ class Dashboard extends React.Component {
                                         <span className="button-text">Redeem Code</span>
                                     </a>
                                     <a
+                                        title="Sponsor"
+                                        className={
+                                            this.state.formType === "Sponsor"
+                                                ? "nav-item active"
+                                                : "nav-item"
+                                        }
+                                        onClick={this.handleInput("formType")}
+                                    >
+                                        <span className="button-text">Sponsor</span>
+                                    </a>
+                                    <a
                                         title="Sign Out"
                                         className={
                                             this.state.formType === "Sign Out"
@@ -538,7 +549,6 @@ class Dashboard extends React.Component {
                                     >
                                         <span className="button-text">Sign Out</span>
                                     </a>
-                                    {this.sponsorChallengeButton()}
                                 </nav>
                             </div>
                             <section className="yield-content">
