@@ -515,8 +515,8 @@ class Dashboard extends React.Component {
                                         <span className="button-text">Wallet</span>
                                     </a>
                                     <a
-                                        title="ReferralCode"
-                                        value="ReferralCode"
+                                        title="referralCode"
+                                        value="referralCode"
                                         id="ember1174"
                                         className={
                                             this.state.formType === "ReferralCode"
