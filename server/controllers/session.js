@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 module.exports = {
     create(req, res) {
         const emailAddr = req.body.user.email;
+        console.log("in create in controllers/session.js, email is", req.body.user.email);
         User.findOne({ where: { email: emailAddr } })
             .then(user => {
                 if (user) {
@@ -15,6 +16,8 @@ module.exports = {
                             name: user.dataValues.name
                         };
                         req.session.user = userInfo;
+                        // req.session.user = userInfo.uuid;
+                        console.log("in create, user is active, req.session.user is", req.session.user);
                         return res.status(200).send({user: userInfo});
                     }
                     const confirmationCode = req.body.user.code;
@@ -38,6 +41,7 @@ module.exports = {
                                     name: user.dataValues.name
                                 };
                                 req.session.user = userInfo;
+                        console.log("in create, user was just set to active, and code is valid", req.session.user);
                                 res.send({ user: userInfo });
                             });
                     } else {
@@ -65,6 +69,7 @@ module.exports = {
         }
     },
     verify(req, res) {
+        console.log("in verify, req.session.user", req.session.user, "req.cookies.session_token", req.cookies.session_token);
         if (req.session.user && req.cookies.session_token) {
             return res.status(200).send({sessionVerified: true, user: req.session.user});
         }

@@ -2,6 +2,7 @@ const express = require("express");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const postgreSQLStore = require("connect-pg-simple")(session);
 const app = express();
 const cookieParser = require("cookie-parser");
 app.use(logger("dev"));
@@ -14,10 +15,13 @@ app.use(
         key: "session_token",
         secret: "somesecret",
         resave: true,
-        saveUninitialized: true,
+        saveUninitialized: false,
         cookie: {
-            expires: 3600000
-        }
+            expires: 600000
+        },
+        store: new postgreSQLStore({
+            conString: "postgres://@localhost:5432/hybrid-dev"
+        })
     })
 );
 
