@@ -63,9 +63,10 @@ module.exports = {
             const user = await User.find({where: {email: req.session.user.email}});
             const loggedOutUser = await user.updateAttributes({active: false});
             res.clearCookie("session_token");
-            res.status(200).send("Logged out successfully");
+            req.session.destroy();
+            res.status(200).send("Logged out successfully.");
         } else {
-            res.status(403).send("No user logged in to log out!");
+            res.status(403).send("No user session detected.");
         }
     },
     verify(req, res) {

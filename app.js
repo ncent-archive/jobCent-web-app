@@ -17,7 +17,7 @@ app.use(
         resave: true,
         saveUninitialized: false,
         cookie: {
-            expires: 600000
+            expires: 100000000000
         },
         store: new postgreSQLStore({
             conString: "postgres://@localhost:5432/hybrid-dev"
