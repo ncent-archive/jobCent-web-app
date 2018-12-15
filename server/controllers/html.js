@@ -466,7 +466,7 @@ module.exports = {
 
                               <tr>
                                 <td align="center" style="padding: 10px 48px">
-                                    <p style="font-size: 14px; color: black">"${description}"</p>
+                                    <p style="font-size: 14px; color: black">${description}</p>
                                 </td>
                               </tr
                               <tr>
