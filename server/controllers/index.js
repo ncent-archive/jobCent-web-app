@@ -8,5 +8,4 @@ module.exports = {
     users,
     session,
     challengeUsers
-
 };

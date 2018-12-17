@@ -40,7 +40,8 @@ export default class Transfer extends React.Component {
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
                                            placeholder="Company Logo Image URL" autoCorrect="false"
-                                           autoCapitalize="off" type="text" onChange={this.props.update("imageUrl")}/>
+                                           autoCapitalize="off" type="text" onChange={this.props.update("imageUrl")}
+                                    />
                                 </div>
                             </div>
                             <div className="anchor"/>

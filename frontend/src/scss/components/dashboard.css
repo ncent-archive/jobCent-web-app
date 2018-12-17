@@ -799,6 +799,10 @@
     position: relative;
 }
 
+.fadeOutAnimation {
+    animation: fadeOut 0.2s ease-in both;
+}
+
 a {
     cursor: pointer;
     text-decoration: none;
