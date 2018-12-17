@@ -16,13 +16,16 @@ export default class MyJobCents extends React.Component {
             heldChallengeRemainingRedemptions: [],
             heldChallengeReferralCodes: [],
             successMessage: "",
-            errorMessage: ""
+            errorMessage: "",
+            imageLoadErrBool: true
         };
 
         this.challengeList = this.challengeList.bind(this);
         this.successMessage = this.successMessage.bind(this);
         this.errorMessage = this.errorMessage.bind(this);
         this.applyButton = this.applyButton.bind(this);
+        this.imgLoadError = this.imgLoadError.bind(this);
+        this.imgLoad = this.imgLoad.bind(this);
     }
 
     componentWillMount() {
@@ -48,6 +51,16 @@ export default class MyJobCents extends React.Component {
                 heldChallenges: this.props.userData.heldChallenges
             });
         }
+    }
+
+    imgLoadError(e) {
+        console.log("myJobCents.jsx img load err", e.target);
+        this.setState({ imageLoadErrBool: false });
+        e.target.src = ncentLogo;
+    }
+
+    imgLoad(e) {
+        // console.log("myJobCents.jsx image loaded successfully", e.target);
     }
 
     successMessage(message) {
@@ -89,13 +102,15 @@ export default class MyJobCents extends React.Component {
                     this.props.goToChallengeDetail(sponsoredChallenge, sponsoredChallengeBalances[index], sponsoredChallengeRemainingRedemptions[index])
                 }}>
                     <h2 className="balance-title">{sponsoredChallenge.company}</h2>
-                    <img className="logoImg" src={sponsoredChallenge.imageUrl || ncentLogo} alt="ncent logo"/>
+                    <img className="logoImg" src={sponsoredChallenge.imageUrl || ncentLogo} alt="ncent logo" 
+                        onError={this.imgLoadError} onLoad={this.imgLoad}
+                    />
                     <h2 className="balance-title">{sponsoredChallenge.name}</h2>
                     <h3 className="balance-subtitle">Sponsored</h3>
-                    <h3 className="balance-subtitle">{sponsoredChallengeBalances[index]} jobCent(s)</h3>
+                    <h3 className="balance-subtitle">{ sponsoredChallengeBalances[index]  === 1 ? sponsoredChallengeBalances[index] + " jobCent" : sponsoredChallengeBalances[index] + " jobCents"}</h3>
                 </div>
                 <a
-                    title="New"
+                    title="Send jobCents to another user"
                     className="initiate-payment-smaller-margin"
                     onClick={this.props.handleInput("formType", {
                         challengeName: sponsoredChallenge.name,
@@ -106,7 +121,7 @@ export default class MyJobCents extends React.Component {
                     Send
                 </a>
                 <a
-                    title="Redeem"
+                    title="Redeem a challenge"
                     className="initiate-payment"
                     onClick={() => {
                         this.props.goToRedeemTab(sponsoredChallenge)
@@ -122,7 +137,9 @@ export default class MyJobCents extends React.Component {
                     this.props.goToChallengeDetail(heldChallenge, heldChallengeBalances[index], heldChallengeRemainingRedemptions[index])
                 }}>
                     <h2 className="balance-title">{heldChallenge.company}</h2>
-                    <img className="logoImg" src={heldChallenge.imageUrl || ncentLogo} alt="ncent logo" />
+                    <img className="logoImg" src={heldChallenge.imageUrl || ncentLogo} alt="ncent logo" 
+                        onError={this.imgLoadError} onLoad={this.imgLoad}
+                    />
                     <h2 className="balance-title">{heldChallenge.name}</h2>
                     <h3 className="balance-subtitle">{heldChallengeBalances[index]} jobCent(s)</h3>
                 </div>

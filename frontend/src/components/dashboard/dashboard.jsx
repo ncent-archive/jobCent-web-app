@@ -6,6 +6,7 @@ import ReferralCode from "./referralCode";
 import Redeem from "./redeem";
 import SponsorChallenge from "./sponsorChallenge.jsx";
 import ChallengeDetail from "./challengeDetail.jsx";
+import Wallet from "./wallet.jsx";
 import Whitelist from "../../util/whitelist.js";
 import axios from "axios";
 
@@ -69,6 +70,7 @@ class Dashboard extends React.Component {
         this.handleAgreementCheck = this.handleAgreementCheck.bind(this);
         this.referralCodeTab = this.referralCodeTab.bind(this);
         this.redeemReferralCode = this.redeemReferralCode.bind(this);
+        this.walletTab = this.walletTab.bind(this);
     }
 
     componentWillMount() {
@@ -89,7 +91,7 @@ class Dashboard extends React.Component {
         let formType = "jobCents";
         let referralCode = "";
         if (potentialformType === "referral") {
-            formType = "referralCode";
+            formType = "Redeem referral code";
             referralCode = params.get('referralCode');
             if (!referralCode) referralCode = '' // if its not there.
         }
@@ -102,6 +104,7 @@ class Dashboard extends React.Component {
     handleInput(key, options) {
         return e => {
             if (options && options.challengeUuid) {
+                console.log("handleInput in dashboard.jsx, key, options, and e.currentTarget are", key, options, e.currentTarget);
                 this.setState({
                     challengeUuid: options.challengeUuid,
                     challengeName: options.challengeName,
@@ -164,7 +167,7 @@ class Dashboard extends React.Component {
             this.setState({
                 challengeUsers: challengeBalancesResponse.challengeBalances.data.challengeUsers,
                 challengeDetails,
-                formType: "Redeem"
+                formType: "Redeem challenge"
             });
         } else {
             this.setState({
@@ -347,7 +350,7 @@ class Dashboard extends React.Component {
     }
 
     transferTab() {
-        if (this.state.formType === "New") {
+        if (this.state.formType === "Send jobCents to another user") {
             return (
                 <Transfer
                     handleInput={this.handleInput}
@@ -363,7 +366,7 @@ class Dashboard extends React.Component {
     }
 
     redeemTab() {
-        if (this.state.formType === "Redeem") {
+        if (this.state.formType === "Redeem challenge") {
             return (
                 <Redeem
                     handleInput={this.handleInput}
@@ -378,7 +381,7 @@ class Dashboard extends React.Component {
     }
 
     referralCodeTab() {
-        if (this.state.formType === "referralCode") {
+        if (this.state.formType === "Redeem referral code") {
             return (
                 <ReferralCode
                     handleInput={this.handleInput}
@@ -408,7 +411,7 @@ class Dashboard extends React.Component {
     }
 
     sponsorChallengeTab() {
-        if (this.state.formType === "Sponsor") {
+        if (this.state.formType === "Sponsor a challenge") {
             return (
                 <SponsorChallenge
                     handleInput={this.handleInput}
@@ -418,6 +421,16 @@ class Dashboard extends React.Component {
                     handleAgreementCheck={this.handleAgreementCheck}
                 />
             );
+        }
+    }
+
+    walletTab() {
+        if (this.state.formType === "Wallet") {
+            return (
+                <Wallet 
+                    handleInput={this.handleInput}
+                />
+            )
         }
     }
 
@@ -502,11 +515,11 @@ class Dashboard extends React.Component {
                                 </div>
                                 <nav className="nav-items">
                                     <a
-                                        title="jobCents"
-                                        value="jobCents"
+                                        title="Wallet"
+                                        value="Wallet"
                                         id="ember1174"
                                         className={
-                                            this.state.formType === "jobCents"
+                                            this.state.formType === "Wallet"
                                                 ? "nav-item active"
                                                 : "nav-item"
                                         }
@@ -515,11 +528,11 @@ class Dashboard extends React.Component {
                                         <span className="button-text">Wallet</span>
                                     </a>
                                     <a
-                                        title="referralCode"
+                                        title="Redeem referral code"
                                         value="referralCode"
                                         id="ember1174"
                                         className={
-                                            this.state.formType === "ReferralCode"
+                                            this.state.formType === "Redeem referral code"
                                                 ? "nav-item active"
                                                 : "nav-item"
                                         }
@@ -528,9 +541,9 @@ class Dashboard extends React.Component {
                                         <span className="button-text">Redeem Code</span>
                                     </a>
                                     <a
-                                        title="Sponsor"
+                                        title="Sponsor a challenge"
                                         className={
-                                            this.state.formType === "Sponsor"
+                                            this.state.formType === "Sponsor a challenge"
                                                 ? "nav-item active"
                                                 : "nav-item"
                                         }
@@ -559,6 +572,7 @@ class Dashboard extends React.Component {
                                 {this.challengeDetailTab()}
                                 {this.redeemTab()}
                                 {this.referralCodeTab()}
+                                {this.walletTab()}
                             </section>
                         </div>
                     </div>

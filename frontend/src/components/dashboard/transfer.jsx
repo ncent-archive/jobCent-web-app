@@ -7,6 +7,19 @@ import ncentLogo from "../../img/logo.png";
 export default class Transfer extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            imageLoadErrBool: true
+        }
+
+        this.imgLoadError = this.imgLoadError.bind(this);
+    }
+
+    imgLoadError(e) {
+        if (this.state.imageLoadErrBool) {
+            this.setState({ imageLoadErrBool: false });
+            e.target.src = ncentLogo;
+        }
     }
 
     render() {
@@ -20,7 +33,9 @@ export default class Transfer extends React.Component {
                         <div className="errorMessage"><span>{this.props.errorMessage}</span></div>
                         <div className="display-amount-fixed">
                             <div className="bottom-margin">
-                                <img className="logoImg" src={this.props.imageUrl || ncentLogo} alt="ncent logo"/>
+                                <img className="logoImg" src={this.props.imageUrl || ncentLogo} alt="ncent logo" 
+                                    onError={this.imgLoadError}
+                                />
                             </div>
                         </div>
                         <div className="enter-email">
