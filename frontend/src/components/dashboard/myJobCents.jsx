@@ -54,7 +54,6 @@ export default class MyJobCents extends React.Component {
     }
 
     imgLoadError(e) {
-        console.log("myJobCents.jsx img load err", e.target);
         this.setState({ imageLoadErrBool: false });
         e.target.src = ncentLogo;
     }

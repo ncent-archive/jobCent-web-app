@@ -28,7 +28,15 @@ export const login = user => dispatch =>
   );
 
 export const logout = () => dispatch =>
-  ApiUtil.logout().then(() => dispatch(receiveCurrentUser(null)));
+  ApiUtil.logout().then(
+    () => {
+      console.log("logout func.then in session_actions.js");
+      dispatch(receiveCurrentUser(null));
+    }
+  ).catch(error => {
+    console.log("logout func.catch in session_actions.js");
+    dispatch(receiveCurrentUser(null));
+  });
 
 export const signup = user => dispatch =>
   ApiUtil.signup(user).then(

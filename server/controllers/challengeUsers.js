@@ -4,7 +4,7 @@ const verifyLightFunc = require("./../controllers/session.js").verifyLight;
 
 module.exports = {
     async setTokensPerReferral(req, res) {
-        if (verifyLightFunc) {
+        if (verifyLightFunc(req, res)) {
             
             const challengeUser = await ChallengeUser.findOne({
                 where: {
@@ -22,11 +22,15 @@ module.exports = {
             return res.status(200).send({
                 challengeUser
             });
+        } else {
+            return res.status(403).send({
+                message: "User not logged in"
+            });
         }
 
     },
     async getReferralCode(req, res) {
-        if (verifyLightFunc) {
+        if (verifyLightFunc(req, res)) {
             const challengeUser = await ChallengeUser.findOne({
                 where: {
                     userUuid: req.params.userUuid,
@@ -42,7 +46,11 @@ module.exports = {
                 challengeUser
             });
 
+        } else {
+            return res.status(403).send({
+                message: "User not logged in"
+            });
         }
-        
+
     }
 }

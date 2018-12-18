@@ -78,12 +78,16 @@ module.exports = {
             await createReferralCode(user.uuid, createChallengeResponse.data.challenge);
     
             res.status(200).send({challenge: createChallengeResponse.data});
+        } else {
+            return res.status(403).send({
+                message: "User not logged in"
+            });
         }
     },
 
     async share(req, res) {
         console.log("share func in challenges.js, verifyLightFunc is", verifyLightFunc);
-        if (verifyLightFunc) {
+        if (verifyLightFunc(req, res)) {
             const {fromAddress, toAddress, numShares} = req.body;
             const challengeUuid = req.params.challengeUuid;
             const challengeResponse = await sdkInstance.retrieveChallenge(challengeUuid);
@@ -117,13 +121,17 @@ module.exports = {
     
             awsEmail.sendMail(keys.from, toAddress, {challengeTitle: challengeResponse.data.challenge.name, description: challengeResponse.data.challenge.description, fromAddress, rewardAmount: challengeResponse.data.challenge.rewardAmount/2, participationUrl: challengeResponse.data.challenge.participationUrl, company: challengeResponse.data.challenge.company});
             res.status(200).send({sharedChallenge: shareChallengeRes.data});
+        } else {
+            return res.status(403).send({
+                message: "User not logged in"
+            });
         }
     },
 
     async redeem(req, res) {
         // sessionController.verifyLight(req, res);
         console.log("redeem func in challenges.js, verifyLightFunc is", verifyLightFunc);
-        if (verifyLightFunc) {
+        if (verifyLightFunc(req, res)) {
             const {sponsorAddress, challengeUuid} = req.params;
             const redeemerAddress = req.body.redeemerAddress;
     
@@ -139,12 +147,16 @@ module.exports = {
             const sponsoredChallenges = redeemChallengeResponse.data.sponsoredChallenges;
             const heldChallenges = redeemChallengeResponse.data.heldChallenges;
             res.status(200).send({sponsoredChallenges, heldChallenges});
+        } else {
+            return res.status(403).send({
+                message: "User not logged in"
+            });
         }
     },
 
     async retrieveChallengeUsers(req, res) {
         console.log("retrieveChallengeUsers func in challenges.js, verifyLightFunc is", verifyLightFunc);
-        if (verifyLightFunc) {
+        if (verifyLightFunc(req, res)) {
             let challengeUsers = [];
             let challengeUserUuids = [];
             const challengeBalancesResp = await sdkInstance.retrieveAllChallengeBalances(req.params.challengeUuid);
@@ -167,6 +179,10 @@ module.exports = {
             } else {
                 return res.status(404).send({message: "Challenge users not found"});
             }
+        } else {
+            return res.status(403).send({
+                message: "User not logged in"
+            });
         }
     },
 
@@ -221,6 +237,10 @@ module.exports = {
     
             awsEmail.sendMail(keys.from, toUser.email, {challengeTitle: challenge.name, description: challenge.description, fromAddress: fromUser.email, rewardAmount: challenge.rewardAmount/2, participationUrl: challenge.participationUrl, company: challenge.company});
             res.status(200).send({sharedChallenge: shareChallengeRes.data});
+        } else {
+            return res.status(403).send({
+                message: "User not logged in"
+            });
         }
     }
 };

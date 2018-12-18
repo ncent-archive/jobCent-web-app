@@ -1,4 +1,5 @@
 import React from "react";
+import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import "../../scss/components/dashboard.css";
 import MyJobCents from "./myJobCents";
 import Transfer from "./transfer";
@@ -41,7 +42,8 @@ const defaultState = {
     challengeDetails: {},
     challengeUsers: [],
     referralCode: "",
-    tokensPerReferral: 1
+    tokensPerReferral: 1,
+    loginRedirect: false
 };
 
 class Dashboard extends React.Component {
@@ -71,6 +73,7 @@ class Dashboard extends React.Component {
         this.referralCodeTab = this.referralCodeTab.bind(this);
         this.redeemReferralCode = this.redeemReferralCode.bind(this);
         this.walletTab = this.walletTab.bind(this);
+        this.loginRedirect = this.loginRedirect.bind(this);
     }
 
     componentWillMount() {
@@ -80,6 +83,7 @@ class Dashboard extends React.Component {
                     this.props.login(verifyResp.data.user)
                 }
             }.bind(this), function () {
+                console.log("compWillMount in dashboard.jsx, session not verified, logging out and pushing / to history");
                 this.props.logout().then(this.props.history.push("/"));
             }.bind(this));
     }
@@ -99,6 +103,13 @@ class Dashboard extends React.Component {
             formType: formType,
             referralCode: referralCode
         });
+    }
+
+    loginRedirect() {
+        console.log("loginRedirect running in dashboard.jsx");
+        // dispatch(receiveCurrentUser(null));
+        // this.props.history.push("/login");
+        this.props.logout().then(this.props.history.push("/login"));
     }
 
     handleInput(key, options) {
@@ -163,6 +174,14 @@ class Dashboard extends React.Component {
 
     async goToRedeemTab(challengeDetails) {
         const challengeBalancesResponse = await this.props.retrieveChallengeUsers(challengeDetails.uuid);
+
+        if (challengeBalancesResponse.errors && 
+            challengeBalancesResponse.errors.response.data.message === "User not logged in") {
+            // this.state.loginRedirect = true;
+            this.loginRedirect();
+            return;
+        }
+
         if (challengeBalancesResponse.challengeBalances.data.challengeUsers.length) {
             this.setState({
                 challengeUsers: challengeBalancesResponse.challengeBalances.data.challengeUsers,
@@ -185,6 +204,11 @@ class Dashboard extends React.Component {
 
         this.props.redeemReferralCode(referralCode, recipientUuid)
             .then(res => {
+                if (res.errors && res.errors.response.data.message === "User not logged in") {
+                    this.loginRedirect;
+                    return;
+                }
+
                 const numShares = res.transfer.data.sharedChallenge.transaction.numShares;
                 if (res.type === "RECEIVE_DASH_ERRORS") {
                     this.setState({
@@ -244,6 +268,12 @@ class Dashboard extends React.Component {
         if (this.props.shareChallenge) {
             this.props.shareChallenge(challengeUuid, fromAddress, toAddress, numShares)
                 .then(res => {
+                    console.log("handleTransfer in dashboard.jsx, res is", res);
+                    if (res.errors && res.errors.response.data.message === "User not logged in") {
+                        this.loginRedirect();
+                        return;
+                    }
+
                     this.props.fetchUser(this.props.currentUser)
                         .then(res => {
                             let userData = res.userData.data;
@@ -296,6 +326,12 @@ class Dashboard extends React.Component {
             challengeDuration: this.state.challengeDuration
         });
         this.props.createChallenge(challenge).then(res => {
+
+            if (res.errors && res.errors.response.data.message === "User not logged in") {
+                this.loginRedirect();
+                return;
+            }
+
             this.props.fetchUser(this.props.currentUser).then(balance => {
                 this.setState(
                     {
@@ -320,6 +356,12 @@ class Dashboard extends React.Component {
 
     handleRedeem(challengeUuid, sponsorAddress) {
         this.props.redeemChallenge(challengeUuid, sponsorAddress, this.state.redeemerAddress).then(res => {
+
+            if (res.message === "User not logged in") {
+                this.loginRedirect();
+                return;
+            }
+
             this.props.fetchUser(this.props.currentUser).then(balance => {
                 this.setState(
                     {
@@ -345,7 +387,9 @@ class Dashboard extends React.Component {
                 goToChallengeDetail={this.goToChallengeDetail}
                 goToRedeemTab={this.goToRedeemTab}
                 successMessage={this.state.successMessage}
-                errorMessage={this.state.errorMessage}/>;
+                errorMessage={this.state.errorMessage}
+                loginRedirect={this.loginRedirect}
+            />
         }
     }
 
@@ -360,6 +404,7 @@ class Dashboard extends React.Component {
                     challengeUuid={this.state.challengeUuid}
                     imageUrl={this.state.imageUrl}
                     errorMessage={this.state.errorMessage}
+                    loginRedirect={this.loginRedirect}
                 />
             );
         }
@@ -375,6 +420,7 @@ class Dashboard extends React.Component {
                     handleRedeem={this.handleRedeem}
                     challengeDetails={this.state.challengeDetails}
                     challengeUsers={this.state.challengeUsers}
+                    loginRedirect={this.loginRedirect}
                 />
             )
         }
@@ -388,6 +434,7 @@ class Dashboard extends React.Component {
                     update={this.update}
                     redeemReferralCode={this.redeemReferralCode}
                     referralCode={this.state.referralCode}
+                    loginRedirect={this.loginRedirect}
                 />
             )
         }
@@ -405,6 +452,7 @@ class Dashboard extends React.Component {
                     currentUser={this.props.currentUser}
                     update={this.update}
                     setTokensPerReferral={this.props.setTokensPerReferral}
+                    loginRedirect={this.loginRedirect}
                 />
             )
         }
@@ -419,6 +467,7 @@ class Dashboard extends React.Component {
                     createChallenge={this.createChallengeForUser}
                     errorMessage={this.state.errorMessage}
                     handleAgreementCheck={this.handleAgreementCheck}
+                    loginRedirect={this.loginRedirect}
                 />
             );
         }
@@ -429,6 +478,7 @@ class Dashboard extends React.Component {
             return (
                 <Wallet 
                     handleInput={this.handleInput}
+                    loginRedirect={this.loginRedirect}
                 />
             )
         }
@@ -561,6 +611,17 @@ class Dashboard extends React.Component {
                                         onClick={this.handleInput("formType")}
                                     >
                                         <span className="button-text">Sign Out</span>
+                                    </a>
+                                    <a
+                                        title="Testing logoutFunc"
+                                        className={
+                                            this.state.formType === "testing"
+                                                ? "nav-item signout active"
+                                                : "nav-item"
+                                        }
+                                        onClick={this.loginRedirect}
+                                    >
+                                        <span className="button-text">Test logoutFunc</span>
                                     </a>
                                 </nav>
                             </div>

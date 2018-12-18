@@ -28,19 +28,26 @@ export default class ChallengeDetail extends React.Component {
     }
 
     componentWillMount() {
+
+        // this.props.history.push("/login");
+
         this.props.getReferralCode(this.props.currentUser.uuid, this.props.challengeDetails.uuid)
             .then(referralCodeResp => {
+
+                if (referralCodeResp.errors && 
+                    referralCodeResp.errors.response.data.message === "User not logged in") {
+                    this.props.loginRedirect();
+                    return;
+                }
+
                 this.setState({
 
                     referralCode: referralCodeResp.challengeUserData.data.challengeUser.referralCode,
                     tokensPerReferral: referralCodeResp.challengeUserData.data.challengeUser.tokensPerReferral
 
-
                 });
+                document.title = "jobCent - " + this.props.challengeDetails.name;
             });
-        
-        document.title = "jobCent - " + this.props.challengeDetails.name;
-
     }
 
     componentWillUnmount() {
@@ -53,7 +60,10 @@ export default class ChallengeDetail extends React.Component {
         const userUuid = this.props.currentUser.uuid;
         const tokensPerReferral = this.state.tokensPerReferral;
         console.log(tokensPerReferral);
-        await this.props.setTokensPerReferral(userUuid, challengeUuid, tokensPerReferral);
+        let obj = await this.props.setTokensPerReferral(userUuid, challengeUuid, tokensPerReferral);
+        if (obj.errors && obj.errors.response.data.message === "User not logged in") {
+            this.props.loginRedirect();
+        }
     }
 
     imgLoadError(e) {
