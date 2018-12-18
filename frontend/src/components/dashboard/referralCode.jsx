@@ -8,8 +8,11 @@ export default class ReferralCode extends React.Component {
         super(props);
     }
 
+    componentWillUnmount() {
+        window.history.replaceState({}, "jobCent", "/dashboard");
+    }
+
     render() {
-        console.log(this.props.referralCode);
         return <div className="fs-transfer-sheet">
             <div className="transfer-content">
                 <div title="jobCents" className="close-button" onClick={this.props.handleInput("formType")}>
