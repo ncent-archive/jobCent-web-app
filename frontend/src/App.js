@@ -16,7 +16,6 @@ function initializeReactGA(vals) {
 
 class App extends Component {
 
-
   componentDidMount() {
       initializeReactGA(this.props.location.pathname+this.props.location.search)
       this.props.history.listen((location, action) => {

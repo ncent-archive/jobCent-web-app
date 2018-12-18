@@ -60,12 +60,14 @@ module.exports = {
     async destroy(req, res) {
         console.log(req.session.user, req.cookies.session_token);
         if (req.session.user && req.cookies.session_token) {
+            console.log("destroy in session.js, req.session.user exists");
             const user = await User.find({where: {email: req.session.user.email}});
             const loggedOutUser = await user.updateAttributes({active: false});
             res.clearCookie("session_token");
             req.session.destroy();
             res.status(200).send("Logged out successfully.");
         } else {
+            console.log("destroy in session.js, req.session.user does not exist");
             res.status(403).send("No user session detected.");
         }
     },

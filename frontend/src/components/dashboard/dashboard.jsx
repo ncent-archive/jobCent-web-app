@@ -107,9 +107,10 @@ class Dashboard extends React.Component {
 
     loginRedirect() {
         console.log("loginRedirect running in dashboard.jsx");
-        // dispatch(receiveCurrentUser(null));
-        // this.props.history.push("/login");
-        this.props.logout().then(this.props.history.push("/login"));
+        this.props.logout().then(() => {
+            console.log("in dasboard.jsx, .then on this.props.logout in loginRedirect()");
+            this.props.history.push("/login");
+        });
     }
 
     handleInput(key, options) {
@@ -205,7 +206,7 @@ class Dashboard extends React.Component {
         this.props.redeemReferralCode(referralCode, recipientUuid)
             .then(res => {
                 if (res.errors && res.errors.response.data.message === "User not logged in") {
-                    this.loginRedirect;
+                    this.loginRedirect();
                     return;
                 }
 
