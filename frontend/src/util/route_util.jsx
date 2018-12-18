@@ -6,18 +6,17 @@ import { Route, Redirect, withRouter } from 'react-router-dom';
 const Auth = ({component: Component, path, loggedIn}) => {
   console.log("Auth in route_util.jsx, url is", window.location.href);
   let dashboardLink = "/dashboard";
-  let strIdx = window.location.href.indexOf("?");
-  let str = "";
-  if (strIdx >= 0) {
-    // str = window.location.href.slice(strIdx)
-    dashboardLink += window.location.href.slice(strIdx);
+  let paramIdx = window.location.href.indexOf("?");
+  let paramStr = "";
+  if (paramIdx >= 0) {
+    paramStr += window.location.href.slice(paramIdx);
   }
   return (
     <Route path={path} render={(props) => (
         !loggedIn ? (
           <Component {...props} />
         ) : (
-          <Redirect to={dashboardLink} />
+          <Redirect to={"/dashboard" + paramStr} />
         )
       )} />
   )

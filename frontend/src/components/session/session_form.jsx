@@ -32,7 +32,6 @@ class SessionForm extends React.Component {
 
   componentDidMount() {
     document.getElementById("text").value = this.state.email;
-    console.log("compWillMount in session_form.js, state is", this.state);
   }
 
   componentWillReceiveProps() {
@@ -48,7 +47,7 @@ class SessionForm extends React.Component {
       if (this.state.formType === "signup") {
         document.getElementById("text").value = "";
         this.setState({ formType: "login" });
-      } 
+      }
     });
   };
 
