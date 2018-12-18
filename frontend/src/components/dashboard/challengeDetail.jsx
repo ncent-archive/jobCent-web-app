@@ -28,9 +28,6 @@ export default class ChallengeDetail extends React.Component {
     }
 
     componentWillMount() {
-
-        // this.props.history.push("/login");
-
         this.props.getReferralCode(this.props.currentUser.uuid, this.props.challengeDetails.uuid)
             .then(referralCodeResp => {
 

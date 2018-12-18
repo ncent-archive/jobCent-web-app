@@ -31,7 +31,6 @@ class App extends Component {
                 <AuthRoute path="/login" component={SessionFormContainer}/>
                 <Route exact path="/" component={Landing}/>
                 <Redirect to="/"/>
-                {/* <Redirect to="/placeholderURL2" /> */}
             </Switch>
         </div>;
     }

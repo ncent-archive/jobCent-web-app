@@ -59,7 +59,6 @@ export default class MyJobCents extends React.Component {
     }
 
     imgLoad(e) {
-        // console.log("myJobCents.jsx image loaded successfully", e.target);
     }
 
     successMessage(message) {

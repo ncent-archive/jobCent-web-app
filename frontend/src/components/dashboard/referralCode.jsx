@@ -13,7 +13,6 @@ export default class ReferralCode extends React.Component {
     }
 
     render() {
-        // console.log(this.props.referralCode);
         return <div className="fs-transfer-sheet">
             <div className="transfer-content">
                 <div title="jobCents" className="close-button" onClick={this.props.handleInput("formType")}>

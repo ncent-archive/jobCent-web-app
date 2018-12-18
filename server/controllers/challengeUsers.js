@@ -15,7 +15,6 @@ module.exports = {
             if (!challengeUser) {
                 return res.status(404).send({message: "Referral Code not found"});
             }
-            //Ned to Set the value wher
     
             await challengeUser.updateAttributes({tokensPerReferral: req.body.tokensPerReferral});
     
