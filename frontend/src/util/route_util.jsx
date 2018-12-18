@@ -4,7 +4,6 @@ import { Route, Redirect, withRouter } from 'react-router-dom';
 
 
 const Auth = ({component: Component, path, loggedIn}) => {
-  console.log("Auth in route_util.jsx, url is", window.location.href);
   let dashboardLink = "/dashboard";
   let paramIdx = window.location.href.indexOf("?");
   let paramStr = "";
