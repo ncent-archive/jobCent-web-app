@@ -8,6 +8,10 @@ export default class ReferralCode extends React.Component {
         super(props);
     }
 
+    componentWillMount() {
+        console.log("compWillMount in referralCode.jsx, url is", window.location.href);
+    }
+
     componentWillUnmount() {
         window.history.replaceState({}, "jobCent", "/dashboard");
     }

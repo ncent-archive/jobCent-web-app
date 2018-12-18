@@ -78,6 +78,7 @@ class Dashboard extends React.Component {
     }
 
     componentWillMount() {
+        console.log("top of compWillMount in dashboard.jsx, url is", window.location.href);
         axios.get("api/session")
             .then(function (verifyResp) {
                 // this.setState({spinner: false});
@@ -92,6 +93,7 @@ class Dashboard extends React.Component {
     }
 
     componentDidMount() {
+        console.log("top of compDidMount in dashboard.jsx, url is", window.location.href);
         const search = this.props.location.search; // get ?email=foo@bar.com
         const params = new URLSearchParams(search);
         const potentialformType = params.get('formType');

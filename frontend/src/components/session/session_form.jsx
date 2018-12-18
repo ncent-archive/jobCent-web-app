@@ -7,7 +7,7 @@ class SessionForm extends React.Component {
 
     const search = props.location.search; // get ?email=foo@bar.com
     const params = new URLSearchParams(search);
-    const emailarg = params.get('email'); 
+    const emailarg = params.get("email");
     this.state = {
       email: emailarg || "",
       code: "",
@@ -32,6 +32,7 @@ class SessionForm extends React.Component {
 
   componentDidMount() {
     document.getElementById("text").value = this.state.email;
+    console.log("compWillMount in session_form.js, state is", this.state);
   }
 
   componentWillReceiveProps() {
@@ -47,7 +48,7 @@ class SessionForm extends React.Component {
       if (this.state.formType === "signup") {
         document.getElementById("text").value = "";
         this.setState({ formType: "login" });
-      }
+      } 
     });
   };
 
