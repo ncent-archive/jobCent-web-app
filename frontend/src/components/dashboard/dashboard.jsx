@@ -43,7 +43,8 @@ const defaultState = {
     challengeUsers: [],
     referralCode: "",
     tokensPerReferral: 1,
-    loginRedirect: false
+    loginRedirect: false,
+    spinner: true
 };
 
 class Dashboard extends React.Component {
@@ -79,13 +80,15 @@ class Dashboard extends React.Component {
     componentWillMount() {
         axios.get("api/session")
             .then(function (verifyResp) {
+                // this.setState({spinner: false});
                 if (verifyResp.data.sessionVerified) {
                     this.props.login(verifyResp.data.user)
                 }
             }.bind(this), function () {
                 console.log("compWillMount in dashboard.jsx, session not verified, logging out and pushing / to history");
-                this.props.logout().then(this.props.history.push("/"));
-            }.bind(this));
+                this.props.logout().then(() => {this.props.history.push("/")});
+            }.bind(this))
+            .then(() => {this.setState({spinner: false})});
     }
 
     componentDidMount() {
@@ -540,110 +543,116 @@ class Dashboard extends React.Component {
     }
 
     render() {
-        return (
-            <div>
-                <div className="jobCent-home">
-                    {" "}
-                    <div className="flex-container-home ">
-                        <div className="layout-account-new flex-container-home ">
-                            <div className="account-navigation-bar flex-container-home">
-                                <div className="customer-info">
-                                    <div className="customer-profile-simple">
-                                        <i
-                                            style={{backgroundColor: "#FB60C4"}}
-                                            className="customer-avatar"
-                                        >
-                                            {" "}
-                                            <div className="initial-placeholder">D</div>
-                                        </i>
-                                        <h3 id="ember1124" className="display-name">
-                                            <span className="name">Alpha Tester</span>
-                                        </h3>
-                                        <h4 className="jobTag">
-                                            <a className="ember-view">$userId</a>
-                                        </h4>
+        if (this.state.spinner) {
+            console.log("rendering spinner");
+            return <div>Spinner.....</div>
+        } else {
+            console.log("No longer rendering spinner");
+            return (
+                <div>
+                    <div className="jobCent-home">
+                        {" "}
+                        <div className="flex-container-home ">
+                            <div className="layout-account-new flex-container-home ">
+                                <div className="account-navigation-bar flex-container-home">
+                                    <div className="customer-info">
+                                        <div className="customer-profile-simple">
+                                            <i
+                                                style={{backgroundColor: "#FB60C4"}}
+                                                className="customer-avatar"
+                                            >
+                                                {" "}
+                                                <div className="initial-placeholder">D</div>
+                                            </i>
+                                            <h3 id="ember1124" className="display-name">
+                                                <span className="name">Alpha Tester</span>
+                                            </h3>
+                                            <h4 className="jobTag">
+                                                <a className="ember-view">$userId</a>
+                                            </h4>
+                                        </div>
                                     </div>
+                                    <nav className="nav-items">
+                                        <a
+                                            title="Wallet"
+                                            value="Wallet"
+                                            id="ember1174"
+                                            className={
+                                                this.state.formType === "Wallet"
+                                                    ? "nav-item active"
+                                                    : "nav-item"
+                                            }
+                                            onClick={this.handleInput("formType")}
+                                        >
+                                            <span className="button-text">Wallet</span>
+                                        </a>
+                                        <a
+                                            title="Redeem referral code"
+                                            value="referralCode"
+                                            id="ember1174"
+                                            className={
+                                                this.state.formType === "Redeem referral code"
+                                                    ? "nav-item active"
+                                                    : "nav-item"
+                                            }
+                                            onClick={this.handleInput("formType")}
+                                        >
+                                            <span className="button-text">Redeem Code</span>
+                                        </a>
+                                        <a
+                                            title="Sponsor a challenge"
+                                            className={
+                                                this.state.formType === "Sponsor a challenge"
+                                                    ? "nav-item active"
+                                                    : "nav-item"
+                                            }
+                                            onClick={this.handleInput("formType")}
+                                        >
+                                            <span className="button-text">Sponsor</span>
+                                        </a>
+                                        <a
+                                            title="Sign Out"
+                                            className={
+                                                this.state.formType === "Sign Out"
+                                                    ? "nav-item signout active"
+                                                    : "nav-item"
+                                            }
+                                            onClick={this.handleInput("formType")}
+                                        >
+                                            <span className="button-text">Sign Out</span>
+                                        </a>
+                                        <a
+                                            title="Testing logoutFunc"
+                                            className={
+                                                this.state.formType === "testing"
+                                                    ? "nav-item signout active"
+                                                    : "nav-item"
+                                            }
+                                            onClick={this.loginRedirect}
+                                        >
+                                            <span className="button-text">Test logoutFunc</span>
+                                        </a>
+                                    </nav>
                                 </div>
-                                <nav className="nav-items">
-                                    <a
-                                        title="Wallet"
-                                        value="Wallet"
-                                        id="ember1174"
-                                        className={
-                                            this.state.formType === "Wallet"
-                                                ? "nav-item active"
-                                                : "nav-item"
-                                        }
-                                        onClick={this.handleInput("formType")}
-                                    >
-                                        <span className="button-text">Wallet</span>
-                                    </a>
-                                    <a
-                                        title="Redeem referral code"
-                                        value="referralCode"
-                                        id="ember1174"
-                                        className={
-                                            this.state.formType === "Redeem referral code"
-                                                ? "nav-item active"
-                                                : "nav-item"
-                                        }
-                                        onClick={this.handleInput("formType")}
-                                    >
-                                        <span className="button-text">Redeem Code</span>
-                                    </a>
-                                    <a
-                                        title="Sponsor a challenge"
-                                        className={
-                                            this.state.formType === "Sponsor a challenge"
-                                                ? "nav-item active"
-                                                : "nav-item"
-                                        }
-                                        onClick={this.handleInput("formType")}
-                                    >
-                                        <span className="button-text">Sponsor</span>
-                                    </a>
-                                    <a
-                                        title="Sign Out"
-                                        className={
-                                            this.state.formType === "Sign Out"
-                                                ? "nav-item signout active"
-                                                : "nav-item"
-                                        }
-                                        onClick={this.handleInput("formType")}
-                                    >
-                                        <span className="button-text">Sign Out</span>
-                                    </a>
-                                    <a
-                                        title="Testing logoutFunc"
-                                        className={
-                                            this.state.formType === "testing"
-                                                ? "nav-item signout active"
-                                                : "nav-item"
-                                        }
-                                        onClick={this.loginRedirect}
-                                    >
-                                        <span className="button-text">Test logoutFunc</span>
-                                    </a>
-                                </nav>
+                                <section className="yield-content">
+                                    {this.jobCentsTab()}
+                                    {this.signOutTab(this.props.logout)}
+                                    {this.transferTab()}
+                                    {this.sponsorChallengeTab()}
+                                    {this.challengeDetailTab()}
+                                    {this.redeemTab()}
+                                    {this.referralCodeTab()}
+                                    {this.walletTab()}
+                                </section>
                             </div>
-                            <section className="yield-content">
-                                {this.jobCentsTab()}
-                                {this.signOutTab(this.props.logout)}
-                                {this.transferTab()}
-                                {this.sponsorChallengeTab()}
-                                {this.challengeDetailTab()}
-                                {this.redeemTab()}
-                                {this.referralCodeTab()}
-                                {this.walletTab()}
-                            </section>
+                        </div>
+                        <div className="modal-manager ">
+                            <div className="modal-overlay "/>
                         </div>
                     </div>
-                    <div className="modal-manager ">
-                        <div className="modal-overlay "/>
-                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
 }
 
