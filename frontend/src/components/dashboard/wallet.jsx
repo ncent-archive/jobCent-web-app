@@ -14,6 +14,7 @@ class Wallet extends React.Component {
 
   componentWillMount() {
     document.title = "jobCent - Wallet";
+    window.history.pushState({}, document.title, window.location.href);
   }
 
   render() {

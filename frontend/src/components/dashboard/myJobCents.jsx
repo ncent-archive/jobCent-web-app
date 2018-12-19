@@ -45,6 +45,7 @@ export default class MyJobCents extends React.Component {
                 }
             });
         document.title = "jobCent - Dashboard";
+        window.history.pushState({}, document.title, window.location.href);
     }
 
     componentDidUpdate(prevProps) {

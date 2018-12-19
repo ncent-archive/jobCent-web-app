@@ -12,6 +12,7 @@ export default class Redeem extends React.Component {
 
     componentWillMount() {
         document.title = "jobCent - Redeem Challenge";
+        window.history.pushState({}, document.title, window.location.href);
     }
 
     radioButtons() {

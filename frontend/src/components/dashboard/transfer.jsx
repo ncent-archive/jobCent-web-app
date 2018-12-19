@@ -17,6 +17,7 @@ export default class Transfer extends React.Component {
 
     componentWillMount() {
         document.title = "jobCent - Transfer";
+        window.history.pushState({}, document.title, window.location.href);
     }
 
     imgLoadError(e) {

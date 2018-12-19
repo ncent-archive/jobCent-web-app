@@ -29,6 +29,7 @@ export default class ChallengeDetail extends React.Component {
 
     componentWillMount() {
         document.title = "jobCent - " + this.props.challengeDetails.name;
+        window.history.pushState({}, document.title, window.location.href);
         this.props.getReferralCode(this.props.currentUser.uuid, this.props.challengeDetails.uuid)
             .then(referralCodeResp => {
 

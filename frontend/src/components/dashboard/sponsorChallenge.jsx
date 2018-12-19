@@ -9,6 +9,7 @@ export default class Transfer extends React.Component {
 
     componentWillMount() {
         document.title = "jobCent - Sponsor a Challenge";
+        window.history.pushState({}, document.title, window.location.href);
     }
 
     render() {

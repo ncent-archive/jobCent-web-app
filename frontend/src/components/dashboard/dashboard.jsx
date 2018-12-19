@@ -89,6 +89,7 @@ class Dashboard extends React.Component {
                 this.props.logout().then(() => {this.props.history.push("/")});
             }.bind(this));
         document.title = "jobCent - Dashboard";
+        window.history.pushState({}, document.title, window.location.href);
         console.log("compWillMount in dashboard.jsx");
     }
 
