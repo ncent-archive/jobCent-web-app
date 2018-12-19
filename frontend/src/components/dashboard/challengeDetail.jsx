@@ -83,12 +83,16 @@ export default class ChallengeDetail extends React.Component {
         let balanceNotPlural = this.props.challengeBalance === 1;
         let days = Math.floor(convertToDays(this.props.challengeDetails.expiration));
         let daysNotPlural = days === 1;
+        let close = "";
+        if (this.props.closing) {
+            close += " fadeOutAnimation";
+        }
         return <div className="fs-transfer-sheet">
             <div className="transfer-content">
-                <div title="jobCents" className="close-button" onClick={this.props.handleInput("formType")}>
+                <div title="jobCents" className="close-button" onClick={this.props.closeWithDelay}>
                     <img src={x} alt=""/>
                 </div>
-                <div className="not-x-button">
+                <div className={"not-x-button" + close}>
                     <div className="headerChallengeImage">
                         <img src={this.props.challengeDetails.imageUrl || ncentLogo} className="challengeImage"
                             onError={this.imgLoadError}

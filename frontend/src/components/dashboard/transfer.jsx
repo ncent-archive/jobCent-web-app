@@ -23,12 +23,16 @@ export default class Transfer extends React.Component {
     }
 
     render() {
+        let close = "";
+        if (this.props.closing) {
+            close += " fadeOutAnimation";
+        }
         return <div className="fs-transfer-sheet">
             <div className="transfer-content">
-                <div title="jobCents" className="close-button" onClick={this.props.handleInput("formType")}>
+                <div title="jobCents" className="close-button" onClick={this.props.closeWithDelay}>
                     <img src={x} alt=""/>
                 </div>
-                <form autoComplete="off" className="transferForm" spellCheck="true" noValidate="true" onSubmit={this.props.handleTransfer}>
+                <form autoComplete="off" className={"transferForm" + close} spellCheck="true" noValidate="true" onSubmit={this.props.handleTransfer}>
                     <div className="initiate-transfer">
                         <div className="errorMessage"><span>{this.props.errorMessage}</span></div>
                         <div className="display-amount-fixed">
@@ -65,7 +69,7 @@ export default class Transfer extends React.Component {
                         <button className="theme-button transfer-button">
                             Send jobCent(s)
                         </button>
-                        <p className="disclaimerText">*Please note that rewards can only be redeemed if you have a jobCent balance greater than zero for the challenge you get hired for.</p>
+                        <p className="disclaimerText">*Please note that rewards can only be redeemed if you have a jobCent balance greater than 0 for the challenge you get hired for.</p>
                     </div>
                 </form>
             </div>

@@ -23,12 +23,16 @@ export default class Redeem extends React.Component {
     }
 
     render() {
+        let close = "";
+        if (this.props.closing) {
+            close += " fadeOutAnimation";
+        }
         return <div className="fs-transfer-sheet">
             <div className="transfer-content">
-                <div title="jobCents" className="close-button" onClick={this.props.handleInput("formType")}>
+                <div title="jobCents" className="close-button" onClick={this.props.closeWithDelay}>
                     <img src={x} alt=""/>
                 </div>
-                <div className="redeemForm">
+                <div className={"redeemForm" + close}>
                     <div className="display-amount-fixed">
                         <div className="bottom-margin">
                             <div className="currency-symbol">Redeem Your jobCent Challenge</div>

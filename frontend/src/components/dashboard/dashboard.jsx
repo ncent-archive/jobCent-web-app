@@ -43,7 +43,8 @@ const defaultState = {
     challengeUsers: [],
     referralCode: "",
     tokensPerReferral: 1,
-    loginRedirect: false
+    loginRedirect: false,
+    closing: false
 };
 
 class Dashboard extends React.Component {
@@ -74,6 +75,7 @@ class Dashboard extends React.Component {
         this.redeemReferralCode = this.redeemReferralCode.bind(this);
         this.walletTab = this.walletTab.bind(this);
         this.loginRedirect = this.loginRedirect.bind(this);
+        this.closeWithDelay = this.closeWithDelay.bind(this);
     }
 
     componentWillMount() {
@@ -130,6 +132,20 @@ class Dashboard extends React.Component {
                 });
             }
         };
+    }
+
+    closeWithDelay() {
+        console.log("clicked close on redeem tab");
+        this.setState({ closing: true});
+        setTimeout(function() {
+            this.setState({
+                errorMessage: "",
+                successMessage: "",
+                formType: "jobCents",
+                closing: false
+            });
+            console.log("should be 1 second after closing redeem tab");
+        }.bind(this), 350);
     }
 
     update(key) {
@@ -385,6 +401,8 @@ class Dashboard extends React.Component {
                 successMessage={this.state.successMessage}
                 errorMessage={this.state.errorMessage}
                 loginRedirect={this.loginRedirect}
+                closeWithDelay={this.closeWithDelay}
+                closing={this.state.closing}
             />
         }
     }
@@ -401,6 +419,8 @@ class Dashboard extends React.Component {
                     imageUrl={this.state.imageUrl}
                     errorMessage={this.state.errorMessage}
                     loginRedirect={this.loginRedirect}
+                    closeWithDelay={this.closeWithDelay}
+                    closing={this.state.closing}
                 />
             );
         }
@@ -417,6 +437,8 @@ class Dashboard extends React.Component {
                     challengeDetails={this.state.challengeDetails}
                     challengeUsers={this.state.challengeUsers}
                     loginRedirect={this.loginRedirect}
+                    closeWithDelay={this.closeWithDelay}
+                    closing={this.state.closing}
                 />
             )
         }
@@ -431,6 +453,8 @@ class Dashboard extends React.Component {
                     redeemReferralCode={this.redeemReferralCode}
                     referralCode={this.state.referralCode}
                     loginRedirect={this.loginRedirect}
+                    closeWithDelay={this.closeWithDelay}
+                    closing={this.state.closing}
                 />
             )
         }
@@ -449,6 +473,8 @@ class Dashboard extends React.Component {
                     update={this.update}
                     setTokensPerReferral={this.props.setTokensPerReferral}
                     loginRedirect={this.loginRedirect}
+                    closeWithDelay={this.closeWithDelay}
+                    closing={this.state.closing}
                 />
             )
         }
@@ -464,6 +490,8 @@ class Dashboard extends React.Component {
                     errorMessage={this.state.errorMessage}
                     handleAgreementCheck={this.handleAgreementCheck}
                     loginRedirect={this.loginRedirect}
+                    closeWithDelay={this.closeWithDelay}
+                    closing={this.state.closing}
                 />
             );
         }
@@ -475,6 +503,8 @@ class Dashboard extends React.Component {
                 <Wallet 
                     handleInput={this.handleInput}
                     loginRedirect={this.loginRedirect}
+                    closeWithDelay={this.closeWithDelay}
+                    closing={this.state.closing}
                 />
             )
         }
@@ -531,7 +561,7 @@ class Dashboard extends React.Component {
     }
 
     logOut() {
-        this.props.logout().then(this.props.history.push("/"));
+        this.props.logout().then(function() {this.props.history.push("/")});
     }
 
     render() {
