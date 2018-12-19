@@ -786,6 +786,10 @@
     padding-top: 15px;
 }
 
+.heldChallenges {
+    margin-bottom: 70px
+}
+
 .referralCode {
     font-size: 14px;
     padding-top: 7px;
