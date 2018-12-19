@@ -28,8 +28,11 @@ export default class ChallengeDetail extends React.Component {
     }
 
     componentWillMount() {
+        document.title = "jobCent - " + this.props.challengeDetails.name;
         this.props.getReferralCode(this.props.currentUser.uuid, this.props.challengeDetails.uuid)
             .then(referralCodeResp => {
+
+                console.log("compWillMount in challengeDetail.jsx, referralCodeResp is", referralCodeResp);
 
                 if (referralCodeResp.errors && 
                     referralCodeResp.errors.response.data.message === "User not logged in") {
@@ -43,12 +46,7 @@ export default class ChallengeDetail extends React.Component {
                     tokensPerReferral: referralCodeResp.challengeUserData.data.challengeUser.tokensPerReferral
 
                 });
-                document.title = "jobCent - " + this.props.challengeDetails.name;
             });
-    }
-
-    componentWillUnmount() {
-        document.title = "jobCent";
     }
 
     async handleSetTokensPerReferral(e) {

@@ -13,15 +13,8 @@ export default class ReferralCode extends React.Component {
 
     }
 
-    componentWillReceiveProps(newProps) {
-        if (newProps.closing === true) {
-            console.log("received props of closing in referralCode.jsx");
-            // this.setState({ closing: true})
-        }
-    }
-
-    componentWillUnmount() {
-        window.history.replaceState({}, "jobCent", "/dashboard");
+    componentWillMount() {
+        document.title = "jobCent - Redeem Code";
     }
 
     render() {

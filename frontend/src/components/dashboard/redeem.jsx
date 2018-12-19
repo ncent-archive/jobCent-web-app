@@ -10,6 +10,10 @@ export default class Redeem extends React.Component {
         this.radioButtons = this.radioButtons.bind(this);
     }
 
+    componentWillMount() {
+        document.title = "jobCent - Redeem Challenge";
+    }
+
     radioButtons() {
         let radioButtons = [];
         this.props.challengeUsers.forEach((user, index) => {

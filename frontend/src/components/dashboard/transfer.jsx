@@ -15,6 +15,10 @@ export default class Transfer extends React.Component {
         this.imgLoadError = this.imgLoadError.bind(this);
     }
 
+    componentWillMount() {
+        document.title = "jobCent - Transfer";
+    }
+
     imgLoadError(e) {
         if (this.state.imageLoadErrBool) {
             this.setState({ imageLoadErrBool: false });

@@ -88,6 +88,8 @@ class Dashboard extends React.Component {
             }.bind(this), function () {
                 this.props.logout().then(() => {this.props.history.push("/")});
             }.bind(this));
+        document.title = "jobCent - Dashboard";
+        console.log("compWillMount in dashboard.jsx");
     }
 
     componentDidMount() {
@@ -105,6 +107,12 @@ class Dashboard extends React.Component {
             formType: formType,
             referralCode: referralCode
         });
+        console.log("compDidMount in dashboard.jsx");
+    }
+
+    componentWillUnmount() {
+        document.title = "jobCent";
+        console.log("compWillUnmount in dashboard.jsx");
     }
 
     loginRedirect() {
@@ -144,7 +152,6 @@ class Dashboard extends React.Component {
                 formType: "jobCents",
                 closing: false
             });
-            console.log("should be 1 second after closing redeem tab");
         }.bind(this), 350);
     }
 
@@ -561,7 +568,7 @@ class Dashboard extends React.Component {
     }
 
     logOut() {
-        this.props.logout().then(function() {this.props.history.push("/")});
+        this.props.logout().then(function() {this.props.history.push("/")}.bind(this));
     }
 
     render() {

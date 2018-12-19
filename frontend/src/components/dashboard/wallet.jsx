@@ -12,6 +12,10 @@ class Wallet extends React.Component {
 
   }
 
+  componentWillMount() {
+    document.title = "jobCent - Wallet";
+  }
+
   render() {
     let close = "";
     if (this.props.closing) {

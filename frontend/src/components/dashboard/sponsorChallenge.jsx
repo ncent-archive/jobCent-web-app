@@ -7,6 +7,10 @@ export default class Transfer extends React.Component {
         super(props);
     }
 
+    componentWillMount() {
+        document.title = "jobCent - Sponsor a Challenge";
+    }
+
     render() {
         let close = "";
         if (this.props.closing) {
