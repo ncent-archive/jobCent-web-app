@@ -7,7 +7,7 @@ class SessionForm extends React.Component {
 
     const search = props.location.search; // get ?email=foo@bar.com
     const params = new URLSearchParams(search);
-    const emailarg = params.get('email'); 
+    const emailarg = params.get("email");
     this.state = {
       email: emailarg || "",
       code: "",

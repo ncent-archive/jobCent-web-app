@@ -57,9 +57,6 @@ const createReferralCode = async (userUuid, challenge) => {
 
 module.exports = {
     async create(req, res) {
-        console.log("create func in challenges.js, sessionController being imported is", sessionController);
-        // sessionController.verifyLight(req, res);
-        console.log("create func in challenges.js, verifyLightFunc being imported is", verifyLightFunc);
         if (verifyLightFunc(req, res)) {
             const {senderPublicKey, name, description, company, imageUrl, participationUrl, rewardAmount, maxShares, challengeDuration} = req.body;
     
@@ -86,7 +83,6 @@ module.exports = {
     },
 
     async share(req, res) {
-        console.log("share func in challenges.js, verifyLightFunc is", verifyLightFunc);
         if (verifyLightFunc(req, res)) {
             const {fromAddress, toAddress, numShares} = req.body;
             const challengeUuid = req.params.challengeUuid;
@@ -129,8 +125,6 @@ module.exports = {
     },
 
     async redeem(req, res) {
-        // sessionController.verifyLight(req, res);
-        console.log("redeem func in challenges.js, verifyLightFunc is", verifyLightFunc);
         if (verifyLightFunc(req, res)) {
             const {sponsorAddress, challengeUuid} = req.params;
             const redeemerAddress = req.body.redeemerAddress;
@@ -155,7 +149,6 @@ module.exports = {
     },
 
     async retrieveChallengeUsers(req, res) {
-        console.log("retrieveChallengeUsers func in challenges.js, verifyLightFunc is", verifyLightFunc);
         if (verifyLightFunc(req, res)) {
             let challengeUsers = [];
             let challengeUserUuids = [];
@@ -187,7 +180,6 @@ module.exports = {
     },
 
     async redeemReferralCode(req, res) {
-        console.log("redeemReferralCode func in challenges.js, verifyLightFunc is", verifyLightFunc);
         if (verifyLightFunc(req, res)) {
             const referralCode = req.params.referralCode;
             const recipientUuid = req.body.recipientUuid;

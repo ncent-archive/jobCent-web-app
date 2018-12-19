@@ -21,6 +21,7 @@ export default (state = {
             const userData = action.userData.data;
             newState = merge({}, state);
             newState.userData = userData;
+            newState.spinner = false;
             return newState;
         case RECEIVE_TRANSFER:
             const transfer = action.transfer.data;

@@ -3,15 +3,23 @@ import { connect } from 'react-redux';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 
 
-const Auth = ({component: Component, path, loggedIn}) => (
-  <Route path={path} render={(props) => (
-      !loggedIn ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to="/dashboard" />
-      )
-    )} />
-);
+const Auth = ({component: Component, path, loggedIn}) => {
+  let dashboardLink = "/dashboard";
+  let paramIdx = window.location.href.indexOf("?");
+  let paramStr = "";
+  if (paramIdx >= 0) {
+    paramStr += window.location.href.slice(paramIdx);
+  }
+  return (
+    <Route path={path} render={(props) => (
+        !loggedIn ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={"/dashboard" + paramStr} />
+        )
+      )} />
+  )
+};
 
 const Protected = ({component: Component, path, loggedIn}) => (
   <Route path={path} render={(props) => {

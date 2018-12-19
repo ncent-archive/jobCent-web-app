@@ -17,7 +17,8 @@ export default class MyJobCents extends React.Component {
             heldChallengeReferralCodes: [],
             successMessage: "",
             errorMessage: "",
-            imageLoadErrBool: true
+            imageLoadErrBool: true,
+            spinner: true
         };
 
         this.challengeList = this.challengeList.bind(this);
@@ -38,19 +39,22 @@ export default class MyJobCents extends React.Component {
                         sponsoredChallengeRemainingRedemptions: this.props.userData.sponsoredChallengeRemainingRedemptions,
                         heldChallenges: this.props.userData.heldChallenges,
                         heldChallengeBalances: this.props.userData.heldChallengeBalances,
-                        heldChallengeRemainingRedemptions: this.props.userData.heldChallengeRemainingRedemptions
+                        heldChallengeRemainingRedemptions: this.props.userData.heldChallengeRemainingRedemptions,
+                        spinner: false
                     });
                 }
-            })
+            });
     }
 
     componentDidUpdate(prevProps) {
+
         if (this.props.userData && !_.isEqual(this.props.userData, prevProps.userData)) {
             this.setState({
                 sponsoredChallenges: this.props.userData.sponsoredChallenges,
                 heldChallenges: this.props.userData.heldChallenges
             });
         }
+
     }
 
     imgLoadError(e) {
@@ -167,9 +171,15 @@ export default class MyJobCents extends React.Component {
     }
 
     render() {
-        return (
-            this.challengeList(this.state.sponsoredChallenges, this.state.heldChallenges, this.state.sponsoredChallengeBalances, this.state.heldChallengeBalances, this.state.sponsoredChallengeRemainingRedemptions, this.state.heldChallengeRemainingRedemptions)
-        );
+        if (this.state.spinner) {
+            return (
+                <div className="spinner"></div>
+            )
+        } else {
+            return (
+                this.challengeList(this.state.sponsoredChallenges, this.state.heldChallenges, this.state.sponsoredChallengeBalances, this.state.heldChallengeBalances, this.state.sponsoredChallengeRemainingRedemptions, this.state.heldChallengeRemainingRedemptions)
+            );
+        }
     }
 }
 

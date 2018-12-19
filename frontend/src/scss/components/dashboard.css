@@ -803,9 +803,33 @@
     animation: fadeOut 0.2s ease-in both;
 }
 
+.spinner {
+    height: 100px;
+    width: 100px;
+    border: 6px solid;
+    border-color: transparent black black black;
+    border-radius: 75px;
+    position: fixed;
+    top: 50vh;
+    left: 50vw;
+    margin-top: -100px;
+    margin-left: -50px;
+    animation: rotate 1.55s infinite linear;
+}
+
 a {
     cursor: pointer;
     text-decoration: none;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes fadeIn {
