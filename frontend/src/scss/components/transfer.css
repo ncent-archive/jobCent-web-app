@@ -1,5 +1,5 @@
 .fs-transfer-sheet {
-    animation: fadeIn 0.2s ease-in both;
+    animation: fadeIn 0.3s ease-in both;
     background-color: #fff;
     bottom: 0;
     display: flex;
@@ -271,13 +271,4 @@ label {
 .tokensPerReferralForm {
     display: flex;
     align-items: center;
-}
-
-@keyframes fadeOut {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
 }

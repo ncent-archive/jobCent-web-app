@@ -10,6 +10,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.removeColumn('ChallengeUsers', 'tokenPerReferral');
+    return queryInterface.removeColumn('ChallengeUsers', 'tokensPerReferral');
   }
 };

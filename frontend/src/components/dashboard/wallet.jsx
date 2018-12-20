@@ -12,10 +12,26 @@ class Wallet extends React.Component {
 
   }
 
+  componentWillMount() {
+    document.title = "jobCent - Wallet";
+    window.history.pushState({}, document.title, window.location.href);
+  }
+
   render() {
+    let close = "";
+    if (this.props.closing) {
+      close += " fadeOutAnimation";
+    }
     return (
-      <div title="jobCents" className="close-button" onClick={this.props.handleInput("formType")}>
-        <img src={x} alt="" />
+      <div className="fs-transfer-sheet">
+        <div className="transfer-content">
+          <div title="jobCents" className="close-button" onClick={this.props.closeWithDelay}>
+            <img src={x} alt="" />
+          </div>
+          <div className={"mainWalletContainer" + close}>
+            Your current wallet
+          </div>
+        </div>
       </div>
     )
   }

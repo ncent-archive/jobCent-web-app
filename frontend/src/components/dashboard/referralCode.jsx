@@ -6,19 +6,29 @@ import ncentLogo from "../../img/logo.png";
 export default class ReferralCode extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+
+        }
+
     }
 
-    componentWillUnmount() {
-        window.history.replaceState({}, "jobCent", "/dashboard");
+    componentWillMount() {
+        document.title = "jobCent - Redeem Code";
+        window.history.pushState({}, document.title, window.location.href);
     }
 
     render() {
+        let close = "";
+        if (this.props.closing) {
+            close += " fadeOutAnimation";
+        }
         return <div className="fs-transfer-sheet">
             <div className="transfer-content">
-                <div title="jobCents" className="close-button" onClick={this.props.handleInput("formType")}>
+                <div title="jobCents" className="close-button" onClick={this.props.closeWithDelay}>
                     <img src={x} alt=""/>
                 </div>
-                <form autoComplete="off" className="transferForm" spellCheck="true" noValidate="true" onSubmit={this.props.redeemReferralCode}>
+                <form autoComplete="off" className={"transferForm" + close} spellCheck="true" noValidate="true" onSubmit={this.props.redeemReferralCode}>
                     <div className="initiate-transfer">
                         <div className="errorMessage"><span>{this.props.errorMessage}</span></div>
                         <div className="display-amount-fixed">

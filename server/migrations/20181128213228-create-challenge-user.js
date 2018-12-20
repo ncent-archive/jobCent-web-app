@@ -24,7 +24,7 @@ module.exports = {
             },
             referralCode: {
                 allowNull: false,
-                type: DataTypes.STRING
+                type: DataTypes.STRING(525)
             },
             createdAt: {
                 allowNull: false,

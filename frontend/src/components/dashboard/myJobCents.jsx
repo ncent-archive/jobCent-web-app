@@ -44,6 +44,8 @@ export default class MyJobCents extends React.Component {
                     });
                 }
             });
+        document.title = "jobCent - Dashboard";
+        window.history.pushState({}, document.title, window.location.href);
     }
 
     componentDidUpdate(prevProps) {
@@ -165,7 +167,7 @@ export default class MyJobCents extends React.Component {
                 {this.errorMessage(this.props.errorMessage)}
                 <h1 className="challengesHeader">Your jobCent Challenges</h1>
                 <section className="challengeTiles">{sponsoredChallengeTiles}</section>
-                <section className="challengeTiles">{heldChallengeTiles}</section>
+                <section className="challengeTiles heldChallenges">{heldChallengeTiles}</section>
             </div>
         );
     }
