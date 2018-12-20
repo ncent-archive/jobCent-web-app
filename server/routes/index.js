@@ -21,6 +21,7 @@ module.exports = (app) => {
     app.get('/api/challenges/balances/:challengeUuid', challengesController.retrieveChallengeUsers);
 
     app.put('/api/challenges/referralCode/:referralCode', challengesController.redeemReferralCode);
+    
     // creates a new user account with a Stellar wallet key pair
     app.post("/api/users", usersController.create);
 

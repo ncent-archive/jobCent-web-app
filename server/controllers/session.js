@@ -74,7 +74,6 @@ module.exports = {
     },
     verifyLight(req, res) {
         if (!req.session.user || !req.cookies.session_token) {
-            // res.status(403).send({ sessionVerified: false });
             return false;
         } else {
             return true;

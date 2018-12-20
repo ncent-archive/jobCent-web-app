@@ -33,8 +33,6 @@ export default class ChallengeDetail extends React.Component {
         this.props.getReferralCode(this.props.currentUser.uuid, this.props.challengeDetails.uuid)
             .then(referralCodeResp => {
 
-                console.log("compWillMount in challengeDetail.jsx, referralCodeResp is", referralCodeResp);
-
                 if (referralCodeResp.errors && 
                     referralCodeResp.errors.response.data.message === "User not logged in") {
                     this.props.loginRedirect();

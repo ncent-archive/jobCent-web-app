@@ -12,11 +12,15 @@ class SessionForm extends React.Component {
       email: emailarg || "",
       code: "",
       otpReq: true,
-      formType: "signup"
+      formType: "signup",
+      password: "",
+      confirmPassword: "",
+      errorMessage: ""
     };
 
 
     this.returnToSignUp = this.returnToSignUp.bind(this);
+    this.enterKey = this.enterKey.bind(this);
   }
 
   update(input) {
@@ -28,28 +32,58 @@ class SessionForm extends React.Component {
 
   componentWillMount() {
     this.props.clearErrors();
+    let currentForm = window.location.pathname.slice(1);
+    this.setState({ formType: currentForm });
   }
 
   componentDidMount() {
-    document.getElementById("text").value = this.state.email;
+    document.getElementById("textEmail").value = this.state.email;
   }
 
   componentWillReceiveProps() {
-    document.getElementById("text").value = "";
+    document.getElementById("textEmail").value = "";
   }
 
   handleSubmit = e => {
-    const processForm = this.state.formType === "signup" ? this.props.signup : this.props.login;
     e.preventDefault();
+    console.log("handleSubmit in session_form.jsx");
+    const processForm = this.state.formType === "signup" ? this.props.signup : this.props.login;
     const user = Object.assign({}, this.state);
 
-    processForm(user).then(user => {
-      if (this.state.formType === "signup") {
-        document.getElementById("text").value = "";
-        this.setState({ formType: "login" });
+    if (this.state.formType === "signup") {
+      if (this.state.email.length === 0 ||
+      this.state.password.length === 0 ||
+      this.state.confirmPassword.length === 0) {
+        this.setState({ errorMessage: "Please fill in all fields." });
+        return;
+      } else if (!this.state.email.match(/[^@]+@\w+\.\w+((\.\w+)(?!\1\.{2,)*?)*/gim)) {
+        this.setState({ errorMessage: "Please enter a valid email."})
+        return;
+      } else if (this.state.password !== this.state.confirmPassword) {
+        this.setState({ errorMessage: "Passwords don't match." });
+        return;
+      } else {
+        this.setState({ errorMessage: "" });
       }
-    });
+    }
+
+    console.log("state being sent to signup func is", this.state);
+
+
+    // processForm(user).then(user => {
+      //   if (this.state.formType === "signup") {
+        //     document.getElementById("text").value = "";
+        //     this.setState({ formType: "login" });
+      //   }
+      // });
   };
+      
+  enterKey(e) {
+    // console.log(e.target);
+    // if (e.key === "Enter") {
+    //   this.handleSubmit(e);
+    // }
+  }
 
   returnToSignUp() {
     this.setState({
@@ -65,7 +99,8 @@ class SessionForm extends React.Component {
             <div />
             <section className="flex-container">
               <div className="login-container">
-                <h1 className="step-title">Sign in to jobCent</h1>
+                <h1 className="step-title">Sign up for jobCent</h1>
+                <span className="errorMessage">{this.state.errorMessage}</span>
 
                 <form
                   autoComplete="off"
@@ -76,7 +111,7 @@ class SessionForm extends React.Component {
                 >
                   <div className="field">
                     <input
-                      id="text"
+                      id="textEmail"
                       type="text"
                       aria-label="Enter your email"
                       name="alias"
@@ -86,6 +121,37 @@ class SessionForm extends React.Component {
                       className="text-field"
                       placeholder="Email address"
                       onChange={this.update("email")}
+                    />
+                  </div>
+                  <div className="field">
+                    <input
+                      id="textPassword"
+                      type="text"
+                      aria-label="Enter your password"
+                      name="alias"
+                      autoComplete="off"
+                      spellCheck="false"
+                      autoCapitalize="none"
+                      className="text-field"
+                      placeholder="Password"
+                      onChange={this.update("password")}
+                      type="password"
+                    />
+                  </div>
+                  <div className="field">
+                    <input
+                      id="textConfirmPassword"
+                      type="text"
+                      aria-label="Confirm your password"
+                      name="alias"
+                      autoComplete="off"
+                      spellCheck="false"
+                      autoCapitalize="none"
+                      className="text-field"
+                      placeholder="Confirm Password"
+                      onChange={this.update("confirmPassword")}
+                      type="password"
+                      onKeyDown={this.enterKey}
                     />
                   </div>
                   <div className="alias-submit">

@@ -13,13 +13,14 @@ module.exports = {
     create(req, res) {
         const otpKey = otplib.authenticator.generateSecret();
         const token = otplib.authenticator.generate(otpKey);
-        // in the future write a parser to validate email address format.
+        // in the future write a parser to validate email address format - front end is validating
         const validEmail = true;
         const html = "your jobCent confirmation code is: <b>" + token + "</b>";
         const otpExp = Date.now() + 300000;
         const salt = bcrypt.genSaltSync();
         const tokenHash = bcrypt.hashSync(token, salt);
         const emailAddr = req.body.user.email;
+        const password = req.body.password;
         const otpReq = req.body.user.otpReq;
 
         User.findOne({where: {email: emailAddr}}).then(user => {

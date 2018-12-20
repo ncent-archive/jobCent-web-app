@@ -27,10 +27,11 @@ class App extends Component {
     render() {
         return <div className="App">
             <Switch>
-                <Route path="/dashboard" component={DashboardContainer}/>
-                <AuthRoute path="/login" component={SessionFormContainer}/>
-                <Route exact path="/" component={Landing}/>
-                <Redirect to="/"/>
+                <Route path="/dashboard" component={DashboardContainer} />
+                <AuthRoute path="/login" component={SessionFormContainer} />
+                <Route path="/signup" component={SessionFormContainer} />
+                <Route exact path="/" component={Landing} />
+                <Redirect to="/" />
             </Switch>
         </div>;
     }

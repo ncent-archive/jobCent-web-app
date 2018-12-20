@@ -52,7 +52,10 @@ class Landing extends React.Component {
                 About
               </a>
               <Link to="/login" className="button button-round">
-                Sign In
+                Login
+              </Link>
+              <Link to="/signup" className="button button-round signUpBtn">
+                Sign up
               </Link>
             </div>
           </header>
@@ -70,12 +73,15 @@ class Landing extends React.Component {
                   </div>
                   <div className="logo-title">jobCent</div>
                 </div>
-                <div className="header-sign-in">
+                {/* <div className="header-sign-in">
                   
                   <Link to="/login" className="test-button">
-                    Sign In
+                    Login
                   </Link>
-                </div>
+                  <Link to="/signup" className="test-button">
+                    Sign up
+                  </Link>
+                </div> */}
               </header>
 
               <div className="about-content">
@@ -92,7 +98,7 @@ class Landing extends React.Component {
                     <b>Get Hired. Get Your Network Hired. Get Paid.</b>
                   </p>
                   <p>
-                      jobCent is a platform that provides incentives for people to find the most qualified candiates for jobs.
+                      jobCent is a platform that provides incentives for people to find the most qualified candidates for jobs.
                   </p>
                   <p>
                       jobCent is simple and easy to use. Sign in with your email to view your challenge invitations. Hang onto an invitation and get hired, or send it along until someone else does. Either way, you get paid!
@@ -101,7 +107,7 @@ class Landing extends React.Component {
               </div>
             </div>
               <h1 className="how-it-works">How It Works</h1>
-              <VerticalTimeline>
+            <VerticalTimeline className="verticalTimelineLanding">
                   <VerticalTimelineElement
                       className="vertical-timeline-element--work"
                       iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
@@ -109,7 +115,8 @@ class Landing extends React.Component {
                       <h3 className="vertical-timeline-element-title">Startup Co.</h3>
                       <h4 className="vertical-timeline-element-subtitle">The Sponsor</h4>
                       <p>
-                          Startup Co. is eager to hire 10 software developers. Startup Co. buys NCNT and stamps them to create 100 jobCents. They distribute the jobCents to the most promising CS majors at Dev University.                      </p>
+                          Startup Co. is eager to hire 10 software developers. Startup Co. buys NCNT and stamps them to create 100 jobCents. They distribute the jobCents to the most promising CS majors at Dev University.                      
+                      </p>
                   </VerticalTimelineElement>
                   <VerticalTimelineElement
                       className="vertical-timeline-element--work"
@@ -139,6 +146,15 @@ class Landing extends React.Component {
                           Upon receiving the jobCent Carol applies for the job. She must keep her jobCent during the application process if she wants to receive a bonus upon hire. After several interviews, Startup Co. decides that Carol would be a great addition to their team. When Carol gets hired, she receives the 10k NCNT signing bonus. For referring Carol, Bob gets 5k, half of Carol's signing bonus. Alice gets 2.5k, half of Bob's reward, for helping to find the hired candidate.                      </p>
                   </VerticalTimelineElement>
               </VerticalTimeline>
+            <div className="header-sign-in timelineBtn">
+
+              <Link to="/login" className="test-button">
+                Login
+              </Link>
+              <Link to="/signup" className="test-button">
+                Sign up
+              </Link>
+            </div>
           </div>
         </section>
           <footer className="footer">
