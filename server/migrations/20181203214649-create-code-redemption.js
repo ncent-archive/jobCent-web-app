@@ -9,7 +9,7 @@ module.exports = {
             },
             referralCode: {
                 allowNull: false,
-                type: DataTypes.STRING
+                type: DataTypes.STRING(525)
             },
             userUuid: {
                 allowNull: false,

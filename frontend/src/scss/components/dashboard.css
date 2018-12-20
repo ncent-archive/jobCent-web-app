@@ -824,7 +824,7 @@
     left: 50vw;
     margin-top: -100px;
     margin-left: -50px;
-    animation: rotate 1.55s infinite linear, fadeIn 1.5s 1 linear;
+    animation: rotate 1.55s infinite linear, fadeIn 2.5s 1 linear;
 }
 
 a {

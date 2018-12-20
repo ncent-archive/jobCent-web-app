@@ -5,6 +5,9 @@ import x from "../../img/x.png";
 export default class Transfer extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+
+        }
     }
 
     componentWillMount() {
@@ -22,8 +25,8 @@ export default class Transfer extends React.Component {
                 <div title="jobCents" className="close-button" onClick={this.props.closeWithDelay}>
                     <img src={x} alt=""/>
                 </div>
-                <form autoComplete="off" spellCheck="true" noValidate="true" onSubmit={this.props.createChallenge}
-                    className={"" + close}
+                <form autoComplete="off" spellCheck="true" noValidate="true" 
+                    onSubmit={this.props.createChallenge} className={"" + close}
                 >
                     <div className="initiate-transfer">
                         <div className="errorMessage"><span>{this.props.errorMessage}</span></div>
@@ -40,7 +43,8 @@ export default class Transfer extends React.Component {
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
                                            placeholder="Company Name" autoCorrect="false" autoCapitalize="off"
-                                           type="text" onChange={this.props.update("company")}/>
+                                           type="text" onChange={this.props.update("company")} maxLength="255"
+                                    />
                                 </div>
                             </div>
                             <div className="anchor"/>
@@ -50,8 +54,8 @@ export default class Transfer extends React.Component {
                             <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Company Logo Image URL" autoCorrect="false"
-                                           autoCapitalize="off" type="text" onChange={this.props.update("imageUrl")}
+                                        placeholder="Company Logo Image URL" autoCorrect="false" maxLength="255"
+                                        autoCapitalize="off" type="text" onChange={this.props.update("imageUrl")}
                                     />
                                 </div>
                             </div>
@@ -65,8 +69,9 @@ export default class Transfer extends React.Component {
                             <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Job Title" autoCorrect="false" autoCapitalize="off" type="text"
-                                           onChange={this.props.update("challengeTitle")}/>
+                                        placeholder="Job Title" autoCorrect="false" autoCapitalize="off" type="text" maxLength="255"
+                                        onChange={this.props.update("challengeTitle")}
+                                    />
                                 </div>
                             </div>
                             <div className="anchor"/>
@@ -76,8 +81,9 @@ export default class Transfer extends React.Component {
                             <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Job Description" autoCorrect="false" autoCapitalize="off"
-                                           type="text" onChange={this.props.update("description")}/>
+                                        placeholder="Job Description" autoCorrect="false" autoCapitalize="off"
+                                        type="text" onChange={this.props.update("description")} maxLength="1024"
+                                    />
                                 </div>
                             </div>
                             <div className="anchor"/>
@@ -87,8 +93,10 @@ export default class Transfer extends React.Component {
                             <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Job Application Link" autoCorrect="false"
-                                           autoCapitalize="off" type="text" onChange={this.props.update("participationUrl")}/>
+                                        placeholder="Job Application Link" autoCorrect="false"
+                                        autoCapitalize="off" type="text" maxLength="255"
+                                        onChange={this.props.update("participationUrl")}
+                                     />
                                 </div>
                             </div>
                             <div className="anchor"/>
@@ -101,9 +109,10 @@ export default class Transfer extends React.Component {
                             <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Total jobCents (Default of 1000)"
-                                           autoCorrect="false" autoCapitalize="off" type="text"
-                                           onChange={this.props.update("maxShares")}/>
+                                        placeholder="Total jobCents (Default of 1000)"
+                                        autoCorrect="false" autoCapitalize="off" type="text"
+                                        onChange={this.props.update("maxShares")} maxLength="255"
+                                    />
                                 </div>
                             </div>
                             <div className="anchor"/>
@@ -113,9 +122,10 @@ export default class Transfer extends React.Component {
                             <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Challenge Duration (days)"
-                                           autoCorrect="false" autoCapitalize="off" type="text"
-                                           onChange={this.props.update("challengeDuration")}/>
+                                        placeholder="Challenge Duration (days)"
+                                        autoCorrect="false" autoCapitalize="off" type="text"
+                                        onChange={this.props.update("challengeDuration")} maxLength="255"
+                                    />
                                 </div>
                             </div>
                             <div className="anchor"/>
@@ -125,9 +135,10 @@ export default class Transfer extends React.Component {
                             <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Bounty (U.S. Dollars)" autoCorrect="false"
-                                           autoCapitalize="off" type="text"
-                                           onChange={this.props.update("rewardAmount")}/>
+                                        placeholder="Bounty (U.S. Dollars)" autoCorrect="false"
+                                        autoCapitalize="off" type="text"
+                                        onChange={this.props.update("rewardAmount")} maxLength="255"
+                                    />
                                 </div>
                             </div>
                             <div className="anchor"/>

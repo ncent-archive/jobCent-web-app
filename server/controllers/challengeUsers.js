@@ -29,9 +29,7 @@ module.exports = {
 
     },
     async getReferralCode(req, res) {
-        console.log("getReferralCode in challengeUsers.js running");
         if (verifyLightFunc(req, res)) {
-            console.log("in getReferralCode in challengeUsers.js, req is", req.params);
             const challengeUser = await ChallengeUser.findOne({
                 where: {
                     userUuid: req.params.userUuid,

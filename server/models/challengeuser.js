@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     referralCode: {
       allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING(525)
     },
     tokensPerReferral: {
       allowNull: false,
