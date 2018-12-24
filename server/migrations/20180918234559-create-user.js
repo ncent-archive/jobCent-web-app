@@ -14,6 +14,9 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false
             },
+            hash: {
+                type: Sequelize.STRING
+            },
             publicKey: {
                 type: Sequelize.STRING
             },

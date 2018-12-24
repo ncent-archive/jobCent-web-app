@@ -15,12 +15,15 @@ class SessionForm extends React.Component {
       formType: "signup",
       password: "",
       confirmPassword: "",
+      emailLogin: "",
+      passwordLogin: "",
       errorMessage: ""
     };
 
 
     this.returnToSignUp = this.returnToSignUp.bind(this);
     this.enterKey = this.enterKey.bind(this);
+    this.updateTitle = this.updateTitle.bind(this);
   }
 
   update(input) {
@@ -34,14 +37,23 @@ class SessionForm extends React.Component {
     this.props.clearErrors();
     let currentForm = window.location.pathname.slice(1);
     this.setState({ formType: currentForm });
+    this.updateTitle();
   }
 
   componentDidMount() {
-    document.getElementById("textEmail").value = this.state.email;
+    if (this.state.formType === "signup") {
+      document.getElementById("textEmail").value = this.state.email;
+    }
   }
 
   componentWillReceiveProps() {
-    document.getElementById("textEmail").value = "";
+    if (this.state.formType === "signup") {
+      document.getElementById("textEmail").value = "";
+    }
+  }
+
+  updateTitle() {
+    document.title = `jobCent - ${this.state.formType === "login" ? "Log in" : "Sign Up"}`;
   }
 
   handleSubmit = e => {
@@ -64,18 +76,42 @@ class SessionForm extends React.Component {
         return;
       } else {
         this.setState({ errorMessage: "" });
+        console.log("in session_form.jsx, state being sent to signup func is", this.state);
+        this.props.signup(user).then(user => {
+          console.log("in session_form.jsx, signup function returned, user returned is", user);
+          if (user.data.errorMessage) {
+            this.setState({ errorMessage: user.data.errorMessage });
+            return;
+          } else {
+            console.log("else statement in signup in session_form.js, formType is", this.state.formType);
+            if (this.state.formType === "signup") {
+              this.setState({ formType: "login" });
+                // window.history.pushState({}, "Login", "/login");
+                this.props.history.push("/login");
+                this.updateTitle();
+            }
+          }
+        }).catch(err => {
+          this.setState({ errorMessage: "There was an error. Please try again."})
+        });
       }
-    }
-
-    console.log("state being sent to signup func is", this.state);
-
-
-    // processForm(user).then(user => {
-      //   if (this.state.formType === "signup") {
-        //     document.getElementById("text").value = "";
-        //     this.setState({ formType: "login" });
+    } else {
+      let credentials = {
+        email: this.state.emailLogin,
+        password: this.state.passwordLogin
+      };
+      console.log("about to send credentials to backend for login", credentials);
+      this.props.login(credentials).then(user => {
+        console.log("login in session_form just returned", user);
+      //   setTimeout(function() {console.log("delayed logging of user in session_form login", user)}.bind(this), 1500);
+      //   if (user.data.errorMessage) {
+      //     this.setState({ errorMessage: user.data.errorMessage });
       //   }
-      // });
+      // }).catch(err => {
+      //   console.log("catch in .then in login in session_form.jsx", err);
+      //   this.setState({ errorMessage: err});
+      });
+    }
   };
       
   enterKey(e) {
@@ -161,7 +197,7 @@ class SessionForm extends React.Component {
                         aria-label="Request Sign In Code"
                         className="theme-button"
                       >
-                        Request Sign In Code
+                        Sign Up
                       </button>
                       <div className="spinner-container " />
                     </div>
@@ -183,9 +219,7 @@ class SessionForm extends React.Component {
             <section className="flex-container">
               <div className="login-container">
                 <h1 className="step-title">
-                  {this.props.errors.length === 0
-                    ? `We emailed a code to ${this.state.email}`
-                    : 'There was an error. Please try again'}
+                  Please log in.
                 </h1>
 
                 <form
@@ -197,7 +231,7 @@ class SessionForm extends React.Component {
                 >
                   <div className="field">
                     <input
-                      id="text"
+                      id="textEmailLogin"
                       type="text"
                       aria-label="confirmation code"
                       name="alias"
@@ -205,8 +239,23 @@ class SessionForm extends React.Component {
                       spellCheck="false"
                       autoCapitalize="none"
                       className="text-field"
-                      placeholder="Confirmation Code"
-                      onChange={this.update("code")}
+                      placeholder="Email"
+                      onChange={this.update("emailLogin")}
+                    />
+                  </div>
+                  <div className="field">
+                    <input
+                      id="textPasswordLogin"
+                      type="text"
+                      aria-label="confirmation code"
+                      name="alias"
+                      autoComplete="off"
+                      spellCheck="false"
+                      autoCapitalize="none"
+                      className="text-field"
+                      placeholder="Password"
+                      onChange={this.update("passwordLogin")}
+                      type="password"
                     />
                   </div>
 
@@ -217,7 +266,7 @@ class SessionForm extends React.Component {
                         aria-label="Request Sign In Code"
                         className="theme-button"
                       >
-                        Sign In
+                        Log In
                       </button>
                       <div className="spinner-container " />
                     </div>
