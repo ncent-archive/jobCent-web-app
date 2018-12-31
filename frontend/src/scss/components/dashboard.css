@@ -124,6 +124,7 @@
     letter-spacing: 1.4px;
     margin-top: 0;
     text-transform: uppercase;
+    overflow: scroll;
 }
 
 .config-column {
@@ -666,6 +667,7 @@
     border-spacing: 10px;
     padding: 10px;
     border-color: rgb(0, 0, 0, 0.25);
+    max-width: 60%;
 }
 
 .tileClickContainer {
@@ -757,7 +759,8 @@
     padding: 10vh;
     border-radius: 50px;
     color: #ffffff;
-    /* max-height: 90vh; */
+    max-width: 80vw;
+    margin-bottom: 70px;
 }
 
 .challengeContent {
@@ -768,10 +771,13 @@
 
 .companyName {
     font-size: 30px;
+    max-width: 100%;
+    overflow: scroll;
 }
 
 .challengeDescription {
-    max-width: 800px;
+    max-width: 100%;
+    overflow: scroll;
 }
 
 .challengeImage {
@@ -783,12 +789,14 @@
 
 .challengeName {
     font-size: 22px;
+    max-width: 100%;
+    overflow: scroll;    
 }
 
 .copyImg {
     position: absolute;
     bottom: 0px;
-    right: 2vw;
+    right: 5px;
 }
 
 .currentBalance {
@@ -803,6 +811,9 @@
 .referralCode {
     font-size: 14px;
     padding-top: 7px;
+    max-width: 70%;
+    overflow: scroll;
+    white-space: nowrap;
 }
 
 .referralCodeWrapper {

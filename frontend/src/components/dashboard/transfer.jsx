@@ -20,6 +20,11 @@ export default class Transfer extends React.Component {
         window.history.pushState({}, document.title, window.location.href);
     }
 
+    componentWillUnmount() {
+        this.props.removeURLParams();
+        this.props.clearErrorMessage();
+    }
+
     imgLoadError(e) {
         if (this.state.imageLoadErrBool) {
             this.setState({ imageLoadErrBool: false });

@@ -61,6 +61,10 @@ export default class MyJobCents extends React.Component {
 
     }
 
+    componentWillUnmount() {
+        
+    }
+
     imgLoadError(e) {
         this.setState({ imageLoadErrBool: false });
         e.target.src = ncentLogo;

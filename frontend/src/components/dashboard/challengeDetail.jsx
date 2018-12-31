@@ -48,6 +48,10 @@ export default class ChallengeDetail extends React.Component {
             });
     }
 
+    componentWillUnmount() {
+        this.props.removeURLParams();
+    }
+
     async handleSetTokensPerReferral(e) {
         e.preventDefault();
         const challengeUuid = this.props.challengeDetails.uuid;
@@ -103,7 +107,7 @@ export default class ChallengeDetail extends React.Component {
                         <h2>{days} day{daysNotPlural ? "" : "s"} remaining!</h2>
                         <h2 className="referralCodeHeader">
                             <div className="referralCodeWrapper">
-                                <span>Your referral code for this challenge</span>
+                                <span>Referral Code</span>
                                     <span className="referralCode" ref={(input) => this.referralCode = input}>
                                         {this.state.referralCode}
                                     </span>

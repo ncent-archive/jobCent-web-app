@@ -15,6 +15,11 @@ export default class Redeem extends React.Component {
         window.history.pushState({}, document.title, window.location.href);
     }
 
+    componentWillUnmount() {
+        this.props.removeURLParams();
+        this.props.clearErrorMessage();
+    }
+
     radioButtons() {
         let radioButtons = [];
         this.props.challengeUsers.forEach((user, index) => {

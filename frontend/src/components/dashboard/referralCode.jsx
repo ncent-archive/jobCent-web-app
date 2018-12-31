@@ -18,6 +18,11 @@ export default class ReferralCode extends React.Component {
         window.history.pushState({}, document.title, window.location.href);
     }
 
+    componentWillUnmount() {
+        this.props.removeURLParams();
+        this.props.clearErrorMessage();
+    }
+
     render() {
         let close = "";
         if (this.props.closing) {

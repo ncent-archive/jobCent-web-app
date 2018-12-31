@@ -15,6 +15,11 @@ export default class Transfer extends React.Component {
         window.history.pushState({}, document.title, window.location.href);
     }
 
+    componentWillUnmount() {
+        this.props.removeURLParams();
+        this.props.clearErrorMessage();
+    }
+
     render() {
         let close = "";
         if (this.props.closing) {
@@ -109,9 +114,9 @@ export default class Transfer extends React.Component {
                             <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                        placeholder="Total jobCents (Default of 1000)"
+                                        placeholder="Total jobCents (Default of 1,000)"
                                         autoCorrect="false" autoCapitalize="off" type="text"
-                                        onChange={this.props.update("maxShares")} maxLength="255"
+                                        onChange={this.props.update("maxShares")} maxLength="7"
                                     />
                                 </div>
                             </div>
