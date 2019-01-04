@@ -94,7 +94,9 @@ module.exports = {
 
     async share(req, res) {
         if (verifyLightFunc(req, res)) {
-            const {fromAddress, toAddress, numShares} = req.body;
+            const {numShares} = req.body;
+            fromAddress = req.body.fromAddress.toLowerCase();
+            toAddress = req.body.toAddress.toLowerCase();
             const challengeUuid = req.params.challengeUuid;
             const challengeResponse = await sdkInstance.retrieveChallenge(challengeUuid);
     
@@ -136,8 +138,9 @@ module.exports = {
 
     async redeem(req, res) {
         if (verifyLightFunc(req, res)) {
-            const {sponsorAddress, challengeUuid} = req.params;
-            const redeemerAddress = req.body.redeemerAddress;
+            const {challengeUuid} = req.params;
+            const sponsorAddress = req.params.sponsorAddress.toLowerCase();
+            const redeemerAddress = req.body.redeemerAddress.toLowerCase();
     
             const sponsor = await User.findOne({where: {email: sponsorAddress}});
             const sponsorKeypair = stellarSDK.Keypair.fromSecret(sponsor.privateKey);

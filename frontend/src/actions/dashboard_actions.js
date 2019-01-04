@@ -46,7 +46,10 @@ export const receiveChallengeUserData = challengeUserData => ({
 
 export const fetchUser = user => dispatch =>
     ApiUtil.fetchUser(user).then(
-        balance => dispatch(receiveUser(balance)),
+        balance => {
+           console.log("in fetchUser in dashboard_actions, data returned is", balance.data);
+           dispatch(receiveUser(balance))
+        },
         err => dispatch(receiveErrors(err))
     );
 

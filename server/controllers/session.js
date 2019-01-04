@@ -4,13 +4,18 @@ const saltRounds = 12;
 
 module.exports = {
     create(req, res) {
-        const email = req.body.user.email;
+        const email = req.body.user.email.toLowerCase();
         const password = req.body.user.password;
         console.log("top of create(login) in session.js", "email is", email, "password is", password, "user is ", req.body.user);
         User.findOne({ where: { email: email }})
             .then(user => {
                 console.log("user returned in create in session.js", user);
                 if (user) {
+                    if (user.hash === null) {
+
+                        return;
+                    }
+
                     if (bcrypt.compareSync(password, user.hash)) {
                         console.log("user found in create in session.js, password match");
                         user.update({ active: true })
@@ -35,7 +40,7 @@ module.exports = {
                 }
             }).catch(err => {
                 console.log("error in create in session.js, .catch", err);
-                res.status(403).send({error: "Error in create session.js"});
+                res.status(403).send({error: "There was an error. Please try again."});
             });
         // User.findOne({ where: { email: email } })
         //     .then(user => {
@@ -99,7 +104,7 @@ module.exports = {
         }
     },
     verify(req, res) {
-        console.log("verify in session.js, req.session.user", req.session.user, "req.cookies.session_token", req.cookies.session_token, "req.body.user", req.body.user);
+        console.log("verify in session.js, req.session.user", req.session.user, "req.cookies.session_token", req.cookies.session_token);
         if (req.session.user && req.cookies.session_token) {
             console.log("verify in session.js returning true");
             return res.status(200).send({sessionVerified: true, user: req.session.user});
@@ -110,11 +115,11 @@ module.exports = {
     },
     verifyLight(req, res) {
         if (!req.session.user || !req.cookies.session_token) {
+            console.log("verifyLight in session.js returning false");
             return false;
-            console.log("verifyLight in session.js returning false");
         } else {
+            console.log("verifyLight in session.js returning true");
             return true;
-            console.log("verifyLight in session.js returning false");
         }
     }
 };

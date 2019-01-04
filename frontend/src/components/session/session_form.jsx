@@ -65,6 +65,8 @@ class SessionForm extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     console.log("handleSubmit in session_form.jsx");
+    this.setState({ errorMessage: ""});
+    this.props.clearErrors();
     const processForm = this.state.formType === "signup" ? this.props.signup : this.props.login;
     const user = Object.assign({}, this.state);
 

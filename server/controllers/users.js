@@ -135,9 +135,10 @@ module.exports = {
         const user = await User.findOne({
             where: {uuid: req.params.uuid}
         });
-        console.log("user returned in getOne is", user);
+        console.log("user returned in getOne is", user.email, "publicKey is", user.publicKey, "privateKey is", user.privateKey);
         const sponsoredChallenges = await nCentSDKInstance.retrieveSponsoredChallenges(user.publicKey);
         const heldChallenges = await nCentSDKInstance.retrieveHeldChallenges(user.publicKey);
+        console.log("in getOne in users.js, sponsored challenges are", sponsoredChallenges.data, "custom message is", sponsoredChallenges.data.messageCustom, "held challenges are", heldChallenges.data);
         res.status(200).send(_.merge({}, sponsoredChallenges.data, heldChallenges.data));
     },
 
