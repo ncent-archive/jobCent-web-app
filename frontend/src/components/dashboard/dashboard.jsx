@@ -286,14 +286,14 @@ class Dashboard extends React.Component {
 
         if (!validateEmail(toAddress)) {
             this.setState({
-                errorMessage: "Please enter a valid email address"
+                errorMessage: "Please enter a valid email address."
             });
             return;
         }
 
         if (toAddress === this.props.currentUser.email) {
             this.setState({
-                errorMessage: "Please enter the email address of another user"
+                errorMessage: "Please enter the email address of another user."
             });
             return;
         }
@@ -313,7 +313,7 @@ class Dashboard extends React.Component {
                                 this.setState({
                                     sponsoredChallenges: userData.sponsoredChallenges,
                                     heldChallenges: userData.heldChallenges,
-                                    successMessage: `You have successfully sent ${this.state.numShares} jobCent(s) to ${this.state.toAddress}`,
+                                    successMessage: `You have successfully sent ${this.state.numShares} jobCent(s) to ${this.state.toAddress}.`,
                                     formType: 'jobCents',
                                     maxShares: 1000,
                                     challengeDuration: 90,
@@ -335,14 +335,14 @@ class Dashboard extends React.Component {
         e.preventDefault();
         if (!this.state.agreement) {
             this.setState({
-                errorMessage: "Please click the checkbox to agree to the challenge bounty"
+                errorMessage: "Please click the checkbox to agree to the challenge bounty."
             });
             return;
         }
 
         if (isNaN(parseFloat(this.state.rewardAmount))) {
             this.setState({
-                errorMessage: "Reward amount must be a number"
+                errorMessage: "Reward amount must be a number."
             });
             return;
         }

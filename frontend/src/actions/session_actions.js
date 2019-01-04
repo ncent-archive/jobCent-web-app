@@ -22,9 +22,12 @@ export const login = user => dispatch =>
     userP => {
       console.log("in login in session_actions, user about to be dispatched is", userP.data);
       dispatch(receiveCurrentUser(userP.data));
+      return userP;
     },
     err => {
+      console.log("in login in session_actions, err", err, "err.response.data", err.response.data);
       dispatch(receiveErrors(err.response.data));
+      return err.response.data;
     }
   );
 
@@ -35,6 +38,7 @@ export const sessionLogin = user => dispatch =>
       dispatch(receiveCurrentUser(user.data.user));
     },
     err => {
+      console.log("in sessionLogin in session_actions, err", err);
       dispatch(receiveErrors(err.response.data));
     }
   )
@@ -50,6 +54,13 @@ export const logout = () => dispatch =>
 
 export const signup = user => dispatch =>
   ApiUtil.signup(user).then(
-    userP => userP,
-    err => dispatch(receiveErrors(err.response.data))
+    userP => {
+      console.log("in singup on session_actions, user returned is", userP);
+      return userP;
+    },
+    err => {
+      console.log("in singup on session_actions, error", err);
+      dispatch(receiveErrors(err.response.data));
+      return err.response.data;
+    }
   );

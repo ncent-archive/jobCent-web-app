@@ -27,15 +27,15 @@ module.exports = {
                             });
                     } else {
                         console.log("password mismatch in session.js in create");
-                        res.status(403).send("Username and password do not match.");
+                        res.status(403).send({error: "Username and password do not match."});
                     }
                 } else {
                     console.log("user NOT found in create in session.js");
-                    res.status(403).send("User not found.");
+                    res.status(403).send({error: "User not found."});
                 }
             }).catch(err => {
                 console.log("error in create in session.js, .catch", err);
-                res.send("Error in create session.js")
+                res.status(403).send({error: "Error in create session.js"});
             });
         // User.findOne({ where: { email: email } })
         //     .then(user => {

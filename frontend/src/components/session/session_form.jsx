@@ -21,9 +21,11 @@ class SessionForm extends React.Component {
     };
 
 
-    this.returnToSignUp = this.returnToSignUp.bind(this);
+    this.switchToSignUp = this.switchToSignUp.bind(this);
     this.enterKey = this.enterKey.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
+    this.switchToLogin = this.switchToLogin.bind(this);
+    this.clearErrorMsg = this.clearErrorMsg.bind(this);
   }
 
   update(input) {
@@ -37,7 +39,7 @@ class SessionForm extends React.Component {
     this.props.clearErrors();
     let currentForm = window.location.pathname.slice(1);
     this.setState({ formType: currentForm });
-    this.updateTitle();
+    setTimeout(() => {this.updateTitle()});
   }
 
   componentDidMount() {
@@ -54,6 +56,10 @@ class SessionForm extends React.Component {
 
   updateTitle() {
     document.title = `jobCent - ${this.state.formType === "login" ? "Log in" : "Sign Up"}`;
+  }
+
+  clearErrorMsg() {
+    this.setState({ errorMessage: "" });
   }
 
   handleSubmit = e => {
@@ -77,16 +83,15 @@ class SessionForm extends React.Component {
       } else {
         this.setState({ errorMessage: "" });
         console.log("in session_form.jsx, state being sent to signup func is", this.state);
-        this.props.signup(user).then(user => {
-          console.log("in session_form.jsx, signup function returned, user returned is", user);
-          if (user.data.errorMessage) {
-            this.setState({ errorMessage: user.data.errorMessage });
+        this.props.signup(user).then(res => {
+          console.log("in session_form.jsx, signup function returned, user returned is", res);
+          if (res.error) {
+            this.setState({ errorMessage: res.error });
             return;
           } else {
             console.log("else statement in signup in session_form.js, formType is", this.state.formType);
             if (this.state.formType === "signup") {
               this.setState({ formType: "login" });
-                // window.history.pushState({}, "Login", "/login");
                 this.props.history.push("/login");
                 this.updateTitle();
             }
@@ -96,21 +101,26 @@ class SessionForm extends React.Component {
         });
       }
     } else {
-      let credentials = {
-        email: this.state.emailLogin,
-        password: this.state.passwordLogin
-      };
-      console.log("about to send credentials to backend for login", credentials);
-      this.props.login(credentials).then(user => {
-        console.log("login in session_form just returned", user);
-      //   setTimeout(function() {console.log("delayed logging of user in session_form login", user)}.bind(this), 1500);
-      //   if (user.data.errorMessage) {
-      //     this.setState({ errorMessage: user.data.errorMessage });
-      //   }
-      // }).catch(err => {
-      //   console.log("catch in .then in login in session_form.jsx", err);
-      //   this.setState({ errorMessage: err});
-      });
+      if (this.state.emailLogin.length === 0 || this.state.passwordLogin.length === 0) {
+        this.setState({ errorMessage: "Please fill in all fields." });
+        return;
+      } else if (!this.state.emailLogin.match(/[^@]+@\w+\.\w+((\.\w+)(?!\1\.{2,)*?)*/gim)) {
+        this.setState({ errorMessage: "Please enter a valid email." });
+        return;
+      } else {
+        let credentials = {
+          email: this.state.emailLogin,
+          password: this.state.passwordLogin
+        };
+        console.log("about to send credentials to backend for login", credentials);
+        this.props.login(credentials).then(res => {
+          console.log("login in session_form just returned", res);
+          if (res.error) {
+            this.setState({ errorMessage: res.error });
+            return;
+          }
+        });
+      }
     }
   };
       
@@ -121,11 +131,29 @@ class SessionForm extends React.Component {
     // }
   }
 
-  returnToSignUp() {
+  switchToSignUp() {
+    this.clearErrorMsg();
     this.setState({
         formType: "signup"
     });
+    setTimeout(() => {
+      this.updateTitle();
+      window.history.pushState({}, "jobCent", "/signup");
+    });
   }
+
+  switchToLogin() {
+    this.clearErrorMsg();
+    this.setState({
+      formType: "login"
+    });
+    setTimeout(() => {
+      this.updateTitle();
+      window.history.pushState({}, "jobCent", "/login");
+    });
+  }
+
+
 
   render() {
     if (this.state.formType === "signup") {
@@ -203,6 +231,7 @@ class SessionForm extends React.Component {
                     </div>
                   </div>
                 </form>
+                <span className="returnToSignup">Already have an account? Click <a className="signupLink" onClick={this.switchToLogin}>here</a> to log in.</span>
               </div>
             </section>
             <div className="modal-manager ">
@@ -221,6 +250,7 @@ class SessionForm extends React.Component {
                 <h1 className="step-title">
                   Please log in.
                 </h1>
+                <span className="errorMessage">{this.state.errorMessage}</span>
 
                 <form
                   autoComplete="off"
@@ -272,7 +302,7 @@ class SessionForm extends React.Component {
                     </div>
                   </div>
                 </form>
-                <span className="returnToSignup">Wrong email address? Click <a className="signupLink" onClick={this.returnToSignUp}>here</a> to start over</span>
+                <span className="returnToSignup">Don't have an account? Click <a className="signupLink" onClick={this.switchToSignUp}>here</a> to sign up.</span>
               </div>
             </section>
             <div className="modal-manager ">

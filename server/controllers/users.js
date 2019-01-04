@@ -29,7 +29,8 @@ module.exports = {
         User.findOne({where: {email: email}}).then((user) => {
             if (user) {
                 console.log("create in users.js, user found!");
-                res.status(200).send({errorMessage: "User already exists."});
+                res.status(403).send({ error: "User already exists." });
+                return;
             } else {
                 console.log("create in users.js, user NOT found!");
                 bcrypt.hash(password, saltRounds)
