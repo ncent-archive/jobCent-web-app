@@ -14,9 +14,9 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        hash: {
-            type: DataTypes.STRING
-        },
+        // hash: {
+        //     type: DataTypes.STRING
+        // },
         publicKey: {
             type: DataTypes.STRING
         },

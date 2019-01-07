@@ -56,8 +56,8 @@ module.exports = {
         //     }
         // });
 
-        //                              Code-based login (magic link)
-        User.findOne({where: {email: emailAddr}}).then(user => {
+        //                              Code-based signup (magic link)
+        User.findOne({where: {email: email}}).then(user => {
             if (user) {
                 return user
                     .update({
@@ -66,7 +66,7 @@ module.exports = {
                     })
                     .then(user => {
                         const validCode = bcrypt.compareSync(token, tokenHash);
-                        awsEmail.sendMail(keys.from, emailAddr, {token});
+                        awsEmail.sendMail(keys.from, email, {token});
                         res.status(200).send(user.email);
                     })
                     .catch(error => res.status(400).send(error));
@@ -74,7 +74,7 @@ module.exports = {
                 let data = {};
                 if (otpReq) {
                     return User.create({
-                        email: emailAddr,
+                        email: email,
                         otpKey: tokenHash,
                         otpExp: otpExp
                     })
@@ -94,7 +94,7 @@ module.exports = {
                         })
                         .then(user => {
                             const validCode = otplib.authenticator.check(token, otpKey);
-                            awsEmail.sendMail(keys.from, emailAddr, {token});
+                            awsEmail.sendMail(keys.from, email, {token});
                             res.status(201).send(user);
                         })
                         .catch(error => {
@@ -102,7 +102,7 @@ module.exports = {
                         });
                 } else {
                     return User.create({
-                        email: emailAddr
+                        email: email
                     })
                         .then(user => {
                             data.user = user;

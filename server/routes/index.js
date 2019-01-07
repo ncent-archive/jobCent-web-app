@@ -41,5 +41,5 @@ module.exports = (app) => {
 
     app.get("/api/session", sessionController.verify);
 
-    app.patch("/api/challengeUsers/:userUuid/:challengeUuid", challengeUsersController.setTokensPerReferral)
+    app.patch("/api/challengeUsers/:userUuid/:challengeUuid", challengeUsersController.setTokensPerReferral);
 };

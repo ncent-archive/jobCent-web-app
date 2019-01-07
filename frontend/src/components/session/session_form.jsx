@@ -67,63 +67,91 @@ class SessionForm extends React.Component {
     console.log("handleSubmit in session_form.jsx");
     this.setState({ errorMessage: ""});
     this.props.clearErrors();
-    const processForm = this.state.formType === "signup" ? this.props.signup : this.props.login;
+    // const processForm = this.state.formType === "signup" ? this.props.signup : this.props.login;
     const user = Object.assign({}, this.state);
 
+    //              Traditional User/Pass Login
+    // if (this.state.formType === "signup") {
+    //   if (this.state.email.length === 0 ||
+    //   this.state.password.length === 0 ||
+    //   this.state.confirmPassword.length === 0) {
+    //     this.setState({ errorMessage: "Please fill in all fields." });
+    //     return;
+    //   } else if (!this.state.email.match(/[^@]+@\w+\.\w+((\.\w+)(?!\1\.{2,)*?)*/gim)) {
+    //     this.setState({ errorMessage: "Please enter a valid email."})
+    //     return;
+    //   } else if (this.state.password !== this.state.confirmPassword) {
+    //     this.setState({ errorMessage: "Passwords don't match." });
+    //     return;
+    //   } else {
+    //     this.setState({ errorMessage: "" });
+    //     console.log("in session_form.jsx, state being sent to signup func is", this.state);
+    //     this.props.signup(user).then(res => {
+    //       console.log("in session_form.jsx, signup function returned, user returned is", res);
+    //       if (res.error) {
+    //         this.setState({ errorMessage: res.error });
+    //         return;
+    //       } else {
+    //         console.log("else statement in signup in session_form.js, formType is", this.state.formType);
+    //         if (this.state.formType === "signup") {
+    //           this.setState({ formType: "login" });
+    //             this.props.history.push("/login");
+    //             this.updateTitle();
+    //         }
+    //       }
+    //     }).catch(err => {
+    //       this.setState({ errorMessage: "There was an error. Please try again."})
+    //     });
+    //   }
+    // } else {
+    //   if (this.state.emailLogin.length === 0 || this.state.passwordLogin.length === 0) {
+    //     this.setState({ errorMessage: "Please fill in all fields." });
+    //     return;
+    //   } else if (!this.state.emailLogin.match(/[^@]+@\w+\.\w+((\.\w+)(?!\1\.{2,)*?)*/gim)) {
+    //     this.setState({ errorMessage: "Please enter a valid email." });
+    //     return;
+    //   } else {
+    //     let credentials = {
+    //       email: this.state.emailLogin,
+    //       password: this.state.passwordLogin
+    //     };
+    //     console.log("about to send credentials to backend for login", credentials);
+    //     this.props.login(credentials).then(res => {
+    //       console.log("login in session_form just returned", res);
+    //       if (res.error) {
+    //         this.setState({ errorMessage: res.error });
+    //         return;
+    //       }
+    //     });
+    //   }
+    // }
+
+    //              Code-based Authentication (magic link)
     if (this.state.formType === "signup") {
-      if (this.state.email.length === 0 ||
-      this.state.password.length === 0 ||
-      this.state.confirmPassword.length === 0) {
-        this.setState({ errorMessage: "Please fill in all fields." });
+      if (this.state.email.length === 0) {
+        this.setState({ errorMessage: "Please fill in your email." });
         return;
       } else if (!this.state.email.match(/[^@]+@\w+\.\w+((\.\w+)(?!\1\.{2,)*?)*/gim)) {
-        this.setState({ errorMessage: "Please enter a valid email."})
-        return;
-      } else if (this.state.password !== this.state.confirmPassword) {
-        this.setState({ errorMessage: "Passwords don't match." });
+        console.log("noemailmatch");
+        this.setState({ errorMessage: "Please enter a valid email." });
         return;
       } else {
-        this.setState({ errorMessage: "" });
-        console.log("in session_form.jsx, state being sent to signup func is", this.state);
+        this.setState({ errorMessage: ""});
         this.props.signup(user).then(res => {
-          console.log("in session_form.jsx, signup function returned, user returned is", res);
           if (res.error) {
             this.setState({ errorMessage: res.error });
             return;
           } else {
-            console.log("else statement in signup in session_form.js, formType is", this.state.formType);
-            if (this.state.formType === "signup") {
-              this.setState({ formType: "login" });
-                this.props.history.push("/login");
-                this.updateTitle();
-            }
+            this.switchToLogin();
           }
         }).catch(err => {
-          this.setState({ errorMessage: "There was an error. Please try again."})
+          this.setState({ errorMessage: "There was an error. Please try again." });
         });
       }
     } else {
-      if (this.state.emailLogin.length === 0 || this.state.passwordLogin.length === 0) {
-        this.setState({ errorMessage: "Please fill in all fields." });
-        return;
-      } else if (!this.state.emailLogin.match(/[^@]+@\w+\.\w+((\.\w+)(?!\1\.{2,)*?)*/gim)) {
-        this.setState({ errorMessage: "Please enter a valid email." });
-        return;
-      } else {
-        let credentials = {
-          email: this.state.emailLogin,
-          password: this.state.passwordLogin
-        };
-        console.log("about to send credentials to backend for login", credentials);
-        this.props.login(credentials).then(res => {
-          console.log("login in session_form just returned", res);
-          if (res.error) {
-            this.setState({ errorMessage: res.error });
-            return;
-          }
-        });
-      }
+
     }
+
   };
       
   enterKey(e) {
@@ -189,7 +217,7 @@ class SessionForm extends React.Component {
                       onChange={this.update("email")}
                     />
                   </div>
-                  <div className="field">
+                  {/* <div className="field">
                     <input
                       id="textPassword"
                       type="text"
@@ -219,7 +247,7 @@ class SessionForm extends React.Component {
                       type="password"
                       onKeyDown={this.enterKey}
                     />
-                  </div>
+                  </div> */}
                   <div className="alias-submit">
                     <div className="submit-button-component ">
                       <button
