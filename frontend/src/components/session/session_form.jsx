@@ -51,7 +51,7 @@ class SessionForm extends React.Component {
 
   componentWillReceiveProps() {
     if (this.state.formType === "signup") {
-      document.getElementById("textEmail").value = "";
+      // document.getElementById("textEmail").value = "";
     }
   }
 
@@ -194,7 +194,8 @@ class SessionForm extends React.Component {
               this.setState({ errorMessage: res.error });
               return;
             } else {
-
+              console.log("login successful in session_form.js");
+              this.props.history.push("/dashboard");
             }
           }).catch(err => {
             console.log(".catch of login in session_form.jsx", err);
@@ -220,18 +221,27 @@ class SessionForm extends React.Component {
     });
     setTimeout(() => {
       this.updateTitle();
-      window.history.pushState({}, "jobCent", "/signup");
+      // this.props.history.push("/signup");
     });
   }
 
   switchToLogin() {
     this.clearErrorMsg();
     this.setState({
-      formType: "login"
+      formType: "login",
+      emailLogin: this.state.email
     });
     setTimeout(() => {
+      console.log("current emailLogin", this.state.emailLogin);
       this.updateTitle();
-      window.history.pushState({}, "jobCent", "/login");
+      // this.props.history.push({
+      //   pathname: "/login",
+      //   state: {
+      //     emailLogin: this.state.email
+      //   }
+      // });
+      // this.setState({ emailLogin: this.props.location.state.emailLogin });
+      // console.log("emailLogin after history push", this.state.emailLogin);
     });
   }
 
@@ -253,7 +263,7 @@ class SessionForm extends React.Component {
                   spellCheck="true"
                   noValidate="true"
                   className="login-form"
-                  // onSubmit={this.handleSubmit}
+                  onSubmit={this.handleSubmit}
                 >
                   <div className="field">
                     <input
@@ -354,6 +364,7 @@ class SessionForm extends React.Component {
                       placeholder="Email"
                       onChange={this.update("emailLogin")}
                       onKeyPress={this.enterKey}
+                      value={this.state.emailLogin}
                     />
                   </div>
 

@@ -57,6 +57,7 @@ module.exports = {
         // });
 
         //                              Code-based signup (magic link)
+        console.log("create in users.js", email);
         User.findOne({where: {email: email}}).then(user => {
             if (user) {
                 console.log("in create in users.js, user already found")
