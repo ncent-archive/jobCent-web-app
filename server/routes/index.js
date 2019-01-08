@@ -33,6 +33,9 @@ module.exports = (app) => {
     // logs the user in from login page
     app.post("/api/session", sessionController.create);
 
+    //send confirmation code to email via aws
+    app.post("/api/session/mail", sessionController.sendMail);
+
     // logs in user via session
     app.post("/api/session/confirm", sessionController.verify);
 

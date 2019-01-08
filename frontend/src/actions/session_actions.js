@@ -31,6 +31,13 @@ export const login = user => dispatch =>
     }
   );
 
+export const sendMail = email => dispatch =>
+  ApiUtil.sendMail(email).then((res) => {
+      console.log("in sendMail in session_actions.js, just sent mail to", email);
+      return res;
+    }
+  )
+
 export const sessionLogin = user => dispatch =>
   ApiUtil.sessionLogin(user).then(
     user => {

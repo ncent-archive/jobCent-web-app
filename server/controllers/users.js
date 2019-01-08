@@ -59,77 +59,35 @@ module.exports = {
         //                              Code-based signup (magic link)
         User.findOne({where: {email: email}}).then(user => {
             if (user) {
-                return user
-                    .update({
-                        otpKey: tokenHash,
-                        otpExp: otpExp
-                    })
-                    .then(user => {
-                        const validCode = bcrypt.compareSync(token, tokenHash);
-                        awsEmail.sendMail(keys.from, email, {token});
-                        res.status(200).send(user.email);
-                    })
-                    .catch(error => res.status(400).send(error));
-            } else if (validEmail) {
-                let data = {};
-                if (otpReq) {
-                    return User.create({
-                        email: email,
-                        otpKey: tokenHash,
-                        otpExp: otpExp
-                    })
-                        .then(user => {
-                            data.user = user;
-
-                            const wallet = nCentSDKInstance.createWalletAddress();
-                            data.privateKey = wallet.secret();
-                            data.publicKey = wallet.publicKey();
-                            return data;
-                        })
-                        .then(data => {
-                            return data.user.update({
-                                publicKey: data.publicKey,
-                                privateKey: data.privateKey
-                            });
-                        })
-                        .then(user => {
-                            const validCode = otplib.authenticator.check(token, otpKey);
-                            awsEmail.sendMail(keys.from, email, {token});
-                            res.status(201).send(user);
-                        })
-                        .catch(error => {
-                            res.status(400).send(error);
-                        });
-                } else {
-                    return User.create({
-                        email: email
-                    })
-                        .then(user => {
-                            data.user = user;
-
-                            const wallet = nCentSDKInstance.createWalletAddress();
-                            data.privateKey = wallet.secret();
-                            data.publicKey = wallet.publicKey();
-                            return data;
-                        })
-                        .then(data => {
-                            return data.user.update({
-                                publicKey: data.publicKey,
-                                privateKey: data.privateKey
-                            });
-                        })
-                        .then(user => {
-                            res.status(201).send(user);
-                        })
-                        .catch(error => {
-                            res.status(400).send(error);
-                        });
-                }
+                console.log("in create in users.js, user already found")
+                return res.status(200).send({ error: "User already exists." });
             } else {
-                res.status(400).send({errors: ["Invalid email address"]});
+                return User.create({
+                    email: email
+                })
+                .then(user => {
+                    data = {};
+
+                    const wallet = nCentSDKInstance.createWalletAddress();
+                    data.privateKey = wallet.secret();
+                    data.publicKey = wallet.publicKey();
+                    return {data: data, user: user};
+                })
+                .then(obj => {
+                    return obj.user.update({
+                        publicKey: obj.data.publicKey,
+                        privateKey: obj.data.privateKey
+                    });
+                })
+                .then(user => {
+                    res.status(201).send(user);
+                })
+                .catch(error => {
+                    console.log(".catch in create in users.js", error);
+                    res.status(400).send(error);
+                });
             }
         });
-        
     },
 
     async getOne(req, res) {

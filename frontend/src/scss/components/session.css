@@ -63,6 +63,10 @@
   width: 100%;
 }
 
+.requestCode {
+  margin-bottom: 15px;
+}
+
 .returnToSignup {
   color: white;
   font-size: 18px;
@@ -72,6 +76,10 @@
   min-height: 2.4em;
   text-align: center;
   width: 100%;
+}
+
+.preWS {
+  white-space: pre;
 }
 
 .login-form {

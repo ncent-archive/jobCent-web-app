@@ -3,7 +3,7 @@ import {merge} from "lodash";
 
 export const login = user => {
     console.log("login in session_api_util.js", user);
-    return axios.post("api/session", {user});
+    return axios.post("api/session", user);
 };
 export const logout = () => axios.delete("api/session");
 export const sessionLogin = user => {
@@ -15,6 +15,10 @@ export const fetchUser = user => {
     console.log("fetchUser in session_api_util.js", user);
     return axios.get("api/users/" + user.uuid);
 };
+export const sendMail = email => {
+    console.log("sendMail in session_api_util.js", email);
+    return axios.post("api/session/mail", email);
+}
 export const shareChallenge = (challengeUuid, fromAddress, toAddress, numShares) => axios.patch(`api/challenges/${challengeUuid}`, {
     fromAddress,
     toAddress,

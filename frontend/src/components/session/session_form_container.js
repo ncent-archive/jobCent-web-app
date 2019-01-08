@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import SessionForm from './session_form';
-import { login, signup, clearErrors } from '../../actions/session_actions';
+import { login, signup, clearErrors, sendMail } from '../../actions/session_actions';
 
 const mapStateToProps = (state, ownProps) => ({
     path: ownProps.test,
@@ -14,6 +14,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         signup: user => dispatch(signup(user)),
         clearErrors: () => dispatch(clearErrors()),
         login: user => dispatch(login(user)),
+        sendMail: email => dispatch(sendMail(email)),
         formType,
     };
 };

@@ -17,7 +17,8 @@ class SessionForm extends React.Component {
       confirmPassword: "",
       emailLogin: "",
       passwordLogin: "",
-      errorMessage: ""
+      errorMessage: "",
+      codeMessage: ""
     };
 
 
@@ -127,6 +128,7 @@ class SessionForm extends React.Component {
     // }
 
     //              Code-based Authentication (magic link)
+    console.log(e.target);
     if (this.state.formType === "signup") {
       if (this.state.email.length === 0) {
         this.setState({ errorMessage: "Please fill in your email." });
@@ -138,8 +140,9 @@ class SessionForm extends React.Component {
       } else {
         this.setState({ errorMessage: ""});
         this.props.signup(user).then(res => {
-          if (res.error) {
-            this.setState({ errorMessage: res.error });
+          console.log("in handle in session_form, signup just returned", res);
+          if (res.data.error) {
+            this.setState({ errorMessage: res.data.error });
             return;
           } else {
             this.switchToLogin();
@@ -149,16 +152,65 @@ class SessionForm extends React.Component {
         });
       }
     } else {
+      if (e.target.id === "textEmailLogin" || e.target.id === "requestCodeBtn") {
+        this.setState({ errorMessage: "" });
+        if (this.state.emailLogin.length === 0) {
+          this.setState({ errorMessage: "Please enter your email." });
+          return;
+        } else if (!this.state.emailLogin.match(/[^@]+@\w+\.\w+((\.\w+)(?!\1\.{2,)*?)*/gim)) {
+          this.setState({ errorMessage: "Please enter a valid email." });
+          return;
+        } else {
+          this.setState({ codeMessage: "" });
+          this.props.sendMail({ email: this.state.emailLogin }).then(res => {
+            if (res.data.error) {
+              this.setState({ errorMessage: res.data.error });
+              return;
+            } else if (res.data.message === "Mail sent.") {
+              this.setState({ codeMessage: "Mail sent!\nPlease check your email." });
+              return;
+            } else {
+              this.setState({ errorMessage: "Something went wrong. Please try again." });
+              return;
+            }
+          }).catch(err => {
+            this.setState({ errorMessage: "There was an error. Please try again." });
+          });
+        }
+      } else {
+        if (this.state.emailLogin.length === 0) {
+          this.setState({ errorMessage: "Please enter your email." });
+          return;
+        } else if (!this.state.emailLogin.match(/[^@]+@\w+\.\w+((\.\w+)(?!\1\.{2,)*?)*/gim)) {
+          this.setState({ errorMessage: "Please enter a valid email." });
+          return;
+        } else if (this.state.passwordLogin.length === 0) {
+          this.setState({ errorMessage: "Please enter the code sent to your email." });
+          return;
+        } else {
+          this.props.login({ email: this.state.emailLogin, code: this.state.passwordLogin }).then(res => {
+            console.log(".then after login in session_form.jsx", res);
+            if (res.error) {
+              this.setState({ errorMessage: res.error });
+              return;
+            } else {
 
+            }
+          }).catch(err => {
+            console.log(".catch of login in session_form.jsx", err);
+            this.setState({ errorMessage: err.error || "There was an error.  Please try again." });
+          })
+        }
+      }
     }
 
   };
       
   enterKey(e) {
     // console.log(e.target);
-    // if (e.key === "Enter") {
-    //   this.handleSubmit(e);
-    // }
+    if (e.key === "Enter") {
+      this.handleSubmit(e);
+    }
   }
 
   switchToSignUp() {
@@ -201,7 +253,7 @@ class SessionForm extends React.Component {
                   spellCheck="true"
                   noValidate="true"
                   className="login-form"
-                  onSubmit={this.handleSubmit}
+                  // onSubmit={this.handleSubmit}
                 >
                   <div className="field">
                     <input
@@ -301,8 +353,26 @@ class SessionForm extends React.Component {
                       className="text-field"
                       placeholder="Email"
                       onChange={this.update("emailLogin")}
+                      onKeyPress={this.enterKey}
                     />
                   </div>
+
+                  <div className="alias-submit requestCode">
+                    <div className="submit-button-component ">
+                      <button
+                        onClick={this.handleSubmit}
+                        aria-label="Request Sign In Code"
+                        className="theme-button"
+                        id="requestCodeBtn"
+                      >
+                        Request Code
+                      </button>
+                      <div className="spinner-container " />
+                    </div>
+                  </div>
+                  <br />
+                  <span className="step-title preWS">{this.state.codeMessage}</span>
+                  <br />
                   <div className="field">
                     <input
                       id="textPasswordLogin"
@@ -313,8 +383,9 @@ class SessionForm extends React.Component {
                       spellCheck="false"
                       autoCapitalize="none"
                       className="text-field"
-                      placeholder="Password"
+                      placeholder="Code"
                       onChange={this.update("passwordLogin")}
+                      onKeyPress={this.enterKey}
                       type="password"
                     />
                   </div>
@@ -322,9 +393,10 @@ class SessionForm extends React.Component {
                   <div className="alias-submit">
                     <div className="submit-button-component ">
                       <button
-                        type="submit"
+                        onClick={this.handleSubmit}
                         aria-label="Request Sign In Code"
                         className="theme-button"
+                        button="loginBtn"
                       >
                         Log In
                       </button>
