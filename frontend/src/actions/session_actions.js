@@ -37,20 +37,12 @@ export const sendMail = email => dispatch =>
 
 export const sessionLogin = user => async (dispatch) => {
   let userP;
-  try {
-    userP = await ApiUtil.sessionLogin(user);
+  userP = await ApiUtil.sessionLogin(user);
+  if (userP.status >= 200 && userP.status < 300) {
     dispatch(receiveCurrentUser(userP.data.user));
-  } catch (err) {
-    dispatch(receiveErrors(err.response.data));
+  } else {
+    dispatch(receiveErrors(userP.response.data));
   }
-  // ApiUtil.sessionLogin(user).then(
-  //   user => {
-  //     dispatch(receiveCurrentUser(user.data.user));
-  //   },
-  //   err => {
-  //     dispatch(receiveErrors(err.response.data));
-  //   }
-  // )
 }
 
 
