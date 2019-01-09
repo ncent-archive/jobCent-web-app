@@ -78,6 +78,17 @@
   width: 100%;
 }
 
+.returnToLogin {
+  color: white;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  margin-top: 1vh;
+  min-height: 2.4em;
+  text-align: center;
+  width: 100%;
+}
+
 .preWS {
   white-space: pre;
 }

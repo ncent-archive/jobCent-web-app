@@ -62,7 +62,6 @@ module.exports = {
             
             const {senderPublicKey, name, description, company, imageUrl, participationUrl, rewardAmount, maxShares, challengeDuration} = req.body;
             
-            console.log("top of create in challenges.js, publicKey is", senderPublicKey, "req.body.user is ", req.body.user);
             
 
             const rewardAmountInt = parseInt(rewardAmount);
@@ -70,7 +69,6 @@ module.exports = {
     
             const user = await User.findOne({where: {publicKey: senderPublicKey}});
 
-            console.log("in create in challenges.js controller, user is", user, "obj is", { senderPublicKey, name, description, company, imageUrl, participationUrl, rewardAmount, maxShares, challengeDuration } );
 
             const senderKeypair = stellarSDK.Keypair.fromSecret(user.privateKey);
     
@@ -82,7 +80,6 @@ module.exports = {
             const createChallengeResponse = await sdkInstance.createChallenge(senderKeypair, name, description, company, imageUrl, participationUrl, expiration, tokenTypeUuid, rewardAmountInt, "NCNT", maxSharesInt);
             await createReferralCode(user.uuid, createChallengeResponse.data.challenge);
 
-            console.log("bottom of create in challenges.js controller, challenge is", createChallengeResponse.data);
     
             res.status(200).send({challenge: createChallengeResponse.data});
         } else {

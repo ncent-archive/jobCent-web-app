@@ -81,13 +81,9 @@ class Dashboard extends React.Component {
     }
 
     componentWillMount() {
-        console.log("compWillMount in dashboard.");
         axios.get("api/session")
             .then(function (verifyResp) {
-                // this.setState({spinner: false});
-                console.log("compWillMount in dashboard.jsx, get in api/session returned, response is", verifyResp);
                 if (verifyResp.data.sessionVerified) {
-                    console.log("compWillMount in dashboard.jsx, sessionVerified, user is", verifyResp.data.user);
                     this.props.sessionLogin(verifyResp.data.user);
                     // this.props.login(verifyResp.data.user)
                 }

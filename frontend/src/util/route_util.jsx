@@ -10,7 +10,6 @@ const Auth = ({component: Component, path, loggedIn}) => {
   if (paramIdx >= 0) {
     paramStr += window.location.href.slice(paramIdx);
   }
-  console.log("Auth in route_util running");
   return (
     <Route path={path} render={(props) => (
         !loggedIn ? (

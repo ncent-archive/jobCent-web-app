@@ -27,6 +27,7 @@ class SessionForm extends React.Component {
     this.updateTitle = this.updateTitle.bind(this);
     this.switchToLogin = this.switchToLogin.bind(this);
     this.clearErrorMsg = this.clearErrorMsg.bind(this);
+    this.switchToCode = this.switchToCode.bind(this)
   }
 
   update(input) {
@@ -65,7 +66,6 @@ class SessionForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log("handleSubmit in session_form.jsx");
     this.setState({ errorMessage: ""});
     this.props.clearErrors();
     // const processForm = this.state.formType === "signup" ? this.props.signup : this.props.login;
@@ -86,14 +86,11 @@ class SessionForm extends React.Component {
     //     return;
     //   } else {
     //     this.setState({ errorMessage: "" });
-    //     console.log("in session_form.jsx, state being sent to signup func is", this.state);
     //     this.props.signup(user).then(res => {
-    //       console.log("in session_form.jsx, signup function returned, user returned is", res);
     //       if (res.error) {
     //         this.setState({ errorMessage: res.error });
     //         return;
     //       } else {
-    //         console.log("else statement in signup in session_form.js, formType is", this.state.formType);
     //         if (this.state.formType === "signup") {
     //           this.setState({ formType: "login" });
     //             this.props.history.push("/login");
@@ -116,9 +113,7 @@ class SessionForm extends React.Component {
     //       email: this.state.emailLogin,
     //       password: this.state.passwordLogin
     //     };
-    //     console.log("about to send credentials to backend for login", credentials);
     //     this.props.login(credentials).then(res => {
-    //       console.log("login in session_form just returned", res);
     //       if (res.error) {
     //         this.setState({ errorMessage: res.error });
     //         return;
@@ -128,19 +123,16 @@ class SessionForm extends React.Component {
     // }
 
     //              Code-based Authentication (magic link)
-    console.log(e.target);
     if (this.state.formType === "signup") {
       if (this.state.email.length === 0) {
         this.setState({ errorMessage: "Please fill in your email." });
         return;
       } else if (!this.state.email.match(/[^@]+@\w+\.\w+((\.\w+)(?!\1\.{2,)*?)*/gim)) {
-        console.log("noemailmatch");
         this.setState({ errorMessage: "Please enter a valid email." });
         return;
       } else {
         this.setState({ errorMessage: ""});
         this.props.signup(user).then(res => {
-          console.log("in handle in session_form, signup just returned", res);
           if (res.data.error) {
             this.setState({ errorMessage: res.data.error });
             return;
@@ -151,7 +143,7 @@ class SessionForm extends React.Component {
           this.setState({ errorMessage: "There was an error. Please try again." });
         });
       }
-    } else {
+    } else if (this.state.formType === "login") {
       if (e.target.id === "textEmailLogin" || e.target.id === "requestCodeBtn") {
         this.setState({ errorMessage: "" });
         if (this.state.emailLogin.length === 0) {
@@ -167,7 +159,8 @@ class SessionForm extends React.Component {
               this.setState({ errorMessage: res.data.error });
               return;
             } else if (res.data.message === "Mail sent.") {
-              this.setState({ codeMessage: "Mail sent!\nPlease check your email." });
+              this.setState({ codeMessage: `Mail sent to ${this.state.emailLogin}!\nPlease check your email.` });
+              this.switchToCode();
               return;
             } else {
               this.setState({ errorMessage: "Something went wrong. Please try again." });
@@ -177,38 +170,27 @@ class SessionForm extends React.Component {
             this.setState({ errorMessage: "There was an error. Please try again." });
           });
         }
+      }
+    } else {
+      if (this.state.passwordLogin.length === 0) {
+        this.setState({ errorMessage: "Please enter the code sent to your email." });
+        return;
       } else {
-        if (this.state.emailLogin.length === 0) {
-          this.setState({ errorMessage: "Please enter your email." });
-          return;
-        } else if (!this.state.emailLogin.match(/[^@]+@\w+\.\w+((\.\w+)(?!\1\.{2,)*?)*/gim)) {
-          this.setState({ errorMessage: "Please enter a valid email." });
-          return;
-        } else if (this.state.passwordLogin.length === 0) {
-          this.setState({ errorMessage: "Please enter the code sent to your email." });
-          return;
-        } else {
-          this.props.login({ email: this.state.emailLogin, code: this.state.passwordLogin }).then(res => {
-            console.log(".then after login in session_form.jsx", res);
-            if (res.error) {
-              this.setState({ errorMessage: res.error });
-              return;
-            } else {
-              console.log("login successful in session_form.js");
-              this.props.history.push("/dashboard");
-            }
-          }).catch(err => {
-            console.log(".catch of login in session_form.jsx", err);
-            this.setState({ errorMessage: err.error || "There was an error.  Please try again." });
-          })
-        }
+        this.props.login({ email: this.state.emailLogin, code: this.state.passwordLogin }).then(res => {
+          if (res.error) {
+            this.setState({ errorMessage: res.error });
+            return;
+          } else {
+            this.props.history.push("/dashboard");
+          }
+        }).catch(err => {
+          this.setState({ errorMessage: err.error || "There was an error.  Please try again." });
+        })
       }
     }
-
   };
       
   enterKey(e) {
-    // console.log(e.target);
     if (e.key === "Enter") {
       this.handleSubmit(e);
     }
@@ -221,7 +203,7 @@ class SessionForm extends React.Component {
     });
     setTimeout(() => {
       this.updateTitle();
-      // this.props.history.push("/signup");
+      this.props.history.push("/signup");
     });
   }
 
@@ -232,16 +214,15 @@ class SessionForm extends React.Component {
       emailLogin: this.state.email
     });
     setTimeout(() => {
-      console.log("current emailLogin", this.state.emailLogin);
       this.updateTitle();
-      // this.props.history.push({
-      //   pathname: "/login",
-      //   state: {
-      //     emailLogin: this.state.email
-      //   }
-      // });
-      // this.setState({ emailLogin: this.props.location.state.emailLogin });
-      // console.log("emailLogin after history push", this.state.emailLogin);
+      this.props.history.push("/login");
+    });
+  }
+
+  switchToCode() {
+    this.clearErrorMsg();
+    this.setState({
+      formType: "code"
     });
   }
 
@@ -332,7 +313,7 @@ class SessionForm extends React.Component {
           </div>
         </div>
       );
-    } else {
+    } else if (this.state.formType === "login") {
       return (
         <div className="signup-form">
           <div className="signup-component">
@@ -381,8 +362,36 @@ class SessionForm extends React.Component {
                       <div className="spinner-container " />
                     </div>
                   </div>
-                  <br />
-                  <span className="step-title preWS">{this.state.codeMessage}</span>
+                </form>
+                <span className="returnToSignup">Don't have an account? Click <a className="signupLink" onClick={this.switchToSignUp}>here</a> to sign up.</span>
+              </div>
+            </section>
+            <div className="modal-manager ">
+              <div className="modal-overlay " />
+            </div>
+          </div>
+        </div>
+      );
+    } else if (this.state.formType === "code") {
+      return (
+        <div className="signup-form">
+          <div className="signup-component">
+            <div />
+            <section className="flex-container">
+              <div className="login-container">
+                {/* <h1 className="step-title">
+                  Please log in.
+                </h1> */}
+                <span className="step-title preWS">{this.state.codeMessage}</span>
+                <span className="errorMessage">{this.state.errorMessage}</span>
+                <form
+                  autoComplete="off"
+                  spellCheck="true"
+                  noValidate="true"
+                  className="login-form"
+                  onSubmit={this.handleSubmit}
+                >
+ 
                   <br />
                   <div className="field">
                     <input
@@ -416,6 +425,7 @@ class SessionForm extends React.Component {
                   </div>
                 </form>
                 <span className="returnToSignup">Don't have an account? Click <a className="signupLink" onClick={this.switchToSignUp}>here</a> to sign up.</span>
+                <span className="returnToLogin">Wrong email?  Click <a className="signupLink" onClick={this.switchToLogin}>here</a> to sign in with a different email.</span>
               </div>
             </section>
             <div className="modal-manager ">
@@ -423,7 +433,7 @@ class SessionForm extends React.Component {
             </div>
           </div>
         </div>
-      );
+      )
     }
   }
 }

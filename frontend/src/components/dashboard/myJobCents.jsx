@@ -30,11 +30,9 @@ export default class MyJobCents extends React.Component {
     }
 
     componentWillMount() {
-        console.log("compWillMount in myJobCents.jsx, this.props.currentUser is", this.props.currentUser);
         this.props.fetchUser(this.props.currentUser)
             .then(res => {
                 if (this.props.userData) {
-            console.log("compWillMount in myJobCents.jsx in .then, this.props.userData is", this.props.userData);
                     this.setState({
                         sponsoredChallenges: this.props.userData.sponsoredChallenges,
                         sponsoredChallengeBalances: this.props.userData.sponsoredChallengeBalances,
