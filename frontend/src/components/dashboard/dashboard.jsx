@@ -78,6 +78,8 @@ class Dashboard extends React.Component {
         this.closeWithDelay = this.closeWithDelay.bind(this);
         this.removeURLParams = this.removeURLParams.bind(this);
         this.clearErrorMessage = this.clearErrorMessage.bind(this);
+        this.expandMenu = this.expandMenu.bind(this);
+        this.collapseMenu = this.collapseMenu.bind(this);
     }
 
     componentWillMount() {
@@ -625,6 +627,18 @@ class Dashboard extends React.Component {
         this.props.logout().then(function() {this.props.history.push("/")}.bind(this));
     }
 
+    expandMenu() {
+        console.log("expanding menu, menu element is", this.menu);
+        this.menu.classList.remove("menuClosed");
+        this.menu.classList.add("menuOpen");
+    }
+
+    collapseMenu() {
+        console.log("expanding menu, menu element is", this.menu);
+        this.menu.classList.remove("menuOpen");
+        this.menu.classList.add("menuClosed");
+    }
+
     render() {
         return (
             <div>
@@ -632,6 +646,16 @@ class Dashboard extends React.Component {
                     {" "}
                     <div className="flex-container-home ">
                         <div className="layout-account-new flex-container-home ">
+                            <div className="hamburger" onClick={this.expandMenu}>
+                                
+                            </div>
+                            <div className="menuClosed"
+                            ref={(el) => this.menu = el}>
+                                        tab1 <br />
+                                        tab2 <br />
+                                        tab3 <br />
+                                        tab4
+                            </div>
                             <div className="account-navigation-bar flex-container-home">
                                 <div className="customer-info">
                                     <div className="customer-profile-simple">
@@ -701,7 +725,7 @@ class Dashboard extends React.Component {
                                     </a>
                                 </nav>
                             </div>
-                            <section className="yield-content">
+                            <section className="yield-content" onClick={this.collapseMenu}>
                                 {this.jobCentsTab()}
                                 {this.signOutTab(this.props.logout)}
                                 {this.transferTab()}

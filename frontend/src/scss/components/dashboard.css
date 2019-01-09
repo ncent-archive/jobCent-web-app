@@ -441,6 +441,10 @@
     z-index: 1;
 }
 
+body {
+    background-color: white;
+}
+
 .modal-window-content {
     -ms-flex: 1 0 auto;
     -ms-flex-align: stretch;
@@ -837,6 +841,35 @@
 
 .fadeOutAnimation {
     animation: fadeOut 0.3s ease-in both;
+}
+
+.hamburger {
+    width: 25px;
+    height: 25px;
+    background-color: black;
+    position: relative;
+    top: 2px;
+    left: 2px;
+}
+
+.menuOpen {
+    width: 100px;
+    height: 100vh;
+    background-color: gray;
+    position: absolute;
+    left: 0px;
+    display: flex;
+    z-index:15;
+}
+
+.menuClosed {
+    width: 100px;
+    height: 100vh;
+    background-color: gray;
+    position: absolute;
+    left: -100px;
+    display: none;
+    z-index:6;
 }
 
 .spinner {
