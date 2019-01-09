@@ -35,7 +35,7 @@ export const sendMail = email => dispatch =>
     }
   )
 
-export const sessionLogin = async (user) => async (dispatch) => {
+export const sessionLogin = user => async (dispatch) => {
   let userP;
   try {
     userP = await ApiUtil.sessionLogin(user);
