@@ -699,17 +699,6 @@ class Dashboard extends React.Component {
                                     >
                                         <span className="button-text">Sign Out</span>
                                     </a>
-                                    <a
-                                        title="Testing logoutFunc"
-                                        className={
-                                            this.state.formType === "testing"
-                                                ? "nav-item signout active"
-                                                : "nav-item"
-                                        }
-                                        onClick={this.loginRedirect}
-                                    >
-                                        <span className="button-text">Test logoutFunc</span>
-                                    </a>
                                 </nav>
                             </div>
                             <section className="yield-content">

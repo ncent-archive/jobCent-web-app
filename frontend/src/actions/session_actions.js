@@ -35,15 +35,24 @@ export const sendMail = email => dispatch =>
     }
   )
 
-export const sessionLogin = user => dispatch =>
-  ApiUtil.sessionLogin(user).then(
-    user => {
-      dispatch(receiveCurrentUser(user.data.user));
-    },
-    err => {
-      dispatch(receiveErrors(err.response.data));
-    }
-  )
+export const sessionLogin = async (user) => async (dispatch) => {
+  let userP;
+  try {
+    userP = await ApiUtil.sessionLogin(user);
+    dispatch(receiveCurrentUser(userP.data.user));
+  } catch (err) {
+    dispatch(receiveErrors(err.response.data));
+  }
+  // ApiUtil.sessionLogin(user).then(
+  //   user => {
+  //     dispatch(receiveCurrentUser(user.data.user));
+  //   },
+  //   err => {
+  //     dispatch(receiveErrors(err.response.data));
+  //   }
+  // )
+}
+
 
 export const logout = () => dispatch =>
   ApiUtil.logout().then(

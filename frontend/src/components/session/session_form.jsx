@@ -28,6 +28,7 @@ class SessionForm extends React.Component {
     this.switchToLogin = this.switchToLogin.bind(this);
     this.clearErrorMsg = this.clearErrorMsg.bind(this);
     this.switchToCode = this.switchToCode.bind(this)
+    this.validateEmail = this.validateEmail.bind(this);
   }
 
   update(input) {
@@ -62,6 +63,18 @@ class SessionForm extends React.Component {
 
   clearErrorMsg() {
     this.setState({ errorMessage: "" });
+  }
+
+  validateEmail(email) {
+    if (email.length === 0) {
+      this.setState({ errorMessage: "Please fill in your email." });
+      return false;
+    } else if (!email.match(/[^@]+@\w+\.\w+((\.\w+)(?!\1\.{2,)*?)*/gim)) {
+      this.setState({ errorMessage: "Please enter a valid email." });
+      return false;
+    } else {
+      return true;
+    }
   }
 
   handleSubmit = e => {
@@ -124,18 +137,11 @@ class SessionForm extends React.Component {
 
     //              Code-based Authentication (magic link)
     if (this.state.formType === "signup") {
-      if (this.state.email.length === 0) {
-        this.setState({ errorMessage: "Please fill in your email." });
-        return;
-      } else if (!this.state.email.match(/[^@]+@\w+\.\w+((\.\w+)(?!\1\.{2,)*?)*/gim)) {
-        this.setState({ errorMessage: "Please enter a valid email." });
-        return;
-      } else {
+      if (this.validateEmail(this.state.email)) {
         this.setState({ errorMessage: ""});
         this.props.signup(user).then(res => {
           if (res.data.error) {
             this.setState({ errorMessage: res.data.error });
-            return;
           } else {
             this.switchToLogin();
           }
@@ -146,25 +152,16 @@ class SessionForm extends React.Component {
     } else if (this.state.formType === "login") {
       if (e.target.id === "textEmailLogin" || e.target.id === "requestCodeBtn") {
         this.setState({ errorMessage: "" });
-        if (this.state.emailLogin.length === 0) {
-          this.setState({ errorMessage: "Please enter your email." });
-          return;
-        } else if (!this.state.emailLogin.match(/[^@]+@\w+\.\w+((\.\w+)(?!\1\.{2,)*?)*/gim)) {
-          this.setState({ errorMessage: "Please enter a valid email." });
-          return;
-        } else {
+        if (this.validateEmail(this.state.emailLogin)) {
           this.setState({ codeMessage: "" });
           this.props.sendMail({ email: this.state.emailLogin }).then(res => {
             if (res.data.error) {
               this.setState({ errorMessage: res.data.error });
-              return;
             } else if (res.data.message === "Mail sent.") {
               this.setState({ codeMessage: `Mail sent to ${this.state.emailLogin}!\nPlease check your email.` });
               this.switchToCode();
-              return;
             } else {
               this.setState({ errorMessage: "Something went wrong. Please try again." });
-              return;
             }
           }).catch(err => {
             this.setState({ errorMessage: "There was an error. Please try again." });
@@ -174,12 +171,10 @@ class SessionForm extends React.Component {
     } else {
       if (this.state.passwordLogin.length === 0) {
         this.setState({ errorMessage: "Please enter the code sent to your email." });
-        return;
       } else {
         this.props.login({ email: this.state.emailLogin, code: this.state.passwordLogin }).then(res => {
           if (res.error) {
             this.setState({ errorMessage: res.error });
-            return;
           } else {
             this.props.history.push("/dashboard");
           }
@@ -188,7 +183,7 @@ class SessionForm extends React.Component {
         })
       }
     }
-  };
+  }
       
   enterKey(e) {
     if (e.key === "Enter") {
