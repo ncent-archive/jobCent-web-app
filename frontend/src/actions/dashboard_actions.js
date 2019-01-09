@@ -46,7 +46,9 @@ export const receiveChallengeUserData = challengeUserData => ({
 
 export const fetchUser = user => dispatch =>
     ApiUtil.fetchUser(user).then(
-        balance => dispatch(receiveUser(balance)),
+        balance => {
+           dispatch(receiveUser(balance))
+        },
         err => dispatch(receiveErrors(err))
     );
 
@@ -60,7 +62,6 @@ export const createChallenge = challenge => dispatch =>
     ApiUtil.createChallenge(challenge).then(
         data => dispatch(receiveChallenge(data)),
         err => {
-            console.log(err);
             dispatch(receiveErrors(err));
         }
     );

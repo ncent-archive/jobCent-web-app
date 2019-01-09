@@ -21,6 +21,7 @@ module.exports = (app) => {
     app.get('/api/challenges/balances/:challengeUuid', challengesController.retrieveChallengeUsers);
 
     app.put('/api/challenges/referralCode/:referralCode', challengesController.redeemReferralCode);
+
     // creates a new user account with a Stellar wallet key pair
     app.post("/api/users", usersController.create);
 
@@ -29,13 +30,19 @@ module.exports = (app) => {
 
     app.get("/api/challengeUsers/:userUuid/:challengeUuid", challengeUsersController.getReferralCode);
 
-    // verifies confirmation code and logs the user in
+    // logs the user in from login page
     app.post("/api/session", sessionController.create);
+
+    //send confirmation code to email via aws
+    app.post("/api/session/mail", sessionController.sendMail);
+
+    // logs in user via session
+    app.post("/api/session/confirm", sessionController.verify);
 
     // logs the user out
     app.delete("/api/session", sessionController.destroy);
 
     app.get("/api/session", sessionController.verify);
 
-    app.patch("/api/challengeUsers/:userUuid/:challengeUuid", challengeUsersController.setTokensPerReferral)
+    app.patch("/api/challengeUsers/:userUuid/:challengeUuid", challengeUsersController.setTokensPerReferral);
 };

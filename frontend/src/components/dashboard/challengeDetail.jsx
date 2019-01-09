@@ -33,8 +33,6 @@ export default class ChallengeDetail extends React.Component {
         this.props.getReferralCode(this.props.currentUser.uuid, this.props.challengeDetails.uuid)
             .then(referralCodeResp => {
 
-                console.log("compWillMount in challengeDetail.jsx, referralCodeResp is", referralCodeResp);
-
                 if (referralCodeResp.errors && 
                     referralCodeResp.errors.response.data.message === "User not logged in") {
                     this.props.loginRedirect();
@@ -48,6 +46,10 @@ export default class ChallengeDetail extends React.Component {
 
                 });
             });
+    }
+
+    componentWillUnmount() {
+        this.props.removeURLParams();
     }
 
     async handleSetTokensPerReferral(e) {
@@ -105,7 +107,7 @@ export default class ChallengeDetail extends React.Component {
                         <h2>{days} day{daysNotPlural ? "" : "s"} remaining!</h2>
                         <h2 className="referralCodeHeader">
                             <div className="referralCodeWrapper">
-                                <span>Your referral code for this challenge</span>
+                                <span>Referral Code</span>
                                     <span className="referralCode" ref={(input) => this.referralCode = input}>
                                         {this.state.referralCode}
                                     </span>

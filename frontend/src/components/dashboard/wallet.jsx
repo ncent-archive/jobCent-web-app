@@ -17,6 +17,10 @@ class Wallet extends React.Component {
     window.history.pushState({}, document.title, window.location.href);
   }
 
+  componentWillUnmount() {
+    this.props.removeURLParams();
+  }
+
   render() {
     let close = "";
     if (this.props.closing) {

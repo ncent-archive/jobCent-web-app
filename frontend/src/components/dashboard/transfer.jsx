@@ -20,6 +20,11 @@ export default class Transfer extends React.Component {
         window.history.pushState({}, document.title, window.location.href);
     }
 
+    componentWillUnmount() {
+        this.props.removeURLParams();
+        this.props.clearErrorMessage();
+    }
+
     imgLoadError(e) {
         if (this.state.imageLoadErrBool) {
             this.setState({ imageLoadErrBool: false });
@@ -60,7 +65,7 @@ export default class Transfer extends React.Component {
                             <div className="error-box"/>
                         </div>
                         <div className="enter-email">
-                            <label htmlFor="">To:</label>
+                            <label htmlFor="">Amount:</label>
                             <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
@@ -72,7 +77,7 @@ export default class Transfer extends React.Component {
                             <div className="error-box"/>
                         </div>
                         <button className="theme-button transfer-button">
-                            Send jobCent(s)
+                            Send jobCents
                         </button>
                         <p className="disclaimerText">*Please note that rewards can only be redeemed if you have a jobCent balance greater than 0 for the challenge you get hired for.</p>
                     </div>

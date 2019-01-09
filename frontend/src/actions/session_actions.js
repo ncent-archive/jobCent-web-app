@@ -20,12 +20,31 @@ export const receiveErrors = errors => ({
 export const login = user => dispatch =>
   ApiUtil.login(user).then(
     userP => {
-      dispatch(receiveCurrentUser(userP.data.user));
+      dispatch(receiveCurrentUser(userP.data));
+      return userP;
     },
     err => {
       dispatch(receiveErrors(err.response.data));
+      return err.response.data;
     }
   );
+
+export const sendMail = email => dispatch =>
+  ApiUtil.sendMail(email).then((res) => {
+      return res;
+    }
+  )
+
+export const sessionLogin = user => async (dispatch) => {
+  let userP;
+  userP = await ApiUtil.sessionLogin(user);
+  if (userP.status >= 200 && userP.status < 300) {
+    dispatch(receiveCurrentUser(userP.data.user));
+  } else {
+    dispatch(receiveErrors(userP.response.data));
+  }
+}
+
 
 export const logout = () => dispatch =>
   ApiUtil.logout().then(
@@ -38,6 +57,11 @@ export const logout = () => dispatch =>
 
 export const signup = user => dispatch =>
   ApiUtil.signup(user).then(
-    userP => userP,
-    err => dispatch(receiveErrors(err.response.data))
+    userP => {
+      return userP;
+    },
+    err => {
+      dispatch(receiveErrors(err.response.data));
+      return err.response.data;
+    }
   );

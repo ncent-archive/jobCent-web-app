@@ -76,14 +76,16 @@ class Dashboard extends React.Component {
         this.walletTab = this.walletTab.bind(this);
         this.loginRedirect = this.loginRedirect.bind(this);
         this.closeWithDelay = this.closeWithDelay.bind(this);
+        this.removeURLParams = this.removeURLParams.bind(this);
+        this.clearErrorMessage = this.clearErrorMessage.bind(this);
     }
 
     componentWillMount() {
         axios.get("api/session")
             .then(function (verifyResp) {
-                // this.setState({spinner: false});
                 if (verifyResp.data.sessionVerified) {
-                    this.props.login(verifyResp.data.user)
+                    this.props.sessionLogin(verifyResp.data.user);
+                    // this.props.login(verifyResp.data.user)
                 }
             }.bind(this), function () {
                 this.props.logout().then(() => {this.props.history.push("/")});
@@ -116,6 +118,16 @@ class Dashboard extends React.Component {
     loginRedirect() {
         this.props.logout().then(() => {
             this.props.history.push("/login");
+        });
+    }
+
+    removeURLParams() {
+        window.history.pushState({}, "", window.location.href.split("?")[0]);
+    }
+
+    clearErrorMessage() {
+        this.setState({
+            errorMessage: ""
         });
     }
 
@@ -270,14 +282,14 @@ class Dashboard extends React.Component {
 
         if (!validateEmail(toAddress)) {
             this.setState({
-                errorMessage: "Please enter a valid email address"
+                errorMessage: "Please enter a valid email address."
             });
             return;
         }
 
         if (toAddress === this.props.currentUser.email) {
             this.setState({
-                errorMessage: "Please enter the email address of another user"
+                errorMessage: "Please enter the email address of another user."
             });
             return;
         }
@@ -297,7 +309,7 @@ class Dashboard extends React.Component {
                                 this.setState({
                                     sponsoredChallenges: userData.sponsoredChallenges,
                                     heldChallenges: userData.heldChallenges,
-                                    successMessage: `You have successfully sent ${this.state.numShares} jobCent(s) to ${this.state.toAddress}`,
+                                    successMessage: `You have successfully sent ${this.state.numShares} jobCent(s) to ${this.state.toAddress}.`,
                                     formType: 'jobCents',
                                     maxShares: 1000,
                                     challengeDuration: 90,
@@ -319,16 +331,46 @@ class Dashboard extends React.Component {
         e.preventDefault();
         if (!this.state.agreement) {
             this.setState({
-                errorMessage: "Please click the checkbox to agree to the challenge bounty"
+                errorMessage: "Please click the checkbox to agree to the challenge bounty."
             });
             return;
         }
+
         if (isNaN(parseFloat(this.state.rewardAmount))) {
             this.setState({
-                errorMessage: "Reward amount must be a number"
+                errorMessage: "Reward amount must be a number."
             });
             return;
         }
+
+        if (Number(this.state.rewardAmount) <= 0) {
+            this.setState({
+                errorMessage: "Reward amount must be greater than 0."
+            });
+            return;
+        }
+
+        if (Number(this.state.maxShares) > 1000000) {
+            this.setState({
+                errorMessage: "Total jobCents can be 1,000,000 at maximum."
+            });
+            return;
+        }
+
+        if (Number(this.state.rewardAmount) > (2 ** 31 - 1)) {
+            this.setState({
+                errorMessage: "Reward amount is too high."
+            });
+            return;
+        }
+
+        if (Number(this.state.challengeDuration) > 3650) {
+            this.setState({
+                errorMessage: "Challenge duration is too long.  Maximum is 10 years."
+            });
+            return;
+        }
+
         const challenge = Object.assign({}, {
             senderPublicKey: this.props.currentUser.publicKey,
             senderPrivateKey: this.props.currentUser.privateKey,
@@ -341,6 +383,7 @@ class Dashboard extends React.Component {
             maxShares: this.state.maxShares,
             challengeDuration: this.state.challengeDuration
         });
+
         this.props.createChallenge(challenge).then(res => {
 
             if (res.errors && res.errors.response.data.message === "User not logged in") {
@@ -407,6 +450,8 @@ class Dashboard extends React.Component {
                 loginRedirect={this.loginRedirect}
                 closeWithDelay={this.closeWithDelay}
                 closing={this.state.closing}
+                clearErrorMessage={this.clearErrorMessage}
+                removeURLParams={this.removeURLParams}
             />
         }
     }
@@ -425,6 +470,8 @@ class Dashboard extends React.Component {
                     loginRedirect={this.loginRedirect}
                     closeWithDelay={this.closeWithDelay}
                     closing={this.state.closing}
+                    clearErrorMessage={this.clearErrorMessage}
+                    removeURLParams={this.removeURLParams}
                 />
             );
         }
@@ -443,6 +490,8 @@ class Dashboard extends React.Component {
                     loginRedirect={this.loginRedirect}
                     closeWithDelay={this.closeWithDelay}
                     closing={this.state.closing}
+                    clearErrorMessage={this.clearErrorMessage}
+                    removeURLParams={this.removeURLParams}
                 />
             )
         }
@@ -459,6 +508,8 @@ class Dashboard extends React.Component {
                     loginRedirect={this.loginRedirect}
                     closeWithDelay={this.closeWithDelay}
                     closing={this.state.closing}
+                    clearErrorMessage={this.clearErrorMessage}
+                    removeURLParams={this.removeURLParams}
                 />
             )
         }
@@ -479,6 +530,8 @@ class Dashboard extends React.Component {
                     loginRedirect={this.loginRedirect}
                     closeWithDelay={this.closeWithDelay}
                     closing={this.state.closing}
+                    clearErrorMessage={this.clearErrorMessage}
+                    removeURLParams={this.removeURLParams}
                 />
             )
         }
@@ -496,6 +549,8 @@ class Dashboard extends React.Component {
                     loginRedirect={this.loginRedirect}
                     closeWithDelay={this.closeWithDelay}
                     closing={this.state.closing}
+                    clearErrorMessage={this.clearErrorMessage}
+                    removeURLParams={this.removeURLParams}
                 />
             );
         }
@@ -509,6 +564,8 @@ class Dashboard extends React.Component {
                     loginRedirect={this.loginRedirect}
                     closeWithDelay={this.closeWithDelay}
                     closing={this.state.closing}
+                    clearErrorMessage={this.clearErrorMessage}
+                    removeURLParams={this.removeURLParams}
                 />
             )
         }
@@ -641,17 +698,6 @@ class Dashboard extends React.Component {
                                         onClick={this.handleInput("formType")}
                                     >
                                         <span className="button-text">Sign Out</span>
-                                    </a>
-                                    <a
-                                        title="Testing logoutFunc"
-                                        className={
-                                            this.state.formType === "testing"
-                                                ? "nav-item signout active"
-                                                : "nav-item"
-                                        }
-                                        onClick={this.loginRedirect}
-                                    >
-                                        <span className="button-text">Test logoutFunc</span>
                                     </a>
                                 </nav>
                             </div>

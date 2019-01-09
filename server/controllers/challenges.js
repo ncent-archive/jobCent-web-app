@@ -58,12 +58,18 @@ const createReferralCode = async (userUuid, challenge) => {
 module.exports = {
     async create(req, res) {
         if (verifyLightFunc(req, res)) {
+
+            
             const {senderPublicKey, name, description, company, imageUrl, participationUrl, rewardAmount, maxShares, challengeDuration} = req.body;
-    
+            
+            
+
             const rewardAmountInt = parseInt(rewardAmount);
             const maxSharesInt = parseInt(maxShares);
     
             const user = await User.findOne({where: {publicKey: senderPublicKey}});
+
+
             const senderKeypair = stellarSDK.Keypair.fromSecret(user.privateKey);
     
             const tokenTypes = await sdkInstance.getTokenTypes();
@@ -73,6 +79,7 @@ module.exports = {
     
             const createChallengeResponse = await sdkInstance.createChallenge(senderKeypair, name, description, company, imageUrl, participationUrl, expiration, tokenTypeUuid, rewardAmountInt, "NCNT", maxSharesInt);
             await createReferralCode(user.uuid, createChallengeResponse.data.challenge);
+
     
             res.status(200).send({challenge: createChallengeResponse.data});
         } else {
@@ -84,7 +91,9 @@ module.exports = {
 
     async share(req, res) {
         if (verifyLightFunc(req, res)) {
-            const {fromAddress, toAddress, numShares} = req.body;
+            const {numShares} = req.body;
+            fromAddress = req.body.fromAddress.toLowerCase();
+            toAddress = req.body.toAddress.toLowerCase();
             const challengeUuid = req.params.challengeUuid;
             const challengeResponse = await sdkInstance.retrieveChallenge(challengeUuid);
     
@@ -126,8 +135,9 @@ module.exports = {
 
     async redeem(req, res) {
         if (verifyLightFunc(req, res)) {
-            const {sponsorAddress, challengeUuid} = req.params;
-            const redeemerAddress = req.body.redeemerAddress;
+            const {challengeUuid} = req.params;
+            const sponsorAddress = req.params.sponsorAddress.toLowerCase();
+            const redeemerAddress = req.body.redeemerAddress.toLowerCase();
     
             const sponsor = await User.findOne({where: {email: sponsorAddress}});
             const sponsorKeypair = stellarSDK.Keypair.fromSecret(sponsor.privateKey);
