@@ -48,7 +48,8 @@ const defaultState = {
     referralCode: "",
     tokensPerReferral: 1,
     loginRedirect: false,
-    closing: false
+    closing: false,
+    userLoaded: false
 };
 
 class Dashboard extends React.Component {
@@ -84,14 +85,18 @@ class Dashboard extends React.Component {
         this.clearErrorMessage = this.clearErrorMessage.bind(this);
         this.expandMenu = this.expandMenu.bind(this);
         this.collapseMenu = this.collapseMenu.bind(this);
+        this.userInfo = this.userInfo.bind(this);
     }
 
     componentWillMount() {
         axios.get("api/session")
             .then(function (verifyResp) {
                 if (verifyResp.data.sessionVerified) {
-                    this.props.sessionLogin(verifyResp.data.user);
-                    // this.props.login(verifyResp.data.user)
+                    console.log("earlier receive user in compqillmount in dashboard", verifyResp);
+                    this.props.sessionLogin(verifyResp.data.user).then(user => {
+                        this.setState({ userLoaded: true });
+                        console.log("received user in dashboard", this.props.currentUser);
+                    });
                 }
             }.bind(this), function () {
                 this.props.logout().then(() => {this.props.history.push("/")});
@@ -115,6 +120,7 @@ class Dashboard extends React.Component {
             formType: formType,
             referralCode: referralCode
         });
+        console.log("compDidMount dashboard.jsx, this.props.currentUser and .email", this.props.currentUser);
     }
 
     componentWillUnmount() {
@@ -627,6 +633,22 @@ class Dashboard extends React.Component {
         }
     }
 
+    userInfo() {
+        if (this.state.userLoaded) {
+            return (
+                <div className="userInfo">
+                    {this.props.currentUser.email}
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    Loading...
+                </div>
+            );
+        }
+    }
+
     logOut() {
         this.props.logout().then(function() {this.props.history.push("/")}.bind(this));
     }
@@ -638,7 +660,7 @@ class Dashboard extends React.Component {
 
     collapseMenu() {
         console.log("collapsing menu, menu element is", this.menu);
-        this.menu.style.left = "-115px";
+        this.menu.style.left = "-125px";
     }
 
     render() {
@@ -653,66 +675,71 @@ class Dashboard extends React.Component {
                             </div>
                             <div className="menuClosed"
                             ref={(el) => this.menu = el}>
-                                <a
-                                    title="Wallet"
-                                    value="Wallet"
-                                    id="ember1174"
-                                    className={
-                                        this.state.formType === "Wallet"
-                                            ? "menuItemActive menuTextActive"
-                                            : "menuItemInactive menuTextInactive"
-                                    }
-                                    onClick={this.handleInput("formType")}
-                                >
-                                    <span className="menuIconTextContainer">
-                                        <img src={walletIcon} className="menuIcon" />
-                                        <span className="button-text menuTextAll">Wallet</span>
-                                    </span>
-                                </a>
-                                <a
-                                    title="Redeem referral code"
-                                    value="referralCode"
-                                    id="ember1174"
-                                    className={
-                                        this.state.formType === "Redeem referral code"
-                                            ? "menuItemActive menuTextActive"
-                                            : "menuItemInactive menuTextInactive"
-                                    }
-                                    onClick={this.handleInput("formType")}
-                                >
-                                    <span className="menuIconTextContainer">
-                                        <img src={redeemIcon} className="menuIcon" />
-                                        <span className="button-text menuTextAll">Redeem Code</span>
-                                    </span>
-                                </a>
-                                <a
-                                    title="Sponsor a challenge"
-                                    className={
-                                        this.state.formType === "Sponsor a challenge"
-                                            ? "menuItemActive menuTextActive"
-                                            : "menuItemInactive menuTextInactive"
-                                    }
-                                    onClick={this.handleInput("formType")}
-                                >
-                                    <span className="menuIconTextContainer">
-                                        <img src={sponsorIcon} className="menuIcon" />
-                                        <span className="button-text menuTextAll">Sponsor</span>
-                                    </span>
-                                </a>
-                                <a
-                                    title="Sign Out"
-                                    className={
-                                        this.state.formType === "Sign Out"
-                                            ? "menuItemActive menuTextActive signOutMenuItem"
-                                            : "menuItemInactive menuTextInactive signOutMenuItem"
-                                    }
-                                    onClick={this.handleInput("formType")}
-                                >
-                                    <span className="menuIconTextContainer">
-                                        <img src={logoutIcon} className="menuIcon" />
-                                        <span className="button-text menuTextAll">Sign Out</span>
-                                    </span>
-                                </a>
+                                <div className="userInfoWrapper">
+                                    {this.userInfo()}
+                                </div>
+                                <div className="menuItemsWrapper">
+                                    <a
+                                        title="Wallet"
+                                        value="Wallet"
+                                        id="ember1174"
+                                        className={
+                                            this.state.formType === "Wallet"
+                                                ? "menuItemActive menuTextActive"
+                                                : "menuItemInactive menuTextInactive"
+                                        }
+                                        onClick={this.handleInput("formType")}
+                                    >
+                                        <span className="menuIconTextContainer">
+                                            <img src={walletIcon} className="menuIcon" />
+                                            <span className="button-text menuTextAll">Wallet</span>
+                                        </span>
+                                    </a>
+                                    <a
+                                        title="Redeem referral code"
+                                        value="referralCode"
+                                        id="ember1174"
+                                        className={
+                                            this.state.formType === "Redeem referral code"
+                                                ? "menuItemActive menuTextActive"
+                                                : "menuItemInactive menuTextInactive"
+                                        }
+                                        onClick={this.handleInput("formType")}
+                                    >
+                                        <span className="menuIconTextContainer">
+                                            <img src={redeemIcon} className="menuIcon" />
+                                            <span className="button-text menuTextAll">Redeem Code</span>
+                                        </span>
+                                    </a>
+                                    <a
+                                        title="Sponsor a challenge"
+                                        className={
+                                            this.state.formType === "Sponsor a challenge"
+                                                ? "menuItemActive menuTextActive"
+                                                : "menuItemInactive menuTextInactive"
+                                        }
+                                        onClick={this.handleInput("formType")}
+                                    >
+                                        <span className="menuIconTextContainer">
+                                            <img src={sponsorIcon} className="menuIcon" />
+                                            <span className="button-text menuTextAll">Sponsor</span>
+                                        </span>
+                                    </a>
+                                    <a
+                                        title="Sign Out"
+                                        className={
+                                            this.state.formType === "Sign Out"
+                                                ? "menuItemActive menuTextActive signOutMenuItem"
+                                                : "menuItemInactive menuTextInactive signOutMenuItem"
+                                        }
+                                        onClick={this.handleInput("formType")}
+                                    >
+                                        <span className="menuIconTextContainer">
+                                            <img src={logoutIcon} className="menuIcon" />
+                                            <span className="button-text menuTextAll">Sign Out</span>
+                                        </span>
+                                    </a>
+                                </div>
                             </div>
                             {/* <div className="account-navigation-bar flex-container-home">
                                 <div className="customer-info">

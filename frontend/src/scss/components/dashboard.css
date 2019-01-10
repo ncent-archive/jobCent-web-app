@@ -729,7 +729,10 @@ body {
 }
 
 .signOutMenuItem {
-    margin-top: auto !important;
+    position: absolute;
+    bottom: 10px;
+    /* margin-top: auto !important; */
+    /* margin-bottom: 15px !important; */
 }
 
 .errorMessage {
@@ -878,12 +881,13 @@ body {
 /* } */
 
 .menuClosed {
-    width: 115px;
+    width: 125px;
     height: 100vh;
     background-color: #fdfdfd;
     position: absolute;
-    left: -115px;
+    left: -125px;
     border-right: 1px solid #00000029;
+    border-radius: 0px 13px 13px 0px;
     /* display: none; */
     display: flex;
     flex-direction: column;
@@ -893,6 +897,12 @@ body {
     transition-timing-function: cubic-bezier(0, 0, 0, 0.95);
     /* animation: moveLeftMenu 1s forwards; */
     /* transition: 1s; */
+}
+
+.menuItemsWrapper {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 .menuTextAll {
@@ -916,18 +926,18 @@ body {
 }
 
 .menuItemInactive {
-    background-color: rgb(245, 245, 245);
+    /* background-color: rgb(245, 245, 245); */
     max-height: 100px;
-    padding: 4px 1px;
-    margin: 3px 0px;
+    padding: 8px 1px;
+    margin: 2px 0px;
 }
 
 .menuItemActive {
     background-color: rgb(228, 228, 228);
     max-height: 100px;
     color: rgb(95, 95, 95);
-    padding: 4px 1px;
-    margin: 3px 0px;
+    padding: 8px 1px;
+    margin: 2px 0px;
 }
 
 .menuIcon {
@@ -936,6 +946,21 @@ body {
     position: relative;
     top: 1px;
     left: 1px;
+}
+
+.menuIconTextContainer {
+    position: relative;
+    left: 10px;
+}
+
+.userInfo {
+    overflow-x: scroll;
+    margin: 12px 2px 30px 2px;
+    text-align: center;
+}
+
+.userInfoWrapper {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 
