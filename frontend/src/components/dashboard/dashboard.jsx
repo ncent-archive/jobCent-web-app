@@ -14,6 +14,7 @@ import walletIcon from "../../img/wallet.png";
 import redeemIcon from "../../img/redeem.png";
 import sponsorIcon from "../../img/sponsor.png";
 import logoutIcon from "../../img/logout.png";
+import hamburgerIcon from "../../img/hamburger.png";
 
 function validateEmail(email) {
     const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -145,6 +146,10 @@ class Dashboard extends React.Component {
 
     handleInput(key, options) {
         return e => {
+            if (this.state.formType !== e.currentTarget.title) {
+                setTimeout(this.collapseMenu, 130);
+            }
+
             if (options && options.challengeUuid) {
                 this.setState({
                     challengeUuid: options.challengeUuid,
@@ -660,7 +665,7 @@ class Dashboard extends React.Component {
 
     collapseMenu() {
         console.log("collapsing menu, menu element is", this.menu);
-        this.menu.style.left = "-125px";
+        this.menu.style.left = "-185px";
     }
 
     render() {
@@ -670,8 +675,8 @@ class Dashboard extends React.Component {
                     {" "}
                     <div className="flex-container-home ">
                         <div className="layout-account-new flex-container-home ">
-                            <div className="hamburger" onClick={this.expandMenu}>
-                                
+                            <div className="hamburgerContainer" onClick={this.expandMenu}>
+                                <img className="hamburgerIcon" src={hamburgerIcon} />
                             </div>
                             <div className="menuClosed"
                             ref={(el) => this.menu = el}>

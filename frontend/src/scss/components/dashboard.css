@@ -730,7 +730,7 @@ body {
 
 .signOutMenuItem {
     position: absolute;
-    bottom: 10px;
+    bottom: 25px;
     /* margin-top: auto !important; */
     /* margin-bottom: 15px !important; */
 }
@@ -855,14 +855,19 @@ body {
     animation: fadeOut 0.3s ease-in both;
 }
 
-.hamburger {
+.hamburgerContainer {
     width: 25px;
     height: 25px;
-    background-color: black;
+    /* background-color: black; */
     position: relative;
     top: 2px;
     left: 2px;
     z-index: 19;
+}
+
+.hamburgerIcon {
+    width: 25px;
+    height: 25px;
 }
 
 /* .menuOpen { */
@@ -881,11 +886,11 @@ body {
 /* } */
 
 .menuClosed {
-    width: 125px;
+    width: 185px;
     height: 100vh;
     background-color: #fdfdfd;
     position: absolute;
-    left: -125px;
+    left: -185px;
     border-right: 1px solid #00000029;
     border-radius: 0px 13px 13px 0px;
     /* display: none; */
@@ -900,26 +905,26 @@ body {
 }
 
 .menuItemsWrapper {
-    padding-top: 10px;
+    padding-top: 12px;
     display: flex;
     flex-direction: column;
 }
 
 .menuTextAll {
     position: relative;
-    bottom: 2px;
-    left: 8px;
+    bottom: 1px;
+    left: 12px;
 }
 
 .menuTextInactive {
     color: #636363;
-    font-size: 12px;
+    font-size: 15px;
     letter-spacing: 0.35px;
 }
 
 .menuTextActive {
     color: #1d1d1d;
-    font-size: 12px;
+    font-size: 15px;
     letter-spacing: 0.35px;
     text-shadow: 0px 0px 0.1px #00000040;
     font-style: italic;
@@ -928,15 +933,15 @@ body {
 .menuItemInactive {
     /* background-color: rgb(245, 245, 245); */
     max-height: 100px;
-    padding: 8px 1px;
+    padding: 10px 1px;
     margin: 2px 0px;
 }
 
 .menuItemActive {
-    background-color: rgb(228, 228, 228);
+    background-color: rgb(235, 235, 235);
     max-height: 100px;
     color: rgb(95, 95, 95);
-    padding: 8px 1px;
+    padding: 10px 1px;
     margin: 2px 0px;
 }
 
@@ -957,6 +962,9 @@ body {
     overflow-x: scroll;
     margin: 12px 2px 30px 2px;
     text-align: center;
+    position: relative;
+    top: 10px;
+    font-weight: 700;
 }
 
 .userInfoWrapper {
