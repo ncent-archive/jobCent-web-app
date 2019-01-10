@@ -629,14 +629,12 @@ class Dashboard extends React.Component {
 
     expandMenu() {
         console.log("expanding menu, menu element is", this.menu);
-        this.menu.classList.remove("menuClosed");
-        this.menu.classList.add("menuOpen");
+        this.menu.style.left = "0px";
     }
 
     collapseMenu() {
-        console.log("expanding menu, menu element is", this.menu);
-        this.menu.classList.remove("menuOpen");
-        this.menu.classList.add("menuClosed");
+        console.log("collapsing menu, menu element is", this.menu);
+        this.menu.style.left = "-100px";
     }
 
     render() {
@@ -651,12 +649,56 @@ class Dashboard extends React.Component {
                             </div>
                             <div className="menuClosed"
                             ref={(el) => this.menu = el}>
-                                        tab1 <br />
-                                        tab2 <br />
-                                        tab3 <br />
-                                        tab4
+                                <a
+                                    title="Wallet"
+                                    value="Wallet"
+                                    id="ember1174"
+                                    className={
+                                        this.state.formType === "Wallet"
+                                            ? "menuItemActive"
+                                            : "menuItem"
+                                    }
+                                    onClick={this.handleInput("formType")}
+                                >
+                                    <span className="button-text">Wallet</span>
+                                </a>
+                                <a
+                                    title="Redeem referral code"
+                                    value="referralCode"
+                                    id="ember1174"
+                                    className={
+                                        this.state.formType === "Redeem referral code"
+                                            ? "menuItemActive"
+                                            : "menuItem"
+                                    }
+                                    onClick={this.handleInput("formType")}
+                                >
+                                    <span className="button-text">Redeem Code</span>
+                                </a>
+                                <a
+                                    title="Sponsor a challenge"
+                                    className={
+                                        this.state.formType === "Sponsor a challenge"
+                                            ? "menuItemActive"
+                                            : "menuItem"
+                                    }
+                                    onClick={this.handleInput("formType")}
+                                >
+                                    <span className="button-text">Sponsor</span>
+                                </a>
+                                <a
+                                    title="Sign Out"
+                                    className={
+                                        this.state.formType === "Sign Out"
+                                            ? "menuItemActive signOutMenuItem"
+                                            : "menuItem signOutMenuItem"
+                                    }
+                                    onClick={this.handleInput("formType")}
+                                >
+                                    <span className="button-text">Sign Out</span>
+                                </a>
                             </div>
-                            <div className="account-navigation-bar flex-container-home">
+                            {/* <div className="account-navigation-bar flex-container-home">
                                 <div className="customer-info">
                                     <div className="customer-profile-simple">
                                         <i
@@ -674,8 +716,8 @@ class Dashboard extends React.Component {
                                         </h4>
                                     </div>
                                 </div>
-                                <nav className="nav-items">
-                                    <a
+                                <nav className="nav-items"> */}
+                                    {/* <a
                                         title="Wallet"
                                         value="Wallet"
                                         id="ember1174"
@@ -722,9 +764,9 @@ class Dashboard extends React.Component {
                                         onClick={this.handleInput("formType")}
                                     >
                                         <span className="button-text">Sign Out</span>
-                                    </a>
-                                </nav>
-                            </div>
+                                    </a> */}
+                                {/* </nav>
+                            </div> */}
                             <section className="yield-content" onClick={this.collapseMenu}>
                                 {this.jobCentsTab()}
                                 {this.signOutTab(this.props.logout)}
