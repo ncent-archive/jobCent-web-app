@@ -383,11 +383,6 @@
     padding: 10px 1px;
 }
 
-.menuItemActive {
-    color: rgb(95, 95, 95);
-    padding: 10px 1px;
-}
-
 .modal-action-bar {
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
@@ -734,7 +729,7 @@ body {
 }
 
 .signOutMenuItem {
-    margin-top: auto;
+    margin-top: auto !important;
 }
 
 .errorMessage {
@@ -864,63 +859,109 @@ body {
     position: relative;
     top: 2px;
     left: 2px;
+    z-index: 19;
 }
 
-.menuOpen {
-    width: 100px;
-    height: 100vh;
-    background-color: gray;
-    position: absolute;
+/* .menuOpen { */
+    /* width: 100px; */
+    /* height: 100vh; */
+    /* background-color: gray; */
+    /* position: absolute; */
     /* left: 0px; */
-    left: -100px;
-    display: flex;
-    z-index: 15;
-    animation: moveRightMenu 1s forwards;
+    /* left: -100px; */
+    /* display: flex; */
+    /* z-index: 15; */
+    /* animation: moveRightMenu 1s forwards; */
     /* animation: menuOpen 1s normal ease-in;
     animation-iteration-count: 1 */
     /* transition: 1s; */
-}
+/* } */
 
 .menuClosed {
-    width: 100px;
+    width: 115px;
     height: 100vh;
-    background-color: gray;
+    background-color: #fdfdfd;
     position: absolute;
-    left: -100px;
+    left: -115px;
+    border-right: 1px solid #00000029;
     /* display: none; */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    z-index: 15;
-    transition: left 1s;
-    transition-timing-function: ease-out;
+    z-index: 20;
+    transition: left 0.45s;
+    transition-timing-function: cubic-bezier(0, 0, 0, 0.95);
     /* animation: moveLeftMenu 1s forwards; */
     /* transition: 1s; */
 }
 
-.menuClosedInitial {
-    width: 100px;
-    height: 100vh;
-    background-color: gray;
-    position: absolute;
-    left: -100px;
+.menuTextAll {
+    position: relative;
+    bottom: 2px;
+    left: 8px;
+}
+
+.menuTextInactive {
+    color: #636363;
+    font-size: 12px;
+    letter-spacing: 0.35px;
+}
+
+.menuTextActive {
+    color: #1d1d1d;
+    font-size: 12px;
+    letter-spacing: 0.35px;
+    text-shadow: 0px 0px 0.1px #00000040;
+    font-style: italic;
+}
+
+.menuItemInactive {
+    background-color: rgb(245, 245, 245);
+    max-height: 100px;
+    padding: 4px 1px;
+    margin: 3px 0px;
+}
+
+.menuItemActive {
+    background-color: rgb(228, 228, 228);
+    max-height: 100px;
+    color: rgb(95, 95, 95);
+    padding: 4px 1px;
+    margin: 3px 0px;
+}
+
+.menuIcon {
+    width: 15px;
+    height: 15px;
+    position: relative;
+    top: 1px;
+    left: 1px;
+}
+
+
+/* .menuClosedInitial { */
+    /* width: 100px; */
+    /* height: 100vh; */
+    /* background-color: gray; */
+    /* position: absolute; */
+    /* left: -100px; */
     /* display: none; */
-    display: flex;
-    z-index: 15;
+    /* display: flex; */
+    /* z-index: 15; */
     /* animation: moveLeftMenu 1s forwards; */
     /* transition: 1s; */
-}
+/* } */
 
 /* .moveRightMenu { */
     /* left: 0; */
     /* animation: moveRightMenu 1s forwards; */
 /* } */
 
-.moveLeftMenu {
-    transition: 1s;
-    left: -100;
+/* .moveLeftMenu { */
+    /* transition: 1s; */
+    /* left: -100; */
     /* animation: moveLeftMenu 1s linear; */
-}
+/* } */
 
 .spinner {
     height: 100px;

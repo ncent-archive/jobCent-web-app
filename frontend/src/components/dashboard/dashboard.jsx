@@ -10,6 +10,10 @@ import ChallengeDetail from "./challengeDetail.jsx";
 import Wallet from "./wallet.jsx";
 import Whitelist from "../../util/whitelist.js";
 import axios from "axios";
+import walletIcon from "../../img/wallet.png";
+import redeemIcon from "../../img/redeem.png";
+import sponsorIcon from "../../img/sponsor.png";
+import logoutIcon from "../../img/logout.png";
 
 function validateEmail(email) {
     const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -634,7 +638,7 @@ class Dashboard extends React.Component {
 
     collapseMenu() {
         console.log("collapsing menu, menu element is", this.menu);
-        this.menu.style.left = "-100px";
+        this.menu.style.left = "-115px";
     }
 
     render() {
@@ -655,12 +659,15 @@ class Dashboard extends React.Component {
                                     id="ember1174"
                                     className={
                                         this.state.formType === "Wallet"
-                                            ? "menuItemActive"
-                                            : "menuItem"
+                                            ? "menuItemActive menuTextActive"
+                                            : "menuItemInactive menuTextInactive"
                                     }
                                     onClick={this.handleInput("formType")}
                                 >
-                                    <span className="button-text">Wallet</span>
+                                    <span className="menuIconTextContainer">
+                                        <img src={walletIcon} className="menuIcon" />
+                                        <span className="button-text menuTextAll">Wallet</span>
+                                    </span>
                                 </a>
                                 <a
                                     title="Redeem referral code"
@@ -668,34 +675,43 @@ class Dashboard extends React.Component {
                                     id="ember1174"
                                     className={
                                         this.state.formType === "Redeem referral code"
-                                            ? "menuItemActive"
-                                            : "menuItem"
+                                            ? "menuItemActive menuTextActive"
+                                            : "menuItemInactive menuTextInactive"
                                     }
                                     onClick={this.handleInput("formType")}
                                 >
-                                    <span className="button-text">Redeem Code</span>
+                                    <span className="menuIconTextContainer">
+                                        <img src={redeemIcon} className="menuIcon" />
+                                        <span className="button-text menuTextAll">Redeem Code</span>
+                                    </span>
                                 </a>
                                 <a
                                     title="Sponsor a challenge"
                                     className={
                                         this.state.formType === "Sponsor a challenge"
-                                            ? "menuItemActive"
-                                            : "menuItem"
+                                            ? "menuItemActive menuTextActive"
+                                            : "menuItemInactive menuTextInactive"
                                     }
                                     onClick={this.handleInput("formType")}
                                 >
-                                    <span className="button-text">Sponsor</span>
+                                    <span className="menuIconTextContainer">
+                                        <img src={sponsorIcon} className="menuIcon" />
+                                        <span className="button-text menuTextAll">Sponsor</span>
+                                    </span>
                                 </a>
                                 <a
                                     title="Sign Out"
                                     className={
                                         this.state.formType === "Sign Out"
-                                            ? "menuItemActive signOutMenuItem"
-                                            : "menuItem signOutMenuItem"
+                                            ? "menuItemActive menuTextActive signOutMenuItem"
+                                            : "menuItemInactive menuTextInactive signOutMenuItem"
                                     }
                                     onClick={this.handleInput("formType")}
                                 >
-                                    <span className="button-text">Sign Out</span>
+                                    <span className="menuIconTextContainer">
+                                        <img src={logoutIcon} className="menuIcon" />
+                                        <span className="button-text menuTextAll">Sign Out</span>
+                                    </span>
                                 </a>
                             </div>
                             {/* <div className="account-navigation-bar flex-container-home">
