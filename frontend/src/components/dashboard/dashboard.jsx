@@ -314,14 +314,16 @@ class Dashboard extends React.Component {
         if (this.props.shareChallenge) {
             this.props.shareChallenge(challengeUuid, fromAddress, toAddress, numShares)
                 .then(res => {
+                    console.log("first .then in handleTransfer in dashboard.jsx", res);
                     if (res.errors && res.errors.response.data.message === "User not logged in") {
                         this.loginRedirect();
                         return;
                     }
-
+                    console.log("about to fetchUser in handletransfer in dashboard", this.props.currentUser);
                     this.props.fetchUser(this.props.currentUser)
                         .then(res => {
-                            let userData = res.userData.data;
+                            console.log("second .then in handleTransfer in dashboard.jsx", res, this.props.userData);
+                            let userData = this.props.userData;
                             if (userData) {
                                 this.setState({
                                     sponsoredChallenges: userData.sponsoredChallenges,
@@ -384,6 +386,13 @@ class Dashboard extends React.Component {
         if (Number(this.state.challengeDuration) > 3650) {
             this.setState({
                 errorMessage: "Challenge duration is too long.  Maximum is 10 years."
+            });
+            return;
+        }
+
+        if (Number(this.state.challengeDuration) < 1) {
+            this.setState({
+                errorMessage: "Challenge duration is too short.  Minimum is 1 day."
             });
             return;
         }
@@ -685,11 +694,11 @@ class Dashboard extends React.Component {
                                 </div>
                                 <div className="menuItemsWrapper">
                                     <a
-                                        title="Wallet"
+                                        title="jobCents"
                                         value="Wallet"
                                         id="ember1174"
                                         className={
-                                            this.state.formType === "Wallet"
+                                            this.state.formType === "jobCents"
                                                 ? "menuItemActive menuTextActive"
                                                 : "menuItemInactive menuTextInactive"
                                         }

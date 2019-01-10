@@ -83,7 +83,9 @@ export default class ChallengeDetail extends React.Component {
     render() {
         let balanceNotPlural = this.props.challengeBalance === 1;
         let days = Math.floor(convertToDays(this.props.challengeDetails.expiration));
-        let daysNotPlural = days === 1;
+        // let daysNotPlural = days === 1;
+        let daysText = days > 1 ? `${days} days remaining!` : days === 1 ? `${days} day remaining!` : days === 0 ? `Expires today!` : "Challenge expired!";
+        console.log("days remaining", days);
         let close = "";
         if (this.props.closing) {
             close += " fadeOutAnimation";
@@ -104,7 +106,8 @@ export default class ChallengeDetail extends React.Component {
                     <p className="challengeDescription">{this.props.challengeDetails.description}</p>
                     {/* <div className="challengeContent"> */}
                         <h2 className="challengeReward">Total Reward: ${this.props.challengeDetails.rewardAmount}</h2>
-                        <h2>{days} day{daysNotPlural ? "" : "s"} remaining!</h2>
+                        {/* <h2>{days} day{daysNotPlural ? "" : "s"} remaining!</h2> */}
+                        <h2>{daysText}</h2>
                         <h2 className="referralCodeHeader">
                             <div className="referralCodeWrapper">
                                 <span>Referral Code</span>

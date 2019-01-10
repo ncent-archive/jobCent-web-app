@@ -88,6 +88,7 @@ module.exports = {
         });
         const sponsoredChallenges = await nCentSDKInstance.retrieveSponsoredChallenges(user.publicKey);
         const heldChallenges = await nCentSDKInstance.retrieveHeldChallenges(user.publicKey);
+        console.log("in getOne in users.js, about to return", sponsoredChallenges, heldChallenges, user);
         res.status(200).send(_.merge({}, sponsoredChallenges.data, heldChallenges.data));
     },
 };
