@@ -882,6 +882,12 @@ body {
     height: 25px;
 }
 
+.messageDismissal {
+    margin-left: 25px;
+    width: 12px;
+    height: 12px;
+}
+
 /* .menuOpen { */
     /* width: 100px; */
     /* height: 100vh; */

@@ -1,6 +1,7 @@
 import React from "react";
 import ncentLogo from "../../img/logo.png";
 import _ from 'lodash';
+import xIcon from "../../img/x.png";
 
 export default class MyJobCents extends React.Component {
     constructor(props) {
@@ -73,13 +74,19 @@ export default class MyJobCents extends React.Component {
 
     successMessage(message) {
         if (message) {
-            return <div className="successMessage"><span>{message}</span></div>;
+            return <div className="successMessage">
+                <span>{message}</span>
+                <img className="messageDismissal" src={xIcon} onClick={this.props.clearSuccessMessage}/>
+            </div>;
         }
     }
 
     errorMessage(message) {
         if (message) {
-            return <div className="errorMessage"><span>{message}</span></div>;
+            return <div className="errorMessage">
+                <span>{message}</span>
+                <img className="messageDismissal" src={xIcon} onClick={this.props.clearErrorMessage}/>
+            </div>;
         }
     }
     applyButton(link) {

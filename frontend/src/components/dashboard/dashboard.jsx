@@ -91,6 +91,7 @@ class Dashboard extends React.Component {
         this.userInfo = this.userInfo.bind(this);
         this.renderMenu = this.renderMenu.bind(this);
         this.returnToJobCents = this.returnToJobCents.bind(this);
+        this.clearSuccessMessage = this.clearSuccessMessage.bind(this);
     }
 
     componentWillMount() {
@@ -145,6 +146,12 @@ class Dashboard extends React.Component {
     clearErrorMessage() {
         this.setState({
             errorMessage: ""
+        });
+    }
+
+    clearSuccessMessage() {
+        this.setState({
+            successMessage: ""
         });
     }
 
@@ -481,6 +488,7 @@ class Dashboard extends React.Component {
                 closeWithDelay={this.closeWithDelay}
                 closing={this.state.closing}
                 clearErrorMessage={this.clearErrorMessage}
+                clearSuccessMessage={this.clearSuccessMessage}
                 removeURLParams={this.removeURLParams}
             />
         }
@@ -501,6 +509,7 @@ class Dashboard extends React.Component {
                     closeWithDelay={this.closeWithDelay}
                     closing={this.state.closing}
                     clearErrorMessage={this.clearErrorMessage}
+                    clearSuccessMessage={this.clearSuccessMessage}
                     removeURLParams={this.removeURLParams}
                 />
             );
@@ -521,6 +530,7 @@ class Dashboard extends React.Component {
                     closeWithDelay={this.closeWithDelay}
                     closing={this.state.closing}
                     clearErrorMessage={this.clearErrorMessage}
+                    clearSuccessMessage={this.clearSuccessMessage}
                     removeURLParams={this.removeURLParams}
                 />
             )
@@ -539,6 +549,7 @@ class Dashboard extends React.Component {
                     closeWithDelay={this.closeWithDelay}
                     closing={this.state.closing}
                     clearErrorMessage={this.clearErrorMessage}
+                    clearSuccessMessage={this.clearSuccessMessage}
                     removeURLParams={this.removeURLParams}
                 />
             )
@@ -561,6 +572,7 @@ class Dashboard extends React.Component {
                     closeWithDelay={this.closeWithDelay}
                     closing={this.state.closing}
                     clearErrorMessage={this.clearErrorMessage}
+                    clearSuccessMessage={this.clearSuccessMessage}
                     removeURLParams={this.removeURLParams}
                 />
             )
@@ -580,6 +592,7 @@ class Dashboard extends React.Component {
                     closeWithDelay={this.closeWithDelay}
                     closing={this.state.closing}
                     clearErrorMessage={this.clearErrorMessage}
+                    clearSuccessMessage={this.clearSuccessMessage}
                     removeURLParams={this.removeURLParams}
                 />
             );
@@ -595,6 +608,7 @@ class Dashboard extends React.Component {
                     closeWithDelay={this.closeWithDelay}
                     closing={this.state.closing}
                     clearErrorMessage={this.clearErrorMessage}
+                    clearSuccessMessage={this.clearSuccessMessage}
                     removeURLParams={this.removeURLParams}
                 />
             )
@@ -652,7 +666,7 @@ class Dashboard extends React.Component {
     }
 
     userInfo() {
-        if (this.state.userLoaded) {
+        if (this.state.userLoaded && this.props.currentUser) {
             return (
                 <div className="userInfo">
                     {this.props.currentUser.email}
@@ -668,7 +682,12 @@ class Dashboard extends React.Component {
     }
 
     logOut() {
-        this.props.logout().then(function() {this.props.history.push("/")}.bind(this));
+        this.props.logout()
+        .then(() => {
+            this.props.resetUserData();
+        }).then(() => {
+            this.props.history.push("/");
+        });
     }
 
     renderMenu() {
