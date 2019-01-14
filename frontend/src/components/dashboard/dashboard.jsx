@@ -15,6 +15,8 @@ import redeemIcon from "../../img/redeem.png";
 import sponsorIcon from "../../img/sponsor.png";
 import logoutIcon from "../../img/logout.png";
 import hamburgerIcon from "../../img/hamburger.png";
+import backArrowIcon from "../../img/backArrow.png";
+import xIcon from "../../img/x.png";
 
 function validateEmail(email) {
     const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -87,6 +89,8 @@ class Dashboard extends React.Component {
         this.expandMenu = this.expandMenu.bind(this);
         this.collapseMenu = this.collapseMenu.bind(this);
         this.userInfo = this.userInfo.bind(this);
+        this.renderMenu = this.renderMenu.bind(this);
+        this.returnToJobCents = this.returnToJobCents.bind(this);
     }
 
     componentWillMount() {
@@ -667,6 +671,33 @@ class Dashboard extends React.Component {
         this.props.logout().then(function() {this.props.history.push("/")}.bind(this));
     }
 
+    renderMenu() {
+        if (this.state.formType === "challengeDetail") {
+            return (
+                <div className="hamburgerContainer" onClick={this.returnToJobCents}>
+                    <img className="backArrowIcon" src={backArrowIcon} />
+                </div>
+            )
+        } else if (this.state.formType === "Send jobCents to another user" 
+                || this.state.formType === "Redeem challenge") {
+            return (
+                <div className="hamburgerContainer" onClick={this.returnToJobCents}>
+                    <img className="xIcon" src={xIcon} />
+                </div>
+            )
+        } else {
+            return (
+                <div className="hamburgerContainer" onClick={this.expandMenu}>
+                    <img className="hamburgerIcon" src={hamburgerIcon} />
+                </div>
+            )
+        }
+    }
+
+    returnToJobCents() {
+        this.setState({ formType: "jobCents" });
+    }
+
     expandMenu() {
         console.log("expanding menu, menu element is", this.menu);
         this.menu.style.left = "0px";
@@ -684,9 +715,10 @@ class Dashboard extends React.Component {
                     {" "}
                     <div className="flex-container-home ">
                         <div className="layout-account-new flex-container-home ">
-                            <div className="hamburgerContainer" onClick={this.expandMenu}>
+                            {/* <div className="hamburgerContainer" onClick={this.expandMenu}>
                                 <img className="hamburgerIcon" src={hamburgerIcon} />
-                            </div>
+                            </div> */}
+                            {this.renderMenu()}
                             <div className="menuClosed"
                             ref={(el) => this.menu = el}>
                                 <div className="userInfoWrapper">

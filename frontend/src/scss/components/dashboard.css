@@ -650,6 +650,7 @@ body {
 
 .logoImg {
     max-width: 100px;
+    max-height: 100px;
     margin-bottom: 1vh;
 }
 
@@ -659,6 +660,7 @@ body {
     align-items: center;
     justify-content: center;
     width: 250px;
+    min-height: 340px;
     text-align: center;
     border: 2px solid black;
     border-radius: 10px;
@@ -866,6 +868,16 @@ body {
 }
 
 .hamburgerIcon {
+    width: 25px;
+    height: 25px;
+}
+
+.backArrowIcon {
+    width: 25px;
+    height: 25px;
+}
+
+.xIcon {
     width: 25px;
     height: 25px;
 }

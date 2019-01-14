@@ -92,9 +92,9 @@ export default class ChallengeDetail extends React.Component {
         }
         return <div className="fs-transfer-sheet">
             <div className="transfer-content">
-                <div title="jobCents" className="close-button" onClick={this.props.closeWithDelay}>
+                {/* <div title="jobCents" className="close-button" onClick={this.props.closeWithDelay}>
                     <img src={x} alt=""/>
-                </div>
+                </div> */}
                 <div className={"not-x-button" + close}>
                     <div className="headerChallengeImage">
                         <img src={this.props.challengeDetails.imageUrl || ncentLogo} className="challengeImage"
