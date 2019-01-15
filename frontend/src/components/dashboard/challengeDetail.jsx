@@ -106,8 +106,7 @@ export default class ChallengeDetail extends React.Component {
                     <p className="challengeDescription">{this.props.challengeDetails.description}</p>
                     {/* <div className="challengeContent"> */}
                         <h2 className="challengeReward">Total Reward: ${this.props.challengeDetails.rewardAmount}</h2>
-                        {/* <h2>{days} day{daysNotPlural ? "" : "s"} remaining!</h2> */}
-                        <h2>{daysText}</h2>
+                        <h2 className="challengeRemainingTime">{daysText}</h2>
                         <h2 className="referralCodeHeader">
                             <div className="referralCodeWrapper">
                                 <span>Referral Code</span>

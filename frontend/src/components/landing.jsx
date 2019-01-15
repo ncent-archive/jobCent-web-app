@@ -183,7 +183,8 @@ class Landing extends React.Component {
                   <span className="phone"><b>Phone: </b>(650) 503-8785</span>
                   <span className="email">Email our Founder at <a href="mailto:kk@ncnt.io" className="emailLink">kk@ncnt.io</a></span>
                   <div className="copyright">
-                      &copy; nCent Labs 2018. All Rights Reserved.
+                      <span>&copy; nCent Labs 2018. </span>
+                      <span>All Rights Reserved.</span>
                   </div>
               </div>
           </footer>

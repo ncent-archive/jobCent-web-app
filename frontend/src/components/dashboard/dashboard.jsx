@@ -339,7 +339,7 @@ class Dashboard extends React.Component {
                                 this.setState({
                                     sponsoredChallenges: userData.sponsoredChallenges,
                                     heldChallenges: userData.heldChallenges,
-                                    successMessage: `You have successfully sent ${this.state.numShares} jobCent(s) to ${this.state.toAddress}.`,
+                                    successMessage: `You have successfully sent ${this.state.numShares} ${Number(this.state.numShares) === 1 ? "jobCent" : "jobCents"} to ${this.state.toAddress}.`,
                                     formType: 'jobCents',
                                     maxShares: 1000,
                                     challengeDuration: 90,

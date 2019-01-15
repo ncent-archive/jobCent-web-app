@@ -113,9 +113,11 @@ export default class MyJobCents extends React.Component {
         }
         const sponsoredChallengeTiles = sponsoredChallenges.map(function (sponsoredChallenge, index) {
             return (<div key={index} className="balanceTile">
-                <div className="tileClickContainer" onClick={() => {
-                    this.props.goToChallengeDetail(sponsoredChallenge, sponsoredChallengeBalances[index], sponsoredChallengeRemainingRedemptions[index])
-                }}>
+                <div className="tileClickContainer" 
+                    // onClick={() => {
+                    //     this.props.goToChallengeDetail(sponsoredChallenge, sponsoredChallengeBalances[index], sponsoredChallengeRemainingRedemptions[index])
+                    // }}
+                >
                     <h2 className="balance-title">{sponsoredChallenge.company}</h2>
                     <img className="logoImg" src={sponsoredChallenge.imageUrl || ncentLogo} alt="ncent logo" 
                         onError={this.imgLoadError} onLoad={this.imgLoad}
@@ -144,13 +146,24 @@ export default class MyJobCents extends React.Component {
                 >
                     Redeem
                 </a>
+                <a
+                    title="Redeem a challenge"
+                    className="initiate-payment"
+                    onClick={() => {
+                        this.props.goToChallengeDetail(sponsoredChallenge, sponsoredChallengeBalances[index], sponsoredChallengeRemainingRedemptions[index])
+                    }}
+                >
+                    View Details
+                </a>
             </div>);
         }.bind(this));
         const heldChallengeTiles = heldChallenges.map(function (heldChallenge, index) {
             return (<div key={index} className="balanceTile">
-                <div className="tileClickContainer" onClick={() => {
-                    this.props.goToChallengeDetail(heldChallenge, heldChallengeBalances[index], heldChallengeRemainingRedemptions[index])
-                }}>
+                <div className="tileClickContainer" 
+                // onClick={() => {
+                //     this.props.goToChallengeDetail(heldChallenge, heldChallengeBalances[index], heldChallengeRemainingRedemptions[index])
+                // }}
+                >
                     <h2 className="balance-title">{heldChallenge.company}</h2>
                     <img className="logoImg" src={heldChallenge.imageUrl || ncentLogo} alt="ncent logo" 
                         onError={this.imgLoadError} onLoad={this.imgLoad}
@@ -168,6 +181,15 @@ export default class MyJobCents extends React.Component {
                     })}
                 >
                     Send
+                </a>
+                <a
+                    title="Redeem a challenge"
+                    className="initiate-payment"
+                    onClick={() => {
+                        this.props.goToChallengeDetail(heldChallenge, heldChallengeBalances[index], heldChallengeRemainingRedemptions[index])
+                    }}
+                >
+                    View Details
                 </a>
                 {this.applyButton(heldChallenge.participationUrl)}
             </div>);

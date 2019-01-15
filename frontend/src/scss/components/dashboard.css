@@ -307,6 +307,7 @@
     color: #00c730;
     font-size: 16px;
     font-weight: 400;
+    margin-bottom: 1vh;
     z-index: 10;
 }
 
@@ -696,6 +697,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
 }
 
 .logoImg:hover {
@@ -744,7 +746,7 @@ body {
     font-size: 18px;
     margin-top: 2vh;
     margin-bottom: 2vh;
-    white-space: pre;
+    /* white-space: pre; */
 }
 
 .referralCodeHeaderInternalWrapper {
@@ -792,11 +794,13 @@ body {
     font-size: 30px;
     max-width: 100%;
     overflow: scroll;
+    text-align: center;
 }
 
 .challengeDescription {
     max-width: 100%;
     overflow: scroll;
+    text-align: center;
 }
 
 .challengeImage {
@@ -809,7 +813,16 @@ body {
 .challengeName {
     font-size: 22px;
     max-width: 100%;
-    overflow: scroll;    
+    overflow: scroll;
+    text-align: center;
+}
+
+.challengeReward {
+    text-align: center;
+}
+
+.challengeRemainingTime {
+    text-align: center;
 }
 
 .copyImg {
@@ -821,6 +834,7 @@ body {
 .currentBalance {
     padding-bottom: 35px;
     padding-top: 15px;
+    text-align: center;
 }
 
 .heldChallenges {
