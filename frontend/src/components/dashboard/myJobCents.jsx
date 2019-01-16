@@ -95,8 +95,10 @@ export default class MyJobCents extends React.Component {
                 <a
                     className="initiate-payment"
                     href={link}
+                    target="_blank"
+                    title="Apply for this job"
                 >
-                    Apply
+                    <button className="tileButton">Apply</button>
                 </a>
             );
         }
@@ -135,7 +137,7 @@ export default class MyJobCents extends React.Component {
                         imageUrl: sponsoredChallenge.imageUrl
                     })}
                 >
-                    Send
+                    <button className="tileButton">Send</button>
                 </a>
                 <a
                     title="Redeem a challenge"
@@ -144,16 +146,16 @@ export default class MyJobCents extends React.Component {
                         this.props.goToRedeemTab(sponsoredChallenge)
                     }}
                 >
-                    Redeem
+                    <button className="tileButton">Redeem</button>
                 </a>
                 <a
-                    title="Redeem a challenge"
+                    title="View challenge details"
                     className="initiate-payment"
                     onClick={() => {
                         this.props.goToChallengeDetail(sponsoredChallenge, sponsoredChallengeBalances[index], sponsoredChallengeRemainingRedemptions[index])
                     }}
                 >
-                    View Details
+                    <button className="tileButton">View Details</button>
                 </a>
             </div>);
         }.bind(this));
@@ -169,10 +171,10 @@ export default class MyJobCents extends React.Component {
                         onError={this.imgLoadError} onLoad={this.imgLoad}
                     />
                     <h2 className="balance-title">{heldChallenge.name}</h2>
-                    <h3 className="balance-subtitle">{heldChallengeBalances[index]} jobCent(s)</h3>
+                    <h3 className="balance-subtitle">{heldChallengeBalances[index]} jobCent{Number(heldChallengeBalances[index]) === 1 ? "" : "s"}</h3>
                 </div>
                 <a
-                    title="New"
+                    title="Send jobCents to another user"
                     className="initiate-payment-smaller-margin"
                     onClick={this.props.handleInput("formType", {
                         challengeName: heldChallenge.name,
@@ -180,16 +182,16 @@ export default class MyJobCents extends React.Component {
                         imageUrl: heldChallenge.imageUrl
                     })}
                 >
-                    Send
+                    <button className="tileButton">Send</button>
                 </a>
                 <a
-                    title="Redeem a challenge"
+                    title="View challenge details"
                     className="initiate-payment"
                     onClick={() => {
                         this.props.goToChallengeDetail(heldChallenge, heldChallengeBalances[index], heldChallengeRemainingRedemptions[index])
                     }}
                 >
-                    View Details
+                    <button className="tileButton">View Details</button>
                 </a>
                 {this.applyButton(heldChallenge.participationUrl)}
             </div>);

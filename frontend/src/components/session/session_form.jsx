@@ -377,7 +377,7 @@ class SessionForm extends React.Component {
                 {/* <h1 className="step-title">
                   Please log in.
                 </h1> */}
-                <span className="step-title preWS">{this.state.codeMessage}</span>
+                <span className="step-title">{this.state.codeMessage}</span>
                 <span className="errorMessage">{this.state.errorMessage}</span>
                 <form
                   autoComplete="off"

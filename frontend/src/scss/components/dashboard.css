@@ -761,6 +761,17 @@ body {
     margin-top: 2vh;
 }
 
+.tileButton {
+    margin: 5px;
+    background-color: #f9f9fb8c;
+    color: #3731e8;
+    border-radius: 7px;
+    width: 80px;
+    height: 38px;
+    font-size: 14px;
+    font-family: unset;
+}
+
 .tokensPerReferralDesc {
     padding-bottom: 6px;
 }
