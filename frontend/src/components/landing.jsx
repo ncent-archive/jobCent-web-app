@@ -28,6 +28,7 @@ class Landing extends React.Component {
   }
 
   smoothScroll() {
+    console.log("smoothScroll running in landing.jsx");
     document
       .getElementById("about")
       .scrollIntoView({ behavior: "smooth", block: "start" });
