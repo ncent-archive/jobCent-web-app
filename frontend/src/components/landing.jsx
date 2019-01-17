@@ -4,6 +4,7 @@ import "../scss/components/landing.css";
 import "../scss/components/bubbles.css";
 import ncentLogo from "../img/logo_white.png";
 import ncentHeaderLogo from "../img/ncent_header.png";
+import ncentHeaderLogoWhite from "../img/ncent_header_white.png";
 import { Bubbles } from "./bubbles";
 import jobCentGraphic from "../img/jobCentGraphic.png";
 import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
@@ -160,7 +161,7 @@ class Landing extends React.Component {
         </section>
           <footer className="footer">
               <div className="headerLogo">
-                  <img className="headerLogoImage" src={ncentHeaderLogo}/>
+                  <img className="headerLogoImage" src={ncentHeaderLogoWhite}/>
               </div>
               <div className="contactUs">
                   <div className="followUsHeader">Follow Us</div>

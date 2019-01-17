@@ -158,7 +158,7 @@ class SessionForm extends React.Component {
             if (res.data.error) {
               this.setState({ errorMessage: res.data.error });
             } else if (res.data.message === "Mail sent.") {
-              this.setState({ codeMessage: `Mail sent to ${this.state.emailLogin}!\nPlease check your email.` });
+              // this.setState({ codeMessage: `Mail sent to \n${this.state.emailLogin}!\nPlease check your email.` });
               this.switchToCode();
             } else {
               this.setState({ errorMessage: "Something went wrong. Please try again." });
@@ -378,6 +378,11 @@ class SessionForm extends React.Component {
                   Please log in.
                 </h1> */}
                 <span className="step-title">{this.state.codeMessage}</span>
+                <span className="mailAlert step-title">
+                  Mail sent to<br />
+                  <span className="overflowX">{this.state.emailLogin}</span><br />
+                  Please check your email.
+                </span>
                 <span className="errorMessage">{this.state.errorMessage}</span>
                 <form
                   autoComplete="off"

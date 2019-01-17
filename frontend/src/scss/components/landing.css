@@ -192,7 +192,8 @@
 }
 
 .headerLogoImage {
-  width: 20vw;
+  max-width: 30vw !important;
+  min-width: 170px !important;
 }
 
 .contactUs {
@@ -1004,7 +1005,7 @@
 
 @media (max-height: 560px) {
   .jobcent-logo {
-    max-height: 60vw;
+    max-height: 125vh;
   }
 
   .jobcent-wrapper {

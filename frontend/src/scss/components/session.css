@@ -110,6 +110,10 @@
   z-index: 1;
 }
 
+.overflowX {
+  overflow-x: scroll;
+}
+
 .text-field {
   -webkit-appearance: none;
   border: 0;
