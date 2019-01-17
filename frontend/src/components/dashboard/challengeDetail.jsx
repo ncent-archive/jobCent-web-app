@@ -19,7 +19,8 @@ export default class ChallengeDetail extends React.Component {
             referralCode: "",
             tokensPerReferral: 1,
             imageLoadErrBool: true,
-            copying: false
+            copying: false,
+            saveText: "Save"
         };
 
         this.handleSetTokensPerReferral = this.handleSetTokensPerReferral.bind(this);
@@ -53,6 +54,8 @@ export default class ChallengeDetail extends React.Component {
     }
 
     async handleSetTokensPerReferral(e) {
+        console.log("setting tokens challengeSDetail.jsx");
+        this.setState({ saveText: "Saving..." });
         e.preventDefault();
         const challengeUuid = this.props.challengeDetails.uuid;
         const userUuid = this.props.currentUser.uuid;
@@ -62,6 +65,7 @@ export default class ChallengeDetail extends React.Component {
         if (obj.errors && obj.errors.response.data.message === "User not logged in") {
             this.props.loginRedirect();
         }
+        this.setState ({ saveText: "Saved!" });
     }
 
     imgLoadError(e) {
@@ -138,12 +142,12 @@ export default class ChallengeDetail extends React.Component {
                             </div>
                             <br />
                             <button className="theme-button saveChallengeDetail">
-                                Save
+                                {this.state.saveText}
                             </button>
                         </form>
                     {/* </div> */}
                 </div>
-                {this.copyText}
+                {/* {this.copyText} */}
             </div>
         </div>;
     }
