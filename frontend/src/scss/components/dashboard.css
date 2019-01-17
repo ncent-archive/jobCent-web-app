@@ -766,6 +766,14 @@ body {
     margin-top: 2vh;
 }
 
+.tileCompanyName {
+    height: 20px;
+}
+
+.tileJobTitle {
+    height: 45px;
+}
+
 .tileButtonsContainer {
     display: flex;
     flex-direction: column;

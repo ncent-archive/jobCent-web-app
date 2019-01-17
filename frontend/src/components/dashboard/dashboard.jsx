@@ -408,6 +408,13 @@ class Dashboard extends React.Component {
             return;
         }
 
+        if (!this.state.participationUrl.match(/https?\:\/\/\w+(\.\w+)+(\/\w+)*(\.\w+)?(\?\w+=\w+(&\w+=\w+))*/gi)) {
+            this.setState({
+                errorMessage: "Please enter a valid job application link."
+            });
+            return;
+        }
+
         const challenge = Object.assign({}, {
             senderPublicKey: this.props.currentUser.publicKey,
             senderPrivateKey: this.props.currentUser.privateKey,

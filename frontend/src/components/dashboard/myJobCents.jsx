@@ -124,11 +124,11 @@ export default class MyJobCents extends React.Component {
                     //     this.props.goToChallengeDetail(sponsoredChallenge, sponsoredChallengeBalances[index], sponsoredChallengeRemainingRedemptions[index])
                     // }}
                 >
-                    <h2 className="balance-title">{sponsoredChallenge.company}</h2>
+                    <h2 className="balance-title tileCompanyName">{sponsoredChallenge.company}</h2>
                     <img className="logoImg" src={sponsoredChallenge.imageUrl || ncentLogo} alt="ncent logo" 
                         onError={this.imgLoadError} onLoad={this.imgLoad}
                     />
-                    <h2 className="balance-title">{sponsoredChallenge.name}</h2>
+                    <h2 className="balance-title tileJobTitle">{sponsoredChallenge.name}</h2>
                     <h3 className="balance-subtitle">Sponsored</h3>
                     <h3 className="balance-subtitle">{ sponsoredChallengeBalances[index]  === 1 ? sponsoredChallengeBalances[index] + " jobCent" : sponsoredChallengeBalances[index] + " jobCents"}</h3>
                 </div>
@@ -176,11 +176,11 @@ export default class MyJobCents extends React.Component {
                 //     this.props.goToChallengeDetail(heldChallenge, heldChallengeBalances[index], heldChallengeRemainingRedemptions[index])
                 // }}
                 >
-                    <h2 className="balance-title">{heldChallenge.company}</h2>
+                    <h2 className="balance-title tileCompanyName">{heldChallenge.company}</h2>
                     <img className="logoImg" src={heldChallenge.imageUrl || ncentLogo} alt="ncent logo" 
                         onError={this.imgLoadError} onLoad={this.imgLoad}
                     />
-                    <h2 className="balance-title">{heldChallenge.name}</h2>
+                    <h2 className="balance-title tileJobTitle">{heldChallenge.name}</h2>
                     <h3 className="balance-subtitle">{heldChallengeBalances[index]} jobCent{Number(heldChallengeBalances[index]) === 1 ? "" : "s"}</h3>
                 </div>
                 <div className="tileButtonsContainer">
