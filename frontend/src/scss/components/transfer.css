@@ -71,6 +71,7 @@
     transition: opacity 0.1s linear;
     visibility: visible;
     width: 100%;
+    padding: 5px;
 }
 
 .enter-email {

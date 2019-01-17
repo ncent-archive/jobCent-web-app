@@ -829,7 +829,7 @@ body {
     color: black;
     max-width: 80vw;
     margin-bottom: 70px;
-    max-height: 100vh;
+    /* max-height: 100vh; */
 }
 
 @media (max-width: 780px) {
@@ -849,7 +849,7 @@ body {
         margin-top: -25px;
         margin-bottom: 0px;
         justify-content: space-evenly;
-        min-height: 100vh;
+        /* min-height: 100vh; */
     }
 
     .backArrowIcon {
@@ -982,6 +982,9 @@ body {
     background-color: rgba(0, 0, 0, 0.05);
     border-radius: 50px;
     padding: 5px;
+    position: relative;
+    bottom: 5px;
+    right: 5px;
 }
 
 .xIcon {
