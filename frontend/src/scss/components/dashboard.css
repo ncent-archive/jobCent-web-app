@@ -682,7 +682,7 @@ body {
     border-spacing: 10px;
     padding: 10px;
     border-color: rgb(0, 0, 0, 0.25);
-    max-width: 130%;
+    max-width: 90%;
 }
 
 .tileClickContainer {
@@ -725,7 +725,7 @@ body {
 }
 
 .saveChallengeDetail:hover {
-    background-color:#34ff04;
+    background-color:#31aaff;
 }
 
 .signupLink {
@@ -763,7 +763,7 @@ body {
     color: green;
     width: 100%;
     font-size: 18px;
-    margin-top: 2vh;
+    margin-top: calc(2vh + 15px);
 }
 
 .tileCompanyName {
@@ -827,6 +827,46 @@ body {
     color: #ffffff;
     max-width: 80vw;
     margin-bottom: 70px;
+}
+
+@media (max-width: 780px) {
+    .not-x-button {
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -ms-flex-align: center;
+        align-items: center;
+        background-color: blue;
+        padding: 5vh 2vw 8vh 2vw;
+        border-radius: 0px;
+        color: #ffffff;
+        min-width: 100vw;
+        margin-top: -25px;
+        margin-bottom: 0px;
+        justify-content: space-evenly;
+        min-height: 100vh;
+    }
+
+    .backArrowIcon {
+        width: 35px !important;
+        height: 35px !important;
+        background-color: #00000038;
+        border-radius: 50px;
+        filter: invert(1);
+        padding: 5px;
+    }
+
+    .fs-transfer-sheet {
+        min-height: unset !important;
+    }
+
+    .transfer-content {
+        padding: 0px !important;
+    }
+
+    .headerChallengeImage {
+        margin-top: 10px;
+    }
 }
 
 .challengeContent {
