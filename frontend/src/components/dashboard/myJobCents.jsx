@@ -76,7 +76,9 @@ export default class MyJobCents extends React.Component {
         if (message) {
             return <div className="successMessage">
                 <span>{message}</span>
-                <img className="messageDismissal" src={xIcon} onClick={this.props.clearSuccessMessage}/>
+                <img className="messageDismissal" src={xIcon} onClick={this.props.clearSuccessMessage}
+                    title="Dismiss this message"
+                />
             </div>;
         }
     }
@@ -85,7 +87,9 @@ export default class MyJobCents extends React.Component {
         if (message) {
             return <div className="errorMessage">
                 <span>{message}</span>
-                <img className="messageDismissal" src={xIcon} onClick={this.props.clearErrorMessage}/>
+                <img className="messageDismissal" src={xIcon} onClick={this.props.clearErrorMessage}
+                    title="Dismiss this message"
+                />
             </div>;
         }
     }
@@ -98,7 +102,7 @@ export default class MyJobCents extends React.Component {
                     target="_blank"
                     title="Apply for this job"
                 >
-                    <button className="tileButton">Apply</button>
+                    <button className="tileButtonOthers">Apply</button>
                 </a>
             );
         }
@@ -128,35 +132,41 @@ export default class MyJobCents extends React.Component {
                     <h3 className="balance-subtitle">Sponsored</h3>
                     <h3 className="balance-subtitle">{ sponsoredChallengeBalances[index]  === 1 ? sponsoredChallengeBalances[index] + " jobCent" : sponsoredChallengeBalances[index] + " jobCents"}</h3>
                 </div>
-                <a
-                    title="Send jobCents to another user"
-                    className="initiate-payment-smaller-margin"
-                    onClick={this.props.handleInput("formType", {
-                        challengeName: sponsoredChallenge.name,
-                        challengeUuid: sponsoredChallenge.uuid,
-                        imageUrl: sponsoredChallenge.imageUrl
-                    })}
-                >
-                    <button className="tileButton">Send</button>
-                </a>
-                <a
-                    title="Redeem a challenge"
-                    className="initiate-payment"
-                    onClick={() => {
-                        this.props.goToRedeemTab(sponsoredChallenge)
-                    }}
-                >
-                    <button className="tileButton">Redeem</button>
-                </a>
-                <a
-                    title="View challenge details"
-                    className="initiate-payment"
-                    onClick={() => {
-                        this.props.goToChallengeDetail(sponsoredChallenge, sponsoredChallengeBalances[index], sponsoredChallengeRemainingRedemptions[index])
-                    }}
-                >
-                    <button className="tileButton">View Details</button>
-                </a>
+                <div className="tileButtonsContainer">
+                    <div className="tileButtonsSendBtnContainer">
+                        <a
+                            title="Send jobCents to another user"
+                            className="initiate-payment-smaller-margin"
+                            onClick={this.props.handleInput("formType", {
+                                challengeName: sponsoredChallenge.name,
+                                challengeUuid: sponsoredChallenge.uuid,
+                                imageUrl: sponsoredChallenge.imageUrl
+                            })}
+                        >
+                            <button className="tileButtonSend">Send</button>
+                        </a>
+                    </div>
+                    <div className="tileButtonsOthersContainer">
+                        <a
+                            title="Redeem a challenge"
+                            className="initiate-payment"
+                            onClick={() => {
+                                this.props.goToRedeemTab(sponsoredChallenge)
+                            }}
+                        >
+                            <span className="tileButtonOthers">Redeem</span>
+                        </a>
+                        <a
+                            title="View challenge details"
+                            className="initiate-payment"
+                            onClick={() => {
+                                this.props.goToChallengeDetail(sponsoredChallenge, sponsoredChallengeBalances[index], sponsoredChallengeRemainingRedemptions[index])
+                            }}
+                        >
+                            <span className="tileButtonOthers">View Details</span>
+                        </a>
+                    </div>
+                </div>
             </div>);
         }.bind(this));
         const heldChallengeTiles = heldChallenges.map(function (heldChallenge, index) {
@@ -173,27 +183,40 @@ export default class MyJobCents extends React.Component {
                     <h2 className="balance-title">{heldChallenge.name}</h2>
                     <h3 className="balance-subtitle">{heldChallengeBalances[index]} jobCent{Number(heldChallengeBalances[index]) === 1 ? "" : "s"}</h3>
                 </div>
-                <a
-                    title="Send jobCents to another user"
-                    className="initiate-payment-smaller-margin"
-                    onClick={this.props.handleInput("formType", {
-                        challengeName: heldChallenge.name,
-                        challengeUuid: heldChallenge.uuid,
-                        imageUrl: heldChallenge.imageUrl
-                    })}
-                >
-                    <button className="tileButton">Send</button>
-                </a>
-                <a
-                    title="View challenge details"
-                    className="initiate-payment"
-                    onClick={() => {
-                        this.props.goToChallengeDetail(heldChallenge, heldChallengeBalances[index], heldChallengeRemainingRedemptions[index])
-                    }}
-                >
-                    <button className="tileButton">View Details</button>
-                </a>
-                {this.applyButton(heldChallenge.participationUrl)}
+                <div className="tileButtonsContainer">
+                    <div className="tileButtonsSendBtnContainer">
+                        <a
+                            title="Send jobCents to another user"
+                            className="initiate-payment-smaller-margin"
+                            onClick={this.props.handleInput("formType", {
+                                challengeName: heldChallenge.name,
+                                challengeUuid: heldChallenge.uuid,
+                                imageUrl: heldChallenge.imageUrl
+                            })}
+                        >
+                            <button className="tileButtonSend">Send</button>
+                        </a>
+                    </div>
+                    <div className="tileButtonsOthersContainer">
+                        <a
+                            className="initiate-payment"
+                            href={heldChallenge.participationUrl}
+                            target="_blank"
+                            title="Apply for this job"
+                        >
+                            <span className="tileButtonOthers">Apply</span>
+                        </a>
+                        <a
+                            title="View challenge details"
+                            className="initiate-payment"
+                            onClick={() => {
+                                this.props.goToChallengeDetail(heldChallenge, heldChallengeBalances[index], heldChallengeRemainingRedemptions[index])
+                            }}
+                        >
+                            <span className="tileButtonOthers">View Details</span>
+                        </a>
+                    </div>
+                </div>
             </div>);
         }.bind(this));
         return (

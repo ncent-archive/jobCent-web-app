@@ -635,7 +635,9 @@ body {
     background-color: #ffffff;
     text-align: center;
     margin: 0;
-    padding: 5vh;
+    font-size: 30px;
+    /* overflow-wrap: normal; */
+    padding: 2vh 1vw 7vh 1vw;
 }
 
 .copyReferralCodeWrapper {
@@ -747,7 +749,7 @@ body {
     color: red;
     width: 100%;
     font-size: 18px;
-    margin-top: 2vh;
+    margin-top: calc(2vh + 30px);
     margin-bottom: 2vh;
     /* white-space: pre; */
 }
@@ -764,15 +766,36 @@ body {
     margin-top: 2vh;
 }
 
-.tileButton {
+.tileButtonsContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.tileButtonSend {
     margin: 5px;
-    background-color: #f9f9fb8c;
-    color: #3731e8;
-    border-radius: 7px;
-    width: 80px;
     height: 38px;
     font-size: 14px;
     font-family: unset;
+    width: 200px;
+    background-color: #0e40ff;
+    color: white;
+    border-radius: 20px;
+    border: 1px solid #0000006b;
+}
+
+.tileButtonsSendBtnContainer {
+
+}
+
+.tileButtonsOthersContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 5px;
+}
+
+.tileButtonOthers {
+
 }
 
 .tokensPerReferralDesc {
