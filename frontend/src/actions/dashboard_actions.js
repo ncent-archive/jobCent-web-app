@@ -52,6 +52,7 @@ export const resetUserData = () => ({
 export const fetchUser = user => dispatch =>
     ApiUtil.fetchUser(user).then(
         balance => {
+            console.log("fetchUser in dashboard_actions, payload is", balance);
            dispatch(receiveUser(balance))
         },
         err => dispatch(receiveErrors(err))
@@ -94,7 +95,7 @@ export const getReferralCode = (userUuid, challengeUuid) => dispatch =>
         data => dispatch(receiveChallengeUserData(data)),
         err => dispatch(receiveErrors(err))
     );
-    
+
 export const setTokensPerReferral = (userUuid, challengeUuid, tokensPerReferral) => dispatch =>
     ApiUtil.setTokensPerReferral(userUuid, challengeUuid, tokensPerReferral).then(
         data => dispatch(receiveChallengeUserData(data)),

@@ -118,6 +118,7 @@
     color: #204fc7;
     font-size: 50px;
     letter-spacing: 0;
+    text-align: center;
 }
 
 .bottom-margin {
@@ -252,6 +253,7 @@ label {
 
 .disclaimerText {
     font-size: 11px;
+    text-align: center;
 }
 
 .disclaimerContainer {
@@ -266,6 +268,7 @@ label {
     font-size: 20px;
     margin-bottom: 2vh;
     margin-top: 2vh;
+    text-align: center;
 }
 
 .tokensPerReferralForm {

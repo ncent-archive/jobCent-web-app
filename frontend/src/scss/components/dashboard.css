@@ -665,7 +665,8 @@ body {
     text-align: center;
     border: 2px solid black;
     border-radius: 10px;
-    margin-bottom: 5vh;
+    /* margin-bottom: 5vh; */
+    margin: 1px 5px 5vh 5px;
     padding-bottom: 2vh;
 }
 
@@ -715,7 +716,9 @@ body {
 .saveChallengeDetail {
     top: 2vh;
     position: relative;
-    background-color: #18ef20;
+    background-color: #4d59ff;
+    color: white;
+    border: 1px solid #3333339c;
     margin: -10px;
 }
 
@@ -887,8 +890,8 @@ body {
     height: 25px;
     /* background-color: black; */
     position: relative;
-    top: 2px;
-    left: 2px;
+    top: 3vh;
+    left: 3vw;
     z-index: 19;
 }
 

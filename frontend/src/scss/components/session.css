@@ -134,10 +134,10 @@
 
 .theme-button {
   -webkit-tap-highlight-color: transparent;
-  background-color: #14d642;
-  border: none;
+  background-color: #204fc7;
+  border: 1px solid #3333339c;
   border-radius: 8px;
-  color: black;
+  color: white;
   font-weight: bold;
   display: block;
   font-size: 18px;
