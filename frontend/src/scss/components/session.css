@@ -1,11 +1,12 @@
 .signup-form {
   background-color: #204fc7;
+  overflow-y: scroll;
 }
 
 .signup-component {
   height: 100vh;
-  min-height: 100vh;
-  min-width: 320px;
+  min-height: 45px;
+  min-width: 150px;
   position: relative;
   z-index: 1;
 }
@@ -35,7 +36,7 @@
   display: flex;
   flex: 1 0 auto;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   margin: 0 auto;
   min-height: 0;
   min-width: 0;
@@ -58,7 +59,7 @@
   margin: 0.67em 0;
   margin-bottom: 32px;
   margin-top: 0;
-  min-height: 2.4em;
+  /* min-height: 2.4em; */
   text-align: center;
   width: 100%;
 }
@@ -67,12 +68,21 @@
   margin-bottom: 15px;
 }
 
+#alternateBtn {
+  background-color: #1f5eff;
+}
+
+#alternateBtn:hover {
+  background-color: #5d8bff;
+}
+
 .returnToSignup {
   color: white;
   font-size: 18px;
   font-weight: 400;
   letter-spacing: 0.5px;
-  margin-top: 2vh;
+  margin-top: 4vh;
+  margin-bottom: 15px;
   min-height: 2.4em;
   text-align: center;
   width: 100%;
@@ -100,6 +110,7 @@
   margin-top: 8px;
   text-align: center;
   width: 100%;
+  max-width: 300px;
 }
 
 .field {
@@ -112,6 +123,11 @@
 
 .overflowX {
   overflow-x: scroll;
+}
+
+.sessionRedirectContainer {
+  display: flex;
+  flex-direction: column;
 }
 
 .text-field {
@@ -162,12 +178,12 @@
 
 @media (max-width: 767px) {
   .login-container {
-    max-width: 324px;
+    /* max-width: 324px; */
   }
 }
 
 @media (min-width: 768px) {
   .login-container {
-    max-width: 396px;
+    /* max-width: 396px; */
   }
 }

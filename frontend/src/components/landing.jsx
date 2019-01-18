@@ -11,6 +11,21 @@ import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timel
 import 'react-vertical-timeline-component/style.min.css';
 
 class Landing extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    }
+  }
+
+  componentWillMount() {
+    console.log("compwillmount landing, this.props", this.props);
+    this.props.sessionLogin().then(res => {
+      this.props.history.push("/dashboard");
+    });
+  }
+
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
   }

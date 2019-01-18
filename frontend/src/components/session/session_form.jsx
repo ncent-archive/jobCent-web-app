@@ -66,6 +66,7 @@ class SessionForm extends React.Component {
   }
 
   validateEmail(email) {
+    console.log("validate email running", email);
     if (email.length === 0) {
       this.setState({ errorMessage: "Please fill in your email." });
       return false;
@@ -79,7 +80,7 @@ class SessionForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.setState({ errorMessage: ""});
+    this.setState({ errorMessage: "" });
     this.props.clearErrors();
     // const processForm = this.state.formType === "signup" ? this.props.signup : this.props.login;
     const user = Object.assign({}, this.state);
@@ -150,7 +151,7 @@ class SessionForm extends React.Component {
         });
       }
     } else if (this.state.formType === "login") {
-      if (e.target.id === "textEmailLogin" || e.target.id === "requestCodeBtn") {
+      if (e.target.id === "textEmailLogin" || e.target.id === "alternateBtn") {
         this.setState({ errorMessage: "" });
         if (this.validateEmail(this.state.emailLogin)) {
           this.setState({ codeMessage: "" });
@@ -292,6 +293,7 @@ class SessionForm extends React.Component {
                         type="submit"
                         aria-label="Request Sign In Code"
                         className="theme-button"
+                        id="alternateBtn"
                       >
                         Sign Up
                       </button>
@@ -350,7 +352,7 @@ class SessionForm extends React.Component {
                         onClick={this.handleSubmit}
                         aria-label="Request Sign In Code"
                         className="theme-button"
-                        id="requestCodeBtn"
+                        id="alternateBtn"
                       >
                         Request Code
                       </button>
@@ -416,7 +418,7 @@ class SessionForm extends React.Component {
                         onClick={this.handleSubmit}
                         aria-label="Request Sign In Code"
                         className="theme-button"
-                        button="loginBtn"
+                        id="alternateBtn"
                       >
                         Log In
                       </button>
@@ -424,8 +426,10 @@ class SessionForm extends React.Component {
                     </div>
                   </div>
                 </form>
-                <span className="returnToSignup">Don't have an account? Click <a className="signupLink" onClick={this.switchToSignUp}>here</a> to sign up.</span>
-                <span className="returnToLogin">Wrong email?  Click <a className="signupLink" onClick={this.switchToLogin}>here</a> to sign in with a different email.</span>
+                <div className="sessionRedirectContainer">
+                  <span className="returnToSignup">Don't have an account? Click <a className="signupLink" onClick={this.switchToSignUp}>here</a> to sign up.</span>
+                  <span className="returnToLogin">Wrong email?  Click <a className="signupLink" onClick={this.switchToLogin}>here</a> to sign in with a different email.</span>
+                </div>
               </div>
             </section>
             <div className="modal-manager ">

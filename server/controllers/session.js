@@ -113,6 +113,7 @@ module.exports = {
     },
     verify(req, res) {
         if (req.session.user && req.cookies.session_token) {
+            console.log("verify on backend in session.js, req.session.user", req.session.user, "req.cookies.session_token", req.cookies.session_token);
             return res.status(200).send({sessionVerified: true, user: req.session.user});
         }
 
