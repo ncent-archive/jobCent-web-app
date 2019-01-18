@@ -92,6 +92,7 @@ class Dashboard extends React.Component {
         this.renderMenu = this.renderMenu.bind(this);
         this.returnToJobCents = this.returnToJobCents.bind(this);
         this.clearSuccessMessage = this.clearSuccessMessage.bind(this);
+        this.conditionalSponsorButton = this.conditionalSponsorButton.bind(this);
     }
 
     componentWillMount() {
@@ -681,7 +682,7 @@ class Dashboard extends React.Component {
             );
         } else {
             return (
-                <div>
+                <div className="userInfo">
                     Loading...
                 </div>
             );
@@ -717,6 +718,29 @@ class Dashboard extends React.Component {
                     <img className="hamburgerIcon" src={hamburgerIcon} />
                 </div>
             )
+        }
+    }
+
+    conditionalSponsorButton() {
+        if (this.state.userLoaded && this.props.currentUser) {
+            if (this.props.currentUser.email.split("@")[1] === "ncnt.io") {
+                return (
+                    <a
+                        title="Sponsor a challenge"
+                        className={
+                            this.state.formType === "Sponsor a challenge"
+                                ? "menuItemActive menuTextActive"
+                                : "menuItemInactive menuTextInactive"
+                        }
+                        onClick={this.handleInput("formType")}
+                    >
+                        <span className="menuIconTextContainer">
+                            <img src={sponsorIcon} className="menuIcon" />
+                            <span className="button-text menuTextAll">Sponsor</span>
+                        </span>
+                    </a>
+                )
+            }
         }
     }
 
@@ -783,20 +807,7 @@ class Dashboard extends React.Component {
                                             <span className="button-text menuTextAll">Redeem Code</span>
                                         </span>
                                     </a>
-                                    <a
-                                        title="Sponsor a challenge"
-                                        className={
-                                            this.state.formType === "Sponsor a challenge"
-                                                ? "menuItemActive menuTextActive"
-                                                : "menuItemInactive menuTextInactive"
-                                        }
-                                        onClick={this.handleInput("formType")}
-                                    >
-                                        <span className="menuIconTextContainer">
-                                            <img src={sponsorIcon} className="menuIcon" />
-                                            <span className="button-text menuTextAll">Sponsor</span>
-                                        </span>
-                                    </a>
+                                    {this.conditionalSponsorButton()}
                                     <a
                                         title="Sign Out"
                                         className={
