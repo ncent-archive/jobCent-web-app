@@ -160,7 +160,7 @@ export default class MyJobCents extends React.Component {
                             title="View challenge details"
                             className="initiate-payment"
                             onClick={() => {
-                                this.props.goToChallengeDetail(sponsoredChallenge, sponsoredChallengeBalances[index], sponsoredChallengeRemainingRedemptions[index])
+                                this.props.goToChallengeDetail(sponsoredChallenge, sponsoredChallengeBalances[index], sponsoredChallengeRemainingRedemptions[index], "Sponsored")
                             }}
                         >
                             <span className="tileButtonOthers">View Details</span>
@@ -210,7 +210,7 @@ export default class MyJobCents extends React.Component {
                             title="View challenge details"
                             className="initiate-payment"
                             onClick={() => {
-                                this.props.goToChallengeDetail(heldChallenge, heldChallengeBalances[index], heldChallengeRemainingRedemptions[index])
+                                this.props.goToChallengeDetail(heldChallenge, heldChallengeBalances[index], heldChallengeRemainingRedemptions[index], "Held", heldChallenge.participationUrl)
                             }}
                         >
                             <span className="tileButtonOthers">View Details</span>

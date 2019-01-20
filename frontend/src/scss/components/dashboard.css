@@ -127,6 +127,19 @@
     overflow: scroll;
 }
 
+.challengeDetailApply {
+    margin: 5px;
+    height: 45px;
+    max-width: 380px;
+    font-family: unset;
+    color: white;
+    width: 90vw;
+    font-size: 20px;
+    border: 2px solid #000000d1;
+    background-color: #2020d0;
+    border-radius: 15px;
+}
+
 .config-column {
     margin-left: -24px;
     margin-right: -24px;
@@ -705,6 +718,7 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    margin-top: 20px;
 }
 
 .logoImg:hover {
@@ -926,7 +940,7 @@ body {
 }
 
 .currentBalance {
-    padding-bottom: 35px;
+    padding-bottom: 10px;
     padding-top: 15px;
     text-align: center;
 }

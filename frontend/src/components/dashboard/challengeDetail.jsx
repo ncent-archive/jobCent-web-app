@@ -26,6 +26,7 @@ export default class ChallengeDetail extends React.Component {
         this.handleSetTokensPerReferral = this.handleSetTokensPerReferral.bind(this);
         this.imgLoadError = this.imgLoadError.bind(this);
         this.copyText = this.copyText.bind(this);
+        this.applyLink = this.applyLink.bind(this);
     }
 
     componentWillMount() {
@@ -84,6 +85,21 @@ export default class ChallengeDetail extends React.Component {
         newTextInput.remove();
     }
 
+    applyLink() {
+        if (this.props.challengeType === "Held") {
+            return (
+                <a
+                    className="initiate-payment"
+                    href={this.props.participationUrl}
+                    target="_blank"
+                    title="Apply for this job"
+                >
+                    <button className="challengeDetailApply">Apply</button>
+                </a>
+            )
+        }
+    }
+
     render() {
         let balanceNotPlural = this.props.challengeBalance === 1;
         let days = Math.floor(convertToDays(this.props.challengeDetails.expiration));
@@ -108,6 +124,7 @@ export default class ChallengeDetail extends React.Component {
                     <h1 className="companyName">{this.props.challengeDetails.company}</h1>
                     <h1 className="challengeName">{this.props.challengeDetails.name}</h1>
                     <p className="challengeDescription">{this.props.challengeDetails.description}</p>
+                    {this.applyLink()}
                     {/* <div className="challengeContent"> */}
                         <h2 className="challengeReward">Total Reward: ${this.props.challengeDetails.rewardAmount}</h2>
                         <h2 className="challengeRemainingTime">{daysText}</h2>
@@ -124,6 +141,17 @@ export default class ChallengeDetail extends React.Component {
                             </div>
                         </h2>
                         <span className="currentBalance">Your current balance: {this.props.challengeBalance} jobCent{balanceNotPlural ? "" : "s"}</span>
+                        <a
+                            title="Send jobCents to another user"
+                            className="initiate-payment-smaller-margin"
+                            onClick={this.props.handleInput("formType", {
+                                challengeName: this.props.challengeDetails.name,
+                                challengeUuid: this.props.challengeDetails.uuid,
+                                imageUrl: this.props.challengeDetails.imageUrl
+                            })}
+                        >
+                            <button className="tileButtonSend">Send</button>
+                        </a>
                         <form className="tokensPerReferralForm" autoComplete="off" spellCheck="true" noValidate="true" onSubmit={this.handleSetTokensPerReferral}>
                             <span className="tokensPerReferralDesc">Total jobCents to send per referral code redemption</span>
                             <div className="enter-email">

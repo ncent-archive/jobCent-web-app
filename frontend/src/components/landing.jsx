@@ -61,18 +61,18 @@ class Landing extends React.Component {
               </div>
               <div className="logo-title">jobCent</div>
             </div>
-            <div>
+            <div className="landingButtonsTop">
               <a
                 onClick={this.smoothScroll}
                 className="button button-round button-about"
               >
                 About
               </a>
-              <Link to="/login" className="button button-round">
-                Login
-              </Link>
               <Link to="/signup" className="button button-round signUpBtn">
                 Sign up
+              </Link>
+              <Link to="/login" className="loginButtonTop">
+                Login
               </Link>
             </div>
           </header>
@@ -165,11 +165,11 @@ class Landing extends React.Component {
               </VerticalTimeline>
             <div className="header-sign-in timelineBtn">
 
-              <Link to="/login" className="test-button">
-                Login
-              </Link>
               <Link to="/signup" className="test-button">
                 Sign up
+              </Link>
+              <Link to="/login" className="loginButtonBottom">
+                Login
               </Link>
             </div>
           </div>

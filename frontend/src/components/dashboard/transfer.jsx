@@ -65,11 +65,11 @@ export default class Transfer extends React.Component {
                             <div className="error-box"/>
                         </div>
                         <div className="enter-email">
-                            <label htmlFor="">Amount:</label>
+                            <label htmlFor="" className="amountToTransfer">#:</label>
                             <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Number of jobCents to Send" autoCorrect="false" autoCapitalize="off"
+                                           placeholder="Number of invitations to send" autoCorrect="false" autoCapitalize="off"
                                            type="text" onChange={this.props.update("numShares")}/>
                                 </div>
                             </div>

@@ -222,12 +222,14 @@ class Dashboard extends React.Component {
         return Whitelist[this.props.currentUser.email];
     }
 
-    goToChallengeDetail(challengeDetails, challengeBalance, remainingRedemptions) {
+    goToChallengeDetail(challengeDetails, challengeBalance, remainingRedemptions, type, applyURL) {
         this.setState({
             challengeDetails,
             challengeBalance,
             remainingRedemptions,
-            formType: "challengeDetail"
+            formType: "challengeDetail",
+            challengeType: type,
+            applyURL: applyURL
         });
     }
 
@@ -570,6 +572,8 @@ class Dashboard extends React.Component {
                 <ChallengeDetail
                     handleInput={this.handleInput}
                     challengeDetails={this.state.challengeDetails}
+                    challengeType={this.state.challengeType}
+                    applyURL={this.state.applyURL}
                     challengeBalance={this.state.challengeBalance}
                     remainingRedemptions={this.state.remainingRedemptions}
                     getReferralCode={this.props.getReferralCode}
