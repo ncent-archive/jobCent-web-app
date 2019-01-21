@@ -16,7 +16,7 @@ import sponsorIcon from "../../img/sponsor.png";
 import logoutIcon from "../../img/logout.png";
 import hamburgerIcon from "../../img/hamburger.png";
 import backArrowIcon from "../../img/backArrow.png";
-import xIcon from "../../img/x.png";
+import xIcon from "../../img/xIcon.png";
 
 function validateEmail(email) {
     const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -705,20 +705,22 @@ class Dashboard extends React.Component {
     renderMenu() {
         if (this.state.formType === "challengeDetail") {
             return (
-                <div className="hamburgerContainer" onClick={this.returnToJobCents}>
+                <div className="hamburgerContainer" onClick={this.returnToJobCents} title="Return to wallet">
                     <img className="backArrowIcon" src={backArrowIcon} />
                 </div>
             )
         } else if (this.state.formType === "Send jobCents to another user" 
                 || this.state.formType === "Redeem challenge") {
             return (
-                <div className="hamburgerContainer" onClick={this.returnToJobCents}>
-                    <img className="xIcon" src={xIcon} />
+                <div className="hamburgerContainer" onClick={this.returnToJobCents} title="Return to wallet">
+                    <div className="xIconContainer">
+                        <img className="xIcon" src={xIcon} />
+                    </div>
                 </div>
             )
         } else {
             return (
-                <div className="hamburgerContainer" onClick={this.expandMenu}>
+                <div className="hamburgerContainer" onClick={this.expandMenu} title="Expand menu">
                     <img className="hamburgerIcon" src={hamburgerIcon} />
                 </div>
             )
