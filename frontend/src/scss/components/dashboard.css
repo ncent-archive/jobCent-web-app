@@ -1018,6 +1018,29 @@ body {
     height: 25px;
 }
 
+/* .hamburgerContainer:hover {
+    width: 35px;
+    height: 35px;
+    border-radius: 30px;
+    background-color: #0000000f;
+    z-index: 18;
+    position: relative;
+    top: 2vh;
+    left: 2vw;
+} */
+
+.hamburgerIcon:hover {
+    width: 35px;
+    height: 35px;
+    border-radius: 30px;
+    border: 6px solid #0000000f;
+    background-color: #0000000f;
+    z-index: 19;
+    position: relative;
+    right: 5px;
+    bottom: 5px;
+}
+
 .backArrowIcon {
     width: 35px;
     height: 35px;
