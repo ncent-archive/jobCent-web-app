@@ -102,16 +102,9 @@ class Landing extends React.Component {
               </header>
 
               <div className="about-content">
-                <div className="app-image">
-                 
-                  <picture>
-                    <source srcSet={jobCentGraphic} media="(min-width: 1278px)" />
-                    <source srcSet={jobCentGraphic} media="(min-width: 1024px)" />
-                    <img src={jobCentGraphic} />
-                  </picture>
-                </div>
+                <img src={jobCentGraphic}  className="jobCentGraphic"/>
                 <div className="app-info">
-                  <p>
+                  <p className="pCenter">
                     <b>Get Hired. Get Your Network Hired. Get Paid.</b>
                   </p>
                   <p>
