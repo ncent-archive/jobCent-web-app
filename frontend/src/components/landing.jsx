@@ -165,7 +165,7 @@ class Landing extends React.Component {
               </VerticalTimeline>
             <div className="header-sign-in timelineBtn">
 
-              <Link to="/signup" className="test-button">
+              <Link to="/signup" className="test-button signUpBtn">
                 Sign up
               </Link>
               <Link to="/login" className="loginButtonBottom">
