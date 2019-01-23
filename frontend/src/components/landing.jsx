@@ -190,10 +190,9 @@ class Landing extends React.Component {
                   </div>
               </div>
               <div className="moreInfo">
-                  <span className="phone"><b>Phone: </b>(650) 503-8785</span>
-                  <span className="email">Email our Founder at <a href="mailto:kk@ncnt.io" className="emailLink">kk@ncnt.io</a></span>
+                  <span className="email">Contact us at <a href="mailto:info@ncnt.io" className="emailLink">info@ncnt.io</a></span>
                   <div className="copyright">
-                      <span>&copy; nCent Labs 2018. </span>
+                      <span>&copy; nCent Labs 2019. </span>
                       <span>All Rights Reserved.</span>
                   </div>
               </div>
