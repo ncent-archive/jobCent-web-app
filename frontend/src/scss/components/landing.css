@@ -11,14 +11,16 @@
 
 .footer {
   width: 100%;
-  height: 20vh;
+  height: 40vh;
+  max-height: 170px !important;
   background-color: #204fc7;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   position: absolute;
   z-index: 1000;
   color: #ffffff;
+  padding: 3px 3px 3px 10px;
 }
 
 .height {
@@ -44,11 +46,12 @@
 .about-jobcent {
   background-color: #f3ecec;
   font-size: 25px;
-  max-width: 1278px;
+  /* max-width: 1278px; */
   min-height: 100vh;
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
   width: 100%;
+  position: relative;
 }
 
 .about-header-bar {
@@ -80,20 +83,32 @@
   width: 45px;
 }
 
+.pCenter {
+  text-align: center;
+}
+
 .logo-title {
   display: inline-block;
   font-size: 20px;
   font-weight: 500;
 }
 
+.landingButtonsTop {
+  display: flex;
+}
+
+.jobcent-logo {
+  max-width: 75vw;
+}
+
 .test-button {
   -webkit-align-items: center;
   -webkit-flex-direction: row;
   align-items: center;
-  background-color: #fff;
-  border: 1px solid #e2e2e2;
+  background-color: #28c101;
+  border: 1px solid #00000063 !important;
   border-radius: 100px;
-  color: #000;
+  color: #fff;
   display: inline-flex;
   flex-direction: row;
   font-size: 15px;
@@ -114,8 +129,20 @@
   width: 40px;
 }
 
-.app-image img {
+.app-image {
   max-width: 252px;
+}
+
+.jobCentGraphic {
+  width: 100vw;
+  align-self: center;
+  margin-bottom: 15px;
+}
+
+@media (min-width: 440px) {
+  .jobCentGraphic {
+    max-width: 440px !important;
+  }
 }
 
 .app-icon {
@@ -137,8 +164,8 @@
   background-color: #f8f8f8;
   height: 320px;
   margin-bottom: 53px;
-  margin-left: -40px;
-  margin-right: -40px;
+  /* margin-left: -40px;
+  margin-right: -40px; */
   overflow: hidden;
   padding-top: 32px;
   text-align: center;
@@ -180,22 +207,27 @@
 }
 
 .headerLogo, .headerLogoImg {
-  width: 20vw;
+  /* width: 20vw; */
   height: auto;
+}
+
+.headerLogoImage {
+  max-width: 30vw !important;
+  min-width: 170px !important;
 }
 
 .contactUs {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-right: 10vw;
-  padding-left: 10vw;
+  /* padding-right: 10vw; */
+  /* padding-left: 5vw; */
   justify-content: center;
   width: 50vw;
 }
 
 .followUsHeader {
-  font-size: 2.5vh;
+  font-size: 3.5vh;
   padding-bottom: 2vh;
 }
 
@@ -215,12 +247,65 @@
   height: 5vh;
 }
 
+.button-about:hover {
+  background-color: rgb(255, 255, 255);
+}
+
+.signUpBtn:hover {
+  background-color: rgb(0, 228, 0) !important;
+}
+
+.loginButtonTop {
+  background-color: blue;
+  color: white;
+  border-radius: 45px;
+  border: 1px solid #00000063;
+  width: 40vw;
+  max-width: 170px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  height: 40px;
+  margin-right: -5px;
+  margin-left: 15px;
+  padding: 10px 20px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.loginButtonTop:hover, .loginButtonBottom:hover {
+  background-color: rgb(62, 62, 255);
+}
+
+.loginButtonBottom {
+  background-color: blue;
+  color: white;
+  border-radius: 45px;
+  border: 1px solid #00000063;
+  width: 40vw;
+  max-width: 200px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  height: 40px;
+  margin-right: 14px;
+  padding: 10px 20px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
 .moreInfo {
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 25vw;
-  font-size: 2vh;
+  font-size: 16px;
+  text-align: center;
+}
+
+.copyright {
+  /* display: flex;
+  flex-direction: column; */
 }
 
 .phone {
@@ -248,9 +333,29 @@
   text-decoration: none;
 }
 
+.timelineBtn {
+  display: flex;
+}
+
+.vertical-timeline {
+  margin: 2em 0 3.5em 0 !important;
+  position: relative;
+  padding: 2em 0 1em 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.vertical-timeline-element-title {
+  font-size: 24px;
+}
+
+.vertical-timeline-element-subtitle {
+  font-size: 14px;
+}
+
 .nav-arrow {
   -webkit-transform: translateX(-50%);
-  bottom: 6rem;
+  bottom: 3rem;
   height: 50px;
   left: 50%;
   opacity: 1;
@@ -286,6 +391,8 @@
   outline: 0;
   padding: 15px;
   width: 50px;
+  position: relative;
+  bottom: 10px;
 }
 
 .jc-header-bar {
@@ -341,53 +448,66 @@
 }
 
 .button-about {
-  background-color: #fff;
+  background-color: #ececec;
   border: 1px solid #e2e2e2;
   color: #000;
-  margin-right: 15px;
+  margin-right: 0px;
   transition: background 0.35s ease-out;
+}
+
+@media (min-width: 768px) and (min-height: 600px) {
+  .nav-arrow {
+    bottom: 7.5rem !important;
+  } 
+}
+
+@media (max-width: 350px) {
+  .timelineBtn {
+    position: absolute;
+  }
 }
 
 @media (min-width: 600px) {
   .about-jobcent {
-    padding-left: 80px;
-    padding-right: 80px;
+    /* padding-left: 80px; */
+    /* padding-right: 80px; */
   }
-
+  
   .logo-title {
     font-size: 25px;
   }
-
+  
   .test-button {
     background-color: #28c101;
     border: none;
     color: #fff;
   }
-
+  
   .test-button:hover {
     background-color: #27bc01;
     cursor: pointer;
   }
-
+  
   .app-image img {
-    max-width: 330px;
+    /* max-width: 410px; */
   }
-
+  
   .about-content {
     font-size: 22px;
   }
-
+  
   .app-image {
     height: 480px;
     margin-bottom: 70px;
-    margin-left: -80px;
-    margin-right: -80px;
+    /* margin-left: -80px; */
+    /* margin-right: -80px; */
     padding-top: 58px;
   }
-
+  
   .jc-header-bar {
     max-height: 120px;
-    padding: 0 80px 80px;
+    padding: 0 35px 5px;
+    margin-bottom: -4px;
   }
 }
 
@@ -398,7 +518,7 @@
     align-items: center;
     padding: 80px 0;
   }
-
+  
   .about-content {
     -ms-flex-align: start;
     -ms-flex-direction: row-reverse;
@@ -407,14 +527,14 @@
     -webkit-align-items: flex-start;
     -webkit-align-self: stretch;
     -webkit-flex-direction: row-reverse;
-    -webkit-justify-content: space-between;
+    -webkit-justify-content: space-evenly;
     align-items: flex-start;
     align-self: stretch;
     flex-direction: row-reverse;
-    justify-content: space-between;
+    justify-content: space-evenly;
     margin-top: -9px;
   }
-
+  
   .app-image {
     -webkit-flex: 1 0 auto;
     -webkit-justify-content: center;
@@ -424,21 +544,21 @@
     height: auto;
     justify-content: center;
     margin-bottom: 0;
-    margin-left: 72px;
-    margin-right: 10px;
+    /* margin-left: 72px; */
+    /* margin-right: 10px; */
     padding-top: 0;
   }
-
+  
   .app-image picture {
     margin: 0;
     max-width: 360px;
   }
-
+  
   .app-info {
     font-weight: 300;
     width: 436px;
   }
-
+  
   .jc-header-bar {
     -ms-flex-align: center;
     -webkit-align-items: center;
@@ -448,8 +568,8 @@
 
 @media (min-width: 480px) {
   .app-image {
-    margin-left: -60px;
-    margin-right: -60px;
+    /* margin-left: -60px;
+    margin-right: -60px; */
   }
 }
 
@@ -463,7 +583,7 @@
     justify-content: flex-end;
     width: 386px;
   }
-
+  
   .app-image picture {
     max-width: 100%;
     width: 100%;
@@ -475,136 +595,157 @@
     -ms-flex: 0 0 550px;
     -webkit-flex: 0 0 550px;
     flex: 0 0 550px;
-    margin-left: 65px;
+    /* margin-left: 65px; */
     margin-top: 55px;
     min-width: 370px;
     width: 550px;
   }
-
+  
   .app-info {
     width: 476px;
   }
 }
 
 @media (min-height: 600px) and (min-width: 768px) {
-
+  
   .jc-header-bar {
     display: flex;
   }
 }
 
-@media only screen and (max-width: 1090px){
-
-  .contactUs{
-    width:50vw;
+@media only screen and (max-width: 1090px) {
+  
+  .contactUs {
+    width: 50vw;
+    padding-left: unset;
+    padding-right: unset;
+    width: unset;
   }
-  .contactButtons{
-    /*align-content:center;*/
-    width:50vw;
-    padding-left:10vw;
+  
+  .contactButtons {
+    /*align-content: center;*/
+    /* width: 50vw; */
+    width: unset;
+    /* padding-left: 10vw; */
   }
 
+  /* .footer {
+    justify-content: space-between;
+  } */
+  
 }
-@media only screen and (max-width: 7.4em){
 
-  .contactUs{
-    width:20vw;
-    padding-left:0;
-    padding-right:0;
+@media (min-width: 1300px) and (max-width: 1400px) {
+  .scrolling {
+    margin-right: -1px;
   }
-  .followUsHeader{
+}
 
+@media only screen and (max-width: 7.4em) {
+  
+  .contactUs {
+    width: 20vw;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  .followUsHeader {
     text-align: center;
-    min-width:20vw;
-    padding-bottom:2vw;
+    min-width: 20vw;
+    padding-bottom: 2vw;
     justify-content: center;
-    padding-right:0;
+    padding-right: 0;
   }
-  .contactButtons{
-    align-content:center;
-    justify-content: center;
-    max-width:20vw;
-
+  
+  .contactButtons {
+    align-content: center;
+    justify-content:  center;
+    max-width: 20vw;
   }
-  .contactImg{
-    padding-bottom:3px;
-    padding-top:3px;
+  
+  .contactImg {
+    padding-bottom: 3px;
+    padding-top: 3px;
   }
 }
-@media only screen and (max-width: 810px){
-
-  .contactUs{
-    width:15vw;
-    padding-left:0;
-    padding-right:0;
+@media only screen and (max-width: 810px) {
+  
+  .contactUs {
+    width: 15vw;
+    padding-left: 0;
+    padding-right: 0;
   }
-  .followUsHeader{
-
+  
+  .followUsHeader {
     text-align: center;
     float: center;
-    padding-right:0;
-    padding-bottom:1vw;
+    padding-right: 0;
+    padding-bottom: 1vw;
     /* justify-content: center;
-     padding-right:0px;*/
+    padding-right: 0px;*/
   }
-  .contactButtons{
-    align-content:center;
+  
+  .contactButtons {
+    align-content: center;
     justify-content: center;
-    max-width:15vw;
-    padding-left:10px;
+    max-width: 15vw;
+    padding-left: 10px;
   }
-  .contactImg{
-    padding-bottom:3px;
-    padding-top:3px;
+  
+  .contactImg {
+    padding-bottom: 3px;
+    padding-top: 3px;
   }
 }
-@media only screen and (max-width: 950px){
-
-  .contactUs{
-    width:25vw;
-    padding-left:0;
-    padding-right:0;
+@media only screen and (max-width: 950px) {
+  
+  .contactUs {
+    width: 25vw;
+    padding-left: 0;
+    padding-right: 0;
   }
-
-  .followUsHeader{
-    width:100px;
+  
+  .followUsHeader {
+    /* width: 100px; */
     text-align: center;
-    float:center;
-    padding-right:3vw;
-    padding-bottom:1vw;
+    padding-bottom: 15px;
+    white-space: nowrap;
     /* justify-content: center;
-     padding-right:0px;*/
+    padding-right: 0px;*/
   }
-  .contactButtons{
-    align-content:center;
+  
+  .contactButtons {
+    align-content: center;
     justify-content: center;
-    width:20vw;
-    padding-left:0;
+    width: 20vw;
+    padding-left: 0;
   }
-  .contactImg{
-    padding-bottom:3px;
-    padding-top:3px;
+  
+  .contactImg {
+    padding-bottom: 3px;
+    padding-top: 3px;
   }
 }
 
-@media only screen and (max-width: 1440px) and (orientation: portrait) {
+@media only screen and (max-width: 490px) {
   .footer {
     height: auto;
     padding-top: 5vh;
     padding-bottom: 5vh;
     flex-direction: column;
   }
-
+  
   .contactButtons {
     display: flex;
     margin-bottom: 5vh;
   }
-
+  
   .moreInfo {
     width: 95vw;
     text-align: center;
+    font-size: 2.75vw !important;
   }
-
+  
   .headerLogo, .headerLogo img {
     height: 0;
   }
@@ -640,5 +781,397 @@
   85% {
     -webkit-transform: translate3d(0, 30px, 0);
     transform: translate3d(0, 30px, 0);
+  }
+}
+
+/* @media (min-width: 601px) and (max-width: 700px) and (min-height: 341px) and (max-height: 400px) {
+  .contactUs {
+    margin-right: 65px;
+    margin-left: -50px;
+    width: 50vw;
+  }
+
+  .headerLogo {
+    display: none;
+  }
+
+  .contactButtons {
+    max-width: 80%;
+    width: 70%;
+  }
+
+  .moreInfo {
+    width: auto;
+    font-size: 3vh;
+  }
+
+  .jobcent-logo {
+    max-width: 65vw !important;
+  }
+
+  .jobcent-wrapper {
+    top: 45% !important;
+  }
+
+  .nav-arrow {
+    bottom: 1.3rem !important;
+  }
+} */
+
+@media (min-width: 701px) and (min-height: 401px) and (max-width: 775px) and (max-height: 440px) {
+  .nav-arrow {
+    bottom: 3rem;
+  }
+
+  .scrolling {
+    width: 106vw;
+    margin-top: 108vh;
+  }
+
+  .footer {
+    height: 35vh;
+    /* width: 108%; */
+    justify-content: space-evenly;
+  }
+
+  .contactButtons {
+    width: 35vw;
+    max-width: 35vw;
+  }
+
+  .contactUs {
+    width: auto;
+  }
+
+  .height {
+    min-height: 106vh;
+  }
+
+  .moreInfo {
+    font-size: 3vh;
+    min-width: 26vw;
+  }
+
+  .headerLogo {
+    width: auto;
+  }
+
+  .copyright {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .phone {
+    text-align: center;
+  }
+
+}
+
+/* @media (min-width: 776px) and (min-height: 401px) and (max-width: 850px) and (max-height: 450px) {
+  .nav-arrow {
+    bottom: 1.5rem !important;
+  }
+
+  .jobcent-wrapper {
+    top: 45% !important;
+  }
+
+  .footer {
+    height: 40vh;
+    justify-content: space-evenly;
+    padding-right: 20px;
+  }
+
+  .contactButtons {
+    width: unset;
+  }
+
+  .contactUs {
+    width: unset;
+    padding: 0px 9vw 0px 15vw;
+  }
+
+  .moreInfo {
+    font-size: 3vh;
+  }
+} */
+
+/* probably always good for width, especially footer */
+@media (min-width: 480px) and (min-height: 300px) and (max-width: 950px) and (max-height: 950px) {
+  .nav-arrow {
+    bottom: 3rem;
+  }
+
+  .jobcent-logo {
+    max-width: 70vw !important;
+  }
+
+  .jobcent-wrapper {
+    top: 45% !important;
+  }
+
+  .height {
+    min-height: 119vh;
+  }
+
+  .scrolling {
+    margin-top: 119vh;
+    min-width: 119%;
+  }
+
+  .about-jobcent {
+    /* padding-left: 33px; */
+    /* padding-right: 33px; */
+  }
+
+  .footer {
+    width: 119%;
+    /* height: 50vh; */
+    position: relative;
+    justify-content: space-around;
+    /* padding-left: 15px; */
+    /* padding: 0vw 3vw 0vw 3vw; */
+  }
+
+  .timelineBtn {
+    right: 25px;
+  }
+
+  .copyright {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .contactUs {
+    width: unset;
+    max-width: unset;
+  }
+
+  .contactButtons {
+    width: unset;
+    max-width: unset;
+  }
+
+  /* .moreInfo {
+    font-size: 2.3vh;
+  } */
+
+  .app-image {
+    margin-left: unset;
+    margin-right: unset;
+  }
+
+  .headerLogo {
+    /* right: 6vw; */
+    position: relative;
+    /* top: 0px; */
+    /* margin-right: 20px; */
+    /* width: 210px; */
+    height: auto;
+    /* width: unset; */
+  }
+
+  .headerLogoImage {
+    /* width: 35vw; */
+    height: auto;
+  }
+}
+
+@media (max-height: 430px) {
+  .moreInfo {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 990px) and (max-width: 1100px) {
+  .headerLogo {
+    position: relative;
+    /* left: 1.5vw !important; */
+  }
+}
+
+@media (min-width: 1101px) and (max-width: 1200px) {
+  .headerLogo {
+    position: relative;
+    /* left: 2.3vw !important; */
+  }
+}
+
+@media (min-width: 1201px) and (max-width: 1300px) {
+  .headerLogo {
+    position: relative;
+    /* left: 2.8vw !important; */
+  }
+}
+
+@media (min-width: 1301px) and (max-width: 1500px) {
+  .headerLogo {
+    position: relative;
+    /* left: 3.4vw !important; */
+  }
+}
+
+@media (min-width: 1500px) {
+  .headerLogo {
+    position: relative;
+    /* left: 3.8vw; */
+  }
+
+  .verticalTimelineLanding {
+    margin: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .headerLogoImage {
+    width: 25vw;
+  }
+}
+
+@media (max-width: 650px) {
+  .moreInfo {
+    font-size: 2.35vw;
+  }
+}
+
+@media (max-width: 300px) {
+  .nav-arrow {
+    bottom: 4rem;
+  }
+
+  .scrolling {
+    margin-top: 104vh;
+  }
+
+  .height {
+    min-height: 104vh;
+  }
+
+  .about-jobcent {
+    width: 107%;
+  }
+
+  .timelineBtn {
+    right: unset !important;
+  }
+
+  .moreInfo {
+    /* font-size: 3.65vw !important; */
+  }
+}
+
+@media (min-height: 350px) {
+  .nav-arrow {
+    bottom: 3.5rem;
+  }
+}
+
+@media (max-height: 400px) {
+  .nav-arrow {
+    bottom: 3.5rem !important;
+  }
+
+  .jobcent-logo {
+    max-height: 105vh !important;
+  }
+}
+
+@media (min-width: 950px) {
+  .nav-arrow {
+    bottom: 5.5rem;
+  }
+
+  .footer {
+    max-height: 170px;
+  }
+}
+
+@media (max-height: 560px) {
+  .jobcent-logo {
+    max-height: 125vh;
+  }
+
+  .jobcent-wrapper {
+    top: 43vh !important;
+  }
+}
+
+@media (min-height: 800px) {
+  .jobcent-logo {
+    max-width: 90vw !important;
+  }
+}
+
+@media (max-width: 490px) {
+  .followUsHeader {
+    font-size: 20px;
+    padding-bottom: 8px;
+  }
+
+  .contactUs {
+    margin-bottom: 12px;
+  }
+
+  .footer {
+    /* margin-bottom: 10px; */
+    padding-bottom: 14px;
+    padding-top: 10px;
+  }
+
+  .headerLogo {
+    display: none !important;
+  }
+
+  .copyright {
+    display: unset;
+  }
+}
+
+@media (max-width: 400px) {
+  .moreInfo {
+    font-size: 11px !important;
+  }
+}
+
+@media (max-width: 479px) {
+  .timelineBtn {
+    right: 0px !important;
+  }
+}
+
+@media (width: 768px) and (height: 1024px) {
+  .nav-arrow {
+    bottom: 9.5rem !important;
+  }
+
+  .contactButtons {
+    max-width: 22vw !important;
+  }
+}
+
+@media (max-height: 600px) {
+  .followUsHeader {
+    font-size: 18px !important;
+  }
+}
+
+@media (min-width: 491px) {
+  .headerLogo {
+    position: absolute;
+    left: 0vw;
+  }
+
+  .contactUs {
+    position: absolute;
+  }
+
+  .moreInfo {
+    position: absolute;
+    right: 1vw;
+  }
+
+  .footer {
+    position: relative;
   }
 }

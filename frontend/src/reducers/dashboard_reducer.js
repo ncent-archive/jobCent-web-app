@@ -3,7 +3,8 @@ import {
     RECEIVE_TRANSFER,
     RECEIVE_CHALLENGE,
     RECEIVE_CHALLENGE_BALANCES,
-    RECEIVE_CHALLENGE_USER_DATA
+    RECEIVE_CHALLENGE_USER_DATA,
+    RESET_USER_DATA
 } from "../actions/dashboard_actions";
 import {merge} from "lodash";
 
@@ -12,7 +13,8 @@ export default (state = {
     transfer: {},
     challenge: {},
     challengeBalances: [],
-    referralCode: ""
+    referralCode: "",
+    userData: {}
 }, action) => {
     let newState;
     Object.freeze(state);
@@ -41,6 +43,10 @@ export default (state = {
                 referralCode: challengeUser.referralCode,
                 tokensPerChallenge: challengeUser.tokensPerReferral
             });
+            return newState;
+        case RESET_USER_DATA:
+            newState = merge({}, state);
+            newState.userData = {};
             return newState;
         default:
             return state;

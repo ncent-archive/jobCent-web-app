@@ -71,6 +71,11 @@
     transition: opacity 0.1s linear;
     visibility: visible;
     width: 100%;
+    padding: 5px;
+}
+
+.amountToTransfer {
+    padding-left: 7px;
 }
 
 .enter-email {
@@ -85,7 +90,7 @@
     height: auto;
     margin-bottom: 3px;
     min-height: 55px;
-    padding: 0 20px;
+    padding: 0 5px 0px 10px;
     position: relative;
     z-index: 10;
 }
@@ -118,6 +123,7 @@
     color: #204fc7;
     font-size: 50px;
     letter-spacing: 0;
+    text-align: center;
 }
 
 .bottom-margin {
@@ -167,17 +173,25 @@ label {
 .recipients {
     display: flex;
     flex-direction: row;
-    padding-left: 15px;
+    padding-left: 10px;
     padding-right: 20px;
     padding-top: 11px;
     width: 100%;
+}
+
+.redeemHeader {
+    color: #204fc7;
+    font-size: 40px;
+    letter-spacing: 0;
+    text-align: center;
+    margin-top: 20px;
 }
 
 .transfer-input-field {
     border: none;
     border-radius: 0;
     display: inline-block;
-    font-size: 18px;
+    font-size: 16px;
     height: 34px;
     line-height: 1;
     margin-bottom: 10px;
@@ -185,6 +199,7 @@ label {
     outline: 0;
     padding-left: 0;
     padding-right: 0;
+    padding-bottom: 4px;
     width: 100%;
 }
 
@@ -252,6 +267,7 @@ label {
 
 .disclaimerText {
     font-size: 11px;
+    text-align: center;
 }
 
 .disclaimerContainer {
@@ -266,6 +282,7 @@ label {
     font-size: 20px;
     margin-bottom: 2vh;
     margin-top: 2vh;
+    text-align: center;
 }
 
 .tokensPerReferralForm {

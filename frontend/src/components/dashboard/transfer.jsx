@@ -39,9 +39,9 @@ export default class Transfer extends React.Component {
         }
         return <div className="fs-transfer-sheet">
             <div className="transfer-content">
-                <div title="jobCents" className="close-button" onClick={this.props.closeWithDelay}>
+                {/* <div title="jobCents" className="close-button" onClick={this.props.closeWithDelay}>
                     <img src={x} alt=""/>
-                </div>
+                </div> */}
                 <form autoComplete="off" className={"transferForm" + close} spellCheck="true" noValidate="true" onSubmit={this.props.handleTransfer}>
                     <div className="initiate-transfer">
                         <div className="errorMessage"><span>{this.props.errorMessage}</span></div>
@@ -65,11 +65,11 @@ export default class Transfer extends React.Component {
                             <div className="error-box"/>
                         </div>
                         <div className="enter-email">
-                            <label htmlFor="">Amount:</label>
+                            <label htmlFor="" className="amountToTransfer">#:</label>
                             <div className="recipients">
                                 <div className="token-list">
                                     <input className="transfer-input-field" autoComplete="off" spellCheck="false"
-                                           placeholder="Number of jobCents to Send" autoCorrect="false" autoCapitalize="off"
+                                           placeholder="Number of invitations to send" autoCorrect="false" autoCapitalize="off"
                                            type="text" onChange={this.props.update("numShares")}/>
                                 </div>
                             </div>

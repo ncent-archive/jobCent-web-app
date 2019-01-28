@@ -39,13 +39,13 @@ export default class Redeem extends React.Component {
         }
         return <div className="fs-transfer-sheet">
             <div className="transfer-content">
-                <div title="jobCents" className="close-button" onClick={this.props.closeWithDelay}>
+                {/* <div title="jobCents" className="close-button" onClick={this.props.closeWithDelay}>
                     <img src={x} alt=""/>
-                </div>
+                </div> */}
                 <div className={"redeemForm" + close}>
                     <div className="display-amount-fixed">
                         <div className="bottom-margin">
-                            <div className="currency-symbol">Redeem Your jobCent Challenge</div>
+                            <div className="redeemHeader">Redeem Your jobCent Challenge</div>
                         </div>
                     </div>
                     <RadioGroup onChange={this.props.selectRedeemer} horizontal={false}>

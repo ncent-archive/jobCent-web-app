@@ -4,12 +4,28 @@ import "../scss/components/landing.css";
 import "../scss/components/bubbles.css";
 import ncentLogo from "../img/logo_white.png";
 import ncentHeaderLogo from "../img/ncent_header.png";
+import ncentHeaderLogoWhite from "../img/ncent_header_white.png";
 import { Bubbles } from "./bubbles";
 import jobCentGraphic from "../img/jobCentGraphic.png";
 import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 
 class Landing extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    }
+  }
+
+  componentWillMount() {
+    console.log("compwillmount landing, this.props", this.props);
+    this.props.sessionLogin().then(res => {
+      this.props.history.push("/dashboard");
+    });
+  }
+
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
   }
@@ -28,6 +44,7 @@ class Landing extends React.Component {
   }
 
   smoothScroll() {
+    console.log("smoothScroll running in landing.jsx");
     document
       .getElementById("about")
       .scrollIntoView({ behavior: "smooth", block: "start" });
@@ -44,18 +61,18 @@ class Landing extends React.Component {
               </div>
               <div className="logo-title">jobCent</div>
             </div>
-            <div>
+            <div className="landingButtonsTop">
               <a
                 onClick={this.smoothScroll}
                 className="button button-round button-about"
               >
                 About
               </a>
-              <Link to="/login" className="button button-round">
-                Login
-              </Link>
               <Link to="/signup" className="button button-round signUpBtn">
                 Sign up
+              </Link>
+              <Link to="/login" className="loginButtonTop">
+                Login
               </Link>
             </div>
           </header>
@@ -85,16 +102,9 @@ class Landing extends React.Component {
               </header>
 
               <div className="about-content">
-                <div className="app-image">
-                 
-                  <picture>
-                    <source srcSet={jobCentGraphic} media="(min-width: 1278px)" />
-                    <source srcSet={jobCentGraphic} media="(min-width: 1024px)" />
-                    <img src={jobCentGraphic} />
-                  </picture>
-                </div>
+                <img src={jobCentGraphic}  className="jobCentGraphic"/>
                 <div className="app-info">
-                  <p>
+                  <p className="pCenter">
                     <b>Get Hired. Get Your Network Hired. Get Paid.</b>
                   </p>
                   <p>
@@ -148,18 +158,18 @@ class Landing extends React.Component {
               </VerticalTimeline>
             <div className="header-sign-in timelineBtn">
 
-              <Link to="/login" className="test-button">
-                Login
-              </Link>
-              <Link to="/signup" className="test-button">
+              <Link to="/signup" className="test-button signUpBtn">
                 Sign up
+              </Link>
+              <Link to="/login" className="loginButtonBottom">
+                Login
               </Link>
             </div>
           </div>
         </section>
           <footer className="footer">
               <div className="headerLogo">
-                  <img className="headerLogoImage" src={ncentHeaderLogo}/>
+                  <img className="headerLogoImage" src={ncentHeaderLogoWhite}/>
               </div>
               <div className="contactUs">
                   <div className="followUsHeader">Follow Us</div>
@@ -180,10 +190,10 @@ class Landing extends React.Component {
                   </div>
               </div>
               <div className="moreInfo">
-                  <span className="phone"><b>Phone: </b>(650) 503-8785</span>
-                  <span className="email">Email our Founder at <a href="mailto:kk@ncnt.io" className="emailLink">kk@ncnt.io</a></span>
+                  <span className="email">Contact us at <a href="mailto:info@ncnt.io" className="emailLink">info@ncnt.io</a></span>
                   <div className="copyright">
-                      &copy; nCent Labs 2018. All Rights Reserved.
+                      <span>&copy; nCent Labs 2019. </span>
+                      <span>All Rights Reserved.</span>
                   </div>
               </div>
           </footer>

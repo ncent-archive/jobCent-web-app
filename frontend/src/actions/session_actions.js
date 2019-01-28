@@ -40,8 +40,10 @@ export const sessionLogin = user => async (dispatch) => {
   userP = await ApiUtil.sessionLogin(user);
   if (userP.status >= 200 && userP.status < 300) {
     dispatch(receiveCurrentUser(userP.data.user));
+    return userP.data.user;
   } else {
     dispatch(receiveErrors(userP.response.data));
+    return userP.response.data;
   }
 }
 

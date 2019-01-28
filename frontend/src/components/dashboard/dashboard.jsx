@@ -10,6 +10,13 @@ import ChallengeDetail from "./challengeDetail.jsx";
 import Wallet from "./wallet.jsx";
 import Whitelist from "../../util/whitelist.js";
 import axios from "axios";
+import walletIcon from "../../img/wallet.png";
+import redeemIcon from "../../img/redeem.png";
+import sponsorIcon from "../../img/sponsor.png";
+import logoutIcon from "../../img/logout.png";
+import hamburgerIcon from "../../img/hamburger.png";
+import backArrowIcon from "../../img/backArrow.png";
+import xIcon from "../../img/xIcon.png";
 
 function validateEmail(email) {
     const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -44,7 +51,8 @@ const defaultState = {
     referralCode: "",
     tokensPerReferral: 1,
     loginRedirect: false,
-    closing: false
+    closing: false,
+    userLoaded: false
 };
 
 class Dashboard extends React.Component {
@@ -78,14 +86,24 @@ class Dashboard extends React.Component {
         this.closeWithDelay = this.closeWithDelay.bind(this);
         this.removeURLParams = this.removeURLParams.bind(this);
         this.clearErrorMessage = this.clearErrorMessage.bind(this);
+        this.expandMenu = this.expandMenu.bind(this);
+        this.collapseMenu = this.collapseMenu.bind(this);
+        this.userInfo = this.userInfo.bind(this);
+        this.renderMenu = this.renderMenu.bind(this);
+        this.returnToJobCents = this.returnToJobCents.bind(this);
+        this.clearSuccessMessage = this.clearSuccessMessage.bind(this);
+        this.conditionalSponsorButton = this.conditionalSponsorButton.bind(this);
     }
 
     componentWillMount() {
         axios.get("api/session")
             .then(function (verifyResp) {
                 if (verifyResp.data.sessionVerified) {
-                    this.props.sessionLogin(verifyResp.data.user);
-                    // this.props.login(verifyResp.data.user)
+                    console.log("earlier receive user in compqillmount in dashboard", verifyResp);
+                    this.props.sessionLogin(verifyResp.data.user).then(user => {
+                        this.setState({ userLoaded: true });
+                        console.log("received user in dashboard", this.props.currentUser);
+                    });
                 }
             }.bind(this), function () {
                 this.props.logout().then(() => {this.props.history.push("/")});
@@ -109,6 +127,7 @@ class Dashboard extends React.Component {
             formType: formType,
             referralCode: referralCode
         });
+        console.log("compDidMount dashboard.jsx, this.props.currentUser and .email", this.props.currentUser);
     }
 
     componentWillUnmount() {
@@ -131,8 +150,18 @@ class Dashboard extends React.Component {
         });
     }
 
+    clearSuccessMessage() {
+        this.setState({
+            successMessage: ""
+        });
+    }
+
     handleInput(key, options) {
         return e => {
+            if (this.state.formType !== e.currentTarget.title) {
+                setTimeout(this.collapseMenu, 130);
+            }
+
             if (options && options.challengeUuid) {
                 this.setState({
                     challengeUuid: options.challengeUuid,
@@ -193,12 +222,14 @@ class Dashboard extends React.Component {
         return Whitelist[this.props.currentUser.email];
     }
 
-    goToChallengeDetail(challengeDetails, challengeBalance, remainingRedemptions) {
+    goToChallengeDetail(challengeDetails, challengeBalance, remainingRedemptions, type, applyURL) {
         this.setState({
             challengeDetails,
             challengeBalance,
             remainingRedemptions,
-            formType: "challengeDetail"
+            formType: "challengeDetail",
+            challengeType: type,
+            applyURL: applyURL
         });
     }
 
@@ -297,19 +328,21 @@ class Dashboard extends React.Component {
         if (this.props.shareChallenge) {
             this.props.shareChallenge(challengeUuid, fromAddress, toAddress, numShares)
                 .then(res => {
+                    console.log("first .then in handleTransfer in dashboard.jsx", res);
                     if (res.errors && res.errors.response.data.message === "User not logged in") {
                         this.loginRedirect();
                         return;
                     }
-
+                    console.log("about to fetchUser in handletransfer in dashboard", this.props.currentUser);
                     this.props.fetchUser(this.props.currentUser)
                         .then(res => {
-                            let userData = res.userData.data;
+                            console.log("second .then in handleTransfer in dashboard.jsx", res, this.props.userData);
+                            let userData = this.props.userData;
                             if (userData) {
                                 this.setState({
                                     sponsoredChallenges: userData.sponsoredChallenges,
                                     heldChallenges: userData.heldChallenges,
-                                    successMessage: `You have successfully sent ${this.state.numShares} jobCent(s) to ${this.state.toAddress}.`,
+                                    successMessage: `You have successfully sent ${this.state.numShares} ${Number(this.state.numShares) === 1 ? "jobCent" : "jobCents"} to ${this.state.toAddress}.`,
                                     formType: 'jobCents',
                                     maxShares: 1000,
                                     challengeDuration: 90,
@@ -367,6 +400,20 @@ class Dashboard extends React.Component {
         if (Number(this.state.challengeDuration) > 3650) {
             this.setState({
                 errorMessage: "Challenge duration is too long.  Maximum is 10 years."
+            });
+            return;
+        }
+
+        if (Number(this.state.challengeDuration) < 1) {
+            this.setState({
+                errorMessage: "Challenge duration is too short.  Minimum is 1 day."
+            });
+            return;
+        }
+
+        if (!this.state.participationUrl.match(/https?\:\/\/\w+(\.\w+)+(\/\w+)*(\.\w+)?(\?\w+=\w+(&\w+=\w+))*/gi)) {
+            this.setState({
+                errorMessage: "Please enter a valid job application link."
             });
             return;
         }
@@ -451,6 +498,7 @@ class Dashboard extends React.Component {
                 closeWithDelay={this.closeWithDelay}
                 closing={this.state.closing}
                 clearErrorMessage={this.clearErrorMessage}
+                clearSuccessMessage={this.clearSuccessMessage}
                 removeURLParams={this.removeURLParams}
             />
         }
@@ -471,6 +519,7 @@ class Dashboard extends React.Component {
                     closeWithDelay={this.closeWithDelay}
                     closing={this.state.closing}
                     clearErrorMessage={this.clearErrorMessage}
+                    clearSuccessMessage={this.clearSuccessMessage}
                     removeURLParams={this.removeURLParams}
                 />
             );
@@ -491,6 +540,7 @@ class Dashboard extends React.Component {
                     closeWithDelay={this.closeWithDelay}
                     closing={this.state.closing}
                     clearErrorMessage={this.clearErrorMessage}
+                    clearSuccessMessage={this.clearSuccessMessage}
                     removeURLParams={this.removeURLParams}
                 />
             )
@@ -509,6 +559,7 @@ class Dashboard extends React.Component {
                     closeWithDelay={this.closeWithDelay}
                     closing={this.state.closing}
                     clearErrorMessage={this.clearErrorMessage}
+                    clearSuccessMessage={this.clearSuccessMessage}
                     removeURLParams={this.removeURLParams}
                 />
             )
@@ -521,6 +572,8 @@ class Dashboard extends React.Component {
                 <ChallengeDetail
                     handleInput={this.handleInput}
                     challengeDetails={this.state.challengeDetails}
+                    challengeType={this.state.challengeType}
+                    applyURL={this.state.applyURL}
                     challengeBalance={this.state.challengeBalance}
                     remainingRedemptions={this.state.remainingRedemptions}
                     getReferralCode={this.props.getReferralCode}
@@ -531,6 +584,7 @@ class Dashboard extends React.Component {
                     closeWithDelay={this.closeWithDelay}
                     closing={this.state.closing}
                     clearErrorMessage={this.clearErrorMessage}
+                    clearSuccessMessage={this.clearSuccessMessage}
                     removeURLParams={this.removeURLParams}
                 />
             )
@@ -550,6 +604,7 @@ class Dashboard extends React.Component {
                     closeWithDelay={this.closeWithDelay}
                     closing={this.state.closing}
                     clearErrorMessage={this.clearErrorMessage}
+                    clearSuccessMessage={this.clearSuccessMessage}
                     removeURLParams={this.removeURLParams}
                 />
             );
@@ -565,6 +620,7 @@ class Dashboard extends React.Component {
                     closeWithDelay={this.closeWithDelay}
                     closing={this.state.closing}
                     clearErrorMessage={this.clearErrorMessage}
+                    clearSuccessMessage={this.clearSuccessMessage}
                     removeURLParams={this.removeURLParams}
                 />
             )
@@ -621,8 +677,91 @@ class Dashboard extends React.Component {
         }
     }
 
+    userInfo() {
+        if (this.state.userLoaded && this.props.currentUser) {
+            return (
+                <div className="userInfo">
+                    {this.props.currentUser.email}
+                </div>
+            );
+        } else {
+            return (
+                <div className="userInfo">
+                    Loading...
+                </div>
+            );
+        }
+    }
+
     logOut() {
-        this.props.logout().then(function() {this.props.history.push("/")}.bind(this));
+        this.props.logout()
+        .then(() => {
+            this.props.resetUserData();
+        }).then(() => {
+            this.props.history.push("/");
+        });
+    }
+
+    renderMenu() {
+        if (this.state.formType === "challengeDetail") {
+            return (
+                <div className="hamburgerContainer" onClick={this.returnToJobCents} title="Return to wallet">
+                    <img className="backArrowIcon" src={backArrowIcon} />
+                </div>
+            )
+        } else if (this.state.formType === "Send jobCents to another user" 
+                || this.state.formType === "Redeem challenge") {
+            return (
+                <div className="hamburgerContainer" onClick={this.returnToJobCents} title="Return to wallet">
+                    <div className="xIconContainer">
+                        <img className="xIcon" src={xIcon} />
+                    </div>
+                </div>
+            )
+        } else {
+            return (
+                <div className="hamburgerContainer" onClick={this.expandMenu} title="Expand menu">
+                    <img className="hamburgerIcon" src={hamburgerIcon} />
+                </div>
+            )
+        }
+    }
+
+    conditionalSponsorButton() {
+        if (this.state.userLoaded && this.props.currentUser) {
+            if (this.props.currentUser.email.split("@")[1] === "ncnt.io") {
+                return (
+                    <a
+                        title="Sponsor a challenge"
+                        className={
+                            this.state.formType === "Sponsor a challenge"
+                                ? "menuItemActive menuTextActive"
+                                : "menuItemInactive menuTextInactive"
+                        }
+                        onClick={this.handleInput("formType")}
+                    >
+                        <span className="menuIconTextContainer">
+                            <img src={sponsorIcon} className="menuIcon" />
+                            <span className="button-text menuTextAll">Sponsor</span>
+                        </span>
+                    </a>
+                )
+            }
+        }
+    }
+
+    returnToJobCents() {
+        this.setState({ formType: "jobCents" });
+    }
+
+    expandMenu() {
+        console.log("expanding menu, menu element is", this.menu);
+        this.menu.style.left = "0px";
+    }
+
+    collapseMenu() {
+        console.log("collapsing menu, menu element is", this.menu);
+        this.menu.style.left = "-185px";
     }
 
     render() {
@@ -632,7 +771,66 @@ class Dashboard extends React.Component {
                     {" "}
                     <div className="flex-container-home ">
                         <div className="layout-account-new flex-container-home ">
-                            <div className="account-navigation-bar flex-container-home">
+                            {/* <div className="hamburgerContainer" onClick={this.expandMenu}>
+                                <img className="hamburgerIcon" src={hamburgerIcon} />
+                            </div> */}
+                            {this.renderMenu()}
+                            <div className="menuClosed"
+                            ref={(el) => this.menu = el}>
+                                <div className="userInfoWrapper">
+                                    {this.userInfo()}
+                                </div>
+                                <div className="menuItemsWrapper">
+                                    <a
+                                        title="jobCents"
+                                        value="Wallet"
+                                        id="ember1174"
+                                        className={
+                                            this.state.formType === "jobCents"
+                                                ? "menuItemActive menuTextActive"
+                                                : "menuItemInactive menuTextInactive"
+                                        }
+                                        onClick={this.handleInput("formType")}
+                                    >
+                                        <span className="menuIconTextContainer">
+                                            <img src={walletIcon} className="menuIcon" />
+                                            <span className="button-text menuTextAll">Wallet</span>
+                                        </span>
+                                    </a>
+                                    <a
+                                        title="Redeem referral code"
+                                        value="referralCode"
+                                        id="ember1174"
+                                        className={
+                                            this.state.formType === "Redeem referral code"
+                                                ? "menuItemActive menuTextActive"
+                                                : "menuItemInactive menuTextInactive"
+                                        }
+                                        onClick={this.handleInput("formType")}
+                                    >
+                                        <span className="menuIconTextContainer">
+                                            <img src={redeemIcon} className="menuIcon" />
+                                            <span className="button-text menuTextAll">Redeem Code</span>
+                                        </span>
+                                    </a>
+                                    {this.conditionalSponsorButton()}
+                                    <a
+                                        title="Sign Out"
+                                        className={
+                                            this.state.formType === "Sign Out"
+                                                ? "menuItemActive menuTextActive signOutMenuItem"
+                                                : "menuItemInactive menuTextInactive signOutMenuItem"
+                                        }
+                                        onClick={this.handleInput("formType")}
+                                    >
+                                        <span className="menuIconTextContainer">
+                                            <img src={logoutIcon} className="menuIcon" />
+                                            <span className="button-text menuTextAll">Sign Out</span>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                            {/* <div className="account-navigation-bar flex-container-home">
                                 <div className="customer-info">
                                     <div className="customer-profile-simple">
                                         <i
@@ -650,8 +848,8 @@ class Dashboard extends React.Component {
                                         </h4>
                                     </div>
                                 </div>
-                                <nav className="nav-items">
-                                    <a
+                                <nav className="nav-items"> */}
+                                    {/* <a
                                         title="Wallet"
                                         value="Wallet"
                                         id="ember1174"
@@ -698,10 +896,10 @@ class Dashboard extends React.Component {
                                         onClick={this.handleInput("formType")}
                                     >
                                         <span className="button-text">Sign Out</span>
-                                    </a>
-                                </nav>
-                            </div>
-                            <section className="yield-content">
+                                    </a> */}
+                                {/* </nav>
+                            </div> */}
+                            <section className="yield-content" onClick={this.collapseMenu}>
                                 {this.jobCentsTab()}
                                 {this.signOutTab(this.props.logout)}
                                 {this.transferTab()}

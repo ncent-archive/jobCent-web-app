@@ -19,12 +19,14 @@ export default class ChallengeDetail extends React.Component {
             referralCode: "",
             tokensPerReferral: 1,
             imageLoadErrBool: true,
-            copying: false
+            copying: false,
+            saveText: "Save"
         };
 
         this.handleSetTokensPerReferral = this.handleSetTokensPerReferral.bind(this);
         this.imgLoadError = this.imgLoadError.bind(this);
         this.copyText = this.copyText.bind(this);
+        this.applyLink = this.applyLink.bind(this);
     }
 
     componentWillMount() {
@@ -53,6 +55,8 @@ export default class ChallengeDetail extends React.Component {
     }
 
     async handleSetTokensPerReferral(e) {
+        console.log("setting tokens challengeSDetail.jsx");
+        this.setState({ saveText: "Saving..." });
         e.preventDefault();
         const challengeUuid = this.props.challengeDetails.uuid;
         const userUuid = this.props.currentUser.uuid;
@@ -62,6 +66,7 @@ export default class ChallengeDetail extends React.Component {
         if (obj.errors && obj.errors.response.data.message === "User not logged in") {
             this.props.loginRedirect();
         }
+        this.setState ({ saveText: "Saved!" });
     }
 
     imgLoadError(e) {
@@ -80,19 +85,36 @@ export default class ChallengeDetail extends React.Component {
         newTextInput.remove();
     }
 
+    applyLink() {
+        if (this.props.challengeType === "Held") {
+            return (
+                <a
+                    className="initiate-payment"
+                    href={this.props.participationUrl}
+                    target="_blank"
+                    title="Apply for this job"
+                >
+                    <button className="challengeDetailApply">Apply</button>
+                </a>
+            )
+        }
+    }
+
     render() {
         let balanceNotPlural = this.props.challengeBalance === 1;
         let days = Math.floor(convertToDays(this.props.challengeDetails.expiration));
-        let daysNotPlural = days === 1;
+        // let daysNotPlural = days === 1;
+        let daysText = days > 1 ? `${days} days remaining!` : days === 1 ? `${days} day remaining!` : days === 0 ? `Expires today!` : "Challenge expired!";
+        console.log("days remaining", days);
         let close = "";
         if (this.props.closing) {
             close += " fadeOutAnimation";
         }
         return <div className="fs-transfer-sheet">
             <div className="transfer-content">
-                <div title="jobCents" className="close-button" onClick={this.props.closeWithDelay}>
+                {/* <div title="jobCents" className="close-button" onClick={this.props.closeWithDelay}>
                     <img src={x} alt=""/>
-                </div>
+                </div> */}
                 <div className={"not-x-button" + close}>
                     <div className="headerChallengeImage">
                         <img src={this.props.challengeDetails.imageUrl || ncentLogo} className="challengeImage"
@@ -102,9 +124,10 @@ export default class ChallengeDetail extends React.Component {
                     <h1 className="companyName">{this.props.challengeDetails.company}</h1>
                     <h1 className="challengeName">{this.props.challengeDetails.name}</h1>
                     <p className="challengeDescription">{this.props.challengeDetails.description}</p>
+                    {this.applyLink()}
                     {/* <div className="challengeContent"> */}
                         <h2 className="challengeReward">Total Reward: ${this.props.challengeDetails.rewardAmount}</h2>
-                        <h2>{days} day{daysNotPlural ? "" : "s"} remaining!</h2>
+                        <h2 className="challengeRemainingTime">{daysText}</h2>
                         <h2 className="referralCodeHeader">
                             <div className="referralCodeWrapper">
                                 <span>Referral Code</span>
@@ -118,6 +141,17 @@ export default class ChallengeDetail extends React.Component {
                             </div>
                         </h2>
                         <span className="currentBalance">Your current balance: {this.props.challengeBalance} jobCent{balanceNotPlural ? "" : "s"}</span>
+                        <a
+                            title="Send jobCents to another user"
+                            className="initiate-payment-smaller-margin"
+                            onClick={this.props.handleInput("formType", {
+                                challengeName: this.props.challengeDetails.name,
+                                challengeUuid: this.props.challengeDetails.uuid,
+                                imageUrl: this.props.challengeDetails.imageUrl
+                            })}
+                        >
+                            <button className="tileButtonSend">Send</button>
+                        </a>
                         <form className="tokensPerReferralForm" autoComplete="off" spellCheck="true" noValidate="true" onSubmit={this.handleSetTokensPerReferral}>
                             <span className="tokensPerReferralDesc">Total jobCents to send per referral code redemption</span>
                             <div className="enter-email">
@@ -136,12 +170,12 @@ export default class ChallengeDetail extends React.Component {
                             </div>
                             <br />
                             <button className="theme-button saveChallengeDetail">
-                                Save
+                                {this.state.saveText}
                             </button>
                         </form>
                     {/* </div> */}
                 </div>
-                {this.copyText}
+                {/* {this.copyText} */}
             </div>
         </div>;
     }

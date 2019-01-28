@@ -27,9 +27,9 @@ export default class Transfer extends React.Component {
         }
         return <div className="fs-transfer-sheet">
             <div className="transfer-content">
-                <div title="jobCents" className="close-button" onClick={this.props.closeWithDelay}>
+                {/* <div title="jobCents" className="close-button" onClick={this.props.closeWithDelay}>
                     <img src={x} alt=""/>
-                </div>
+                </div> */}
                 <form autoComplete="off" spellCheck="true" noValidate="true" 
                     onSubmit={this.props.createChallenge} className={"" + close}
                 >

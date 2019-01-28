@@ -33,6 +33,10 @@
     width: 50%;
 }
 
+.action-button:hover {
+    background-color: #8080801c
+}
+
 .action-b-left {
     border-right: 1px solid #ebebeb;
 }
@@ -125,6 +129,23 @@
     margin-top: 0;
     text-transform: uppercase;
     overflow: scroll;
+}
+
+.challengeDetailApply {
+    margin: 5px;
+    height: 45px;
+    max-width: 380px;
+    font-family: unset;
+    color: white;
+    width: 90vw;
+    font-size: 20px;
+    border: 2px solid #000000d1;
+    background-color: #2020d0;
+    border-radius: 15px;
+}
+
+.challengeDetailApply:hover {
+    background-color: #4872de;
 }
 
 .config-column {
@@ -307,6 +328,7 @@
     color: #00c730;
     font-size: 16px;
     font-weight: 400;
+    margin-bottom: 1vh;
     z-index: 10;
 }
 
@@ -378,6 +400,11 @@
     font-size: 40px;
 }
 
+.menuItem {
+    color: rgb(201, 201, 201);
+    padding: 10px 1px;
+}
+
 .modal-action-bar {
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
@@ -439,6 +466,10 @@
     position: relative;
     width: 100%;
     z-index: 1;
+}
+
+body {
+    background-color: white;
 }
 
 .modal-window-content {
@@ -599,7 +630,7 @@
 }
 
 .verticalTimelineLanding {
-    margin: 3em 2em 3em auto !important;
+    /* margin: 3em 2em 3em auto !important; */
 }
 
 .yield-content {
@@ -624,8 +655,10 @@
     color: #00c730;
     background-color: #ffffff;
     text-align: center;
-    margin: 0;
-    padding: 5vh;
+    /* margin: 0; */
+    font-size: 30px;
+    /* overflow-wrap: normal; */
+    padding: 2vh 1vw 7vh 1vw;
 }
 
 .copyReferralCodeWrapper {
@@ -641,7 +674,17 @@
 
 .logoImg {
     max-width: 100px;
+    max-height: 100px;
+}
+
+.logoImgContainer {
+    min-height: 104px;
+    min-width: 104px;
     margin-bottom: 1vh;
+}
+
+.loadingUserInfo {
+    min-height: 18px;
 }
 
 .balanceTile {
@@ -650,10 +693,12 @@
     align-items: center;
     justify-content: center;
     width: 250px;
+    min-height: 340px;
     text-align: center;
     border: 2px solid black;
     border-radius: 10px;
-    margin-bottom: 5vh;
+    /* margin-bottom: 5vh; */
+    margin: 1px 5px 5vh 5px;
     padding-bottom: 2vh;
 }
 
@@ -667,7 +712,7 @@
     border-spacing: 10px;
     padding: 10px;
     border-color: rgb(0, 0, 0, 0.25);
-    max-width: 60%;
+    max-width: 90%;
 }
 
 .tileClickContainer {
@@ -675,20 +720,23 @@
     padding-right: 2vh;
     padding-top: 2vh;
     width: 100%;
+    min-height: 283px;
 }
 
 .tileClickContainer:hover {
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 .tokensPerReferralForm {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
+    margin-top: 20px;
 }
 
 .logoImg:hover {
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 .challengeTiles {
@@ -702,12 +750,14 @@
 .saveChallengeDetail {
     top: 2vh;
     position: relative;
-    background-color: #18ef20;
+    background-color: #0a53ff;
+    color: white;
+    border: 1px solid #3333339c;
     margin: -10px;
 }
 
 .saveChallengeDetail:hover {
-    background-color:#34ff04;
+    background-color:#1d8aff;
 }
 
 .signupLink {
@@ -719,14 +769,22 @@
     text-decoration: underline;
 }
 
+.signOutMenuItem {
+    position: absolute;
+    bottom: 25px;
+    width: 100%;
+    /* margin-top: auto !important; */
+    /* margin-bottom: 15px !important; */
+}
+
 .errorMessage {
     text-align: center;
     color: red;
     width: 100%;
     font-size: 18px;
-    margin-top: 2vh;
+    margin-top: calc(2vh + 30px);
     margin-bottom: 2vh;
-    white-space: pre;
+    /* white-space: pre; */
 }
 
 .referralCodeHeaderInternalWrapper {
@@ -738,7 +796,51 @@
     color: green;
     width: 100%;
     font-size: 18px;
-    margin-top: 2vh;
+    margin-top: calc(2vh + 15px);
+}
+
+.tileCompanyName {
+    height: 20px;
+}
+
+.tileJobTitle {
+    height: 45px;
+}
+
+.tileButtonsContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.tileButtonSend {
+    margin: 5px;
+    height: 38px;
+    font-size: 14px;
+    font-family: unset;
+    width: 200px;
+    background-color: #0e40ff;
+    color: white;
+    border-radius: 20px;
+    border: 1px solid #0000006b;
+}
+
+.tileButtonSend:hover {
+    background-color: #3168ff;
+}
+
+.tileButtonsSendBtnContainer {
+
+}
+
+.tileButtonsOthersContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 5px;
+}
+
+.tileButtonOthers {
+
 }
 
 .tokensPerReferralDesc {
@@ -756,12 +858,57 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: blue;
+    /* background-color: blue; */
+    background-color: white;
     padding: 10vh;
     border-radius: 50px;
-    color: #ffffff;
+    /* color: #ffffff; */
+    color: black;
     max-width: 80vw;
     margin-bottom: 70px;
+    /* max-height: 100vh; */
+}
+
+@media (max-width: 780px) {
+    .not-x-button {
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -ms-flex-align: center;
+        align-items: center;
+        /* background-color: blue; */
+        background-color: white;
+        padding: 5vh 2vw 8vh 2vw;
+        border-radius: 0px;
+        /* color: #ffffff; */
+        color: black;
+        min-width: 100vw;
+        margin-top: -25px;
+        margin-bottom: 0px;
+        justify-content: space-evenly;
+        /* min-height: 100vh; */
+    }
+
+    .backArrowIcon {
+        width: 35px !important;
+        height: 35px !important;
+        /* background-color: #00000038; */
+        border-radius: 50px;
+        /* filter: invert(1); */
+        padding: 5px;
+    }
+
+    .fs-transfer-sheet {
+        min-height: unset !important;
+    }
+
+    .transfer-content {
+        padding: 0px !important;
+    }
+
+    .headerChallengeImage {
+        margin-top: 10px;
+    }
 }
 
 .challengeContent {
@@ -774,11 +921,13 @@
     font-size: 30px;
     max-width: 100%;
     overflow: scroll;
+    text-align: center;
 }
 
 .challengeDescription {
     max-width: 100%;
     overflow: scroll;
+    text-align: center;
 }
 
 .challengeImage {
@@ -791,18 +940,33 @@
 .challengeName {
     font-size: 22px;
     max-width: 100%;
-    overflow: scroll;    
+    overflow: scroll;
+    text-align: center;
+}
+
+.challengeReward {
+    text-align: center;
+}
+
+.challengeRemainingTime {
+    text-align: center;
 }
 
 .copyImg {
     position: absolute;
-    bottom: 0px;
-    right: 5px;
+    bottom: -1px;
+    right: -5px;
+    /* opacity: 0.85; */
+}
+
+.copyImg:hover {
+    /* opacity: 1.0; */
 }
 
 .currentBalance {
-    padding-bottom: 35px;
+    padding-bottom: 10px;
     padding-top: 15px;
+    text-align: center;
 }
 
 .heldChallenges {
@@ -838,6 +1002,229 @@
 .fadeOutAnimation {
     animation: fadeOut 0.3s ease-in both;
 }
+
+.hamburgerContainer {
+    width: 25px;
+    height: 25px;
+    /* background-color: black; */
+    position: relative;
+    top: 3vh;
+    left: 3vw;
+    z-index: 19;
+}
+
+.hamburgerIcon {
+    width: 25px;
+    height: 25px;
+}
+
+/* .hamburgerContainer:hover {
+    width: 35px;
+    height: 35px;
+    border-radius: 30px;
+    background-color: #0000000f;
+    z-index: 18;
+    position: relative;
+    top: 2vh;
+    left: 2vw;
+} */
+
+.hamburgerIcon:hover {
+    width: 35px;
+    height: 35px;
+    border-radius: 30px;
+    border: 6px solid #0000000f;
+    background-color: #0000000f;
+    z-index: 19;
+    position: relative;
+    right: 5px;
+    bottom: 5px;
+}
+
+.backArrowIcon {
+    width: 35px;
+    height: 35px;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 50px;
+    padding: 5px;
+    position: relative;
+    bottom: 5px;
+    right: 5px;
+}
+
+.backArrowIcon:hover {
+    background-color: rgb(0, 0, 0, 0.15);
+}
+
+.xIconContainer {
+    /* width: 35px;
+    height: 35px;
+    background-color: #00000005;
+    border-radius: 25px; */
+}
+
+.xIcon {
+    width: 30px;
+    height: 30px;
+    /* filter: contrast(1.7); */
+    position: relative;
+    opacity: 0.75;
+    bottom: 1px;
+    right: 1px;
+    border-radius: 25px;
+    background-color: white;
+}
+
+.xIconContainer:hover {
+
+}
+
+.xIcon:hover {
+    background-color: #0000000f;
+    opacity: 1.0;
+}
+
+.messageDismissal {
+    margin-left: 25px;
+    width: 12px;
+    height: 12px;
+    opacity: 0.75;
+}
+
+.messageDismissal:hover {
+    opacity: 1.0;
+}
+
+/* .menuOpen { */
+    /* width: 100px; */
+    /* height: 100vh; */
+    /* background-color: gray; */
+    /* position: absolute; */
+    /* left: 0px; */
+    /* left: -100px; */
+    /* display: flex; */
+    /* z-index: 15; */
+    /* animation: moveRightMenu 1s forwards; */
+    /* animation: menuOpen 1s normal ease-in;
+    animation-iteration-count: 1 */
+    /* transition: 1s; */
+/* } */
+
+.menuClosed {
+    width: 185px;
+    height: 100vh;
+    background-color: #fdfdfd;
+    position: absolute;
+    left: -185px;
+    border-right: 1px solid #00000029;
+    border-radius: 0px 13px 13px 0px;
+    /* display: none; */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    z-index: 20;
+    transition: left 0.45s;
+    transition-timing-function: cubic-bezier(0, 0, 0, 0.95);
+    /* animation: moveLeftMenu 1s forwards; */
+    /* transition: 1s; */
+}
+
+.menuItemsWrapper {
+    padding-top: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.menuTextAll {
+    position: relative;
+    bottom: 1px;
+    left: 12px;
+}
+
+.menuTextInactive {
+    color: #636363;
+    font-size: 15px;
+    letter-spacing: 0.35px;
+}
+
+.menuTextActive {
+    color: #1d1d1d;
+    font-size: 15px;
+    letter-spacing: 0.35px;
+    text-shadow: 0px 0px 0.1px #00000040;
+    font-style: italic;
+}
+
+.menuItemInactive {
+    /* background-color: rgb(245, 245, 245); */
+    max-height: 100px;
+    padding: 10px 1px;
+    margin: 2px 0px;
+}
+
+.menuItemInactive:hover {
+    background-color: #00000005;
+}
+
+.menuItemActive {
+    background-color: rgb(214, 214, 214);
+    max-height: 100px;
+    color: rgb(95, 95, 95);
+    padding: 10px 1px;
+    margin: 2px 0px;
+}
+
+.menuIcon {
+    width: 15px;
+    height: 15px;
+    position: relative;
+    top: 1px;
+    left: 1px;
+}
+
+.menuIconTextContainer {
+    position: relative;
+    left: 10px;
+}
+
+.userInfo {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    margin: 12px 2px 30px 2px;
+    text-align: center;
+    position: relative;
+    top: 10px;
+    font-weight: 700;
+}
+
+.userInfoWrapper {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+
+/* .menuClosedInitial { */
+    /* width: 100px; */
+    /* height: 100vh; */
+    /* background-color: gray; */
+    /* position: absolute; */
+    /* left: -100px; */
+    /* display: none; */
+    /* display: flex; */
+    /* z-index: 15; */
+    /* animation: moveLeftMenu 1s forwards; */
+    /* transition: 1s; */
+/* } */
+
+/* .moveRightMenu { */
+    /* left: 0; */
+    /* animation: moveRightMenu 1s forwards; */
+/* } */
+
+/* .moveLeftMenu { */
+    /* transition: 1s; */
+    /* left: -100; */
+    /* animation: moveLeftMenu 1s linear; */
+/* } */
 
 .spinner {
     height: 100px;
@@ -883,5 +1270,17 @@ a {
     }
     100% {
         opacity: 0;
+    }
+}
+
+@keyframes moveRightMenu {
+    100% {
+        left: 0;
+    }
+}
+
+@keyframes moveLeftMenu {
+    100% {
+        left: -100;
     }
 }

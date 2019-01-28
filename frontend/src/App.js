@@ -6,6 +6,7 @@ import ReactGA from 'react-ga';
 import "./scss/App.css";
 import SessionFormContainer from "./components/session/session_form_container";
 import DashboardContainer from "./components/dashboard/dashboard_container";
+import LandingContainer from "./components/landing_container";
 
 function initializeReactGA(vals) {
 	ReactGA.initialize('UA-130208537-1');
@@ -30,7 +31,7 @@ class App extends Component {
                 <Route path="/dashboard" component={DashboardContainer} />
                 <AuthRoute path="/login" component={SessionFormContainer} />
                 <Route path="/signup" component={SessionFormContainer} />
-                <Route exact path="/" component={Landing} />
+                <Route exact path="/" component={LandingContainer} />
                 <Redirect to="/" />
             </Switch>
         </div>;
