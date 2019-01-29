@@ -136,8 +136,8 @@ module.exports = {
     async redeem(req, res) {
         if (verifyLightFunc(req, res)) {
             const {challengeUuid} = req.params;
-            const sponsorAddress = req.params.sponsorAddress.toLowerCase();
-            const redeemerAddress = req.body.redeemerAddress.toLowerCase();
+            const sponsorAddress = req.params.sponsorAddress;
+            const redeemerAddress = req.body.redeemerAddress;
     
             const sponsor = await User.findOne({where: {email: sponsorAddress}});
             const sponsorKeypair = stellarSDK.Keypair.fromSecret(sponsor.privateKey);
